@@ -11,7 +11,7 @@
 >
 > I built **CARGOMODEL V2**—a zero-backend Road Freight Volumetric & LDM Departure Board for SA dispatchers (handles batch lines, 333/250 ratios, 2.4m trailer floor penalties, multi-carrier rate traps, and instant WhatsApp/PDF quote slips).
 >
-> Test the live link here: **[Insert your Vercel URL]**
+> Test the live link here: https://donvero.github.io/cargomodel-freight-calculator/
 >
 > I’m licensing custom white-labeled copies with your company branding, VAT, and default rate card permanently baked in for a once-off **R 2,500**—takes 1 hour to hand over. Let me know if you want your desk running on it this week.
 
@@ -35,7 +35,7 @@
 > - One-click WhatsApp quote + clean printable waybill estimate
 > - Built-in white-label config drawer (shift+click to bake company branding and download a ready-to-ship file)
 >
-> Live demo: **[Insert Vercel URL]**
+> Live demo: https://donvero.github.io/cargomodel-freight-calculator/
 >
 > I’m selling the full unminified source code + 100% commercial IP rights for a flat **$199 USD**. You can drop it into any client website, embed it, or rebrand and resell it to multiple trucking clients.
 >

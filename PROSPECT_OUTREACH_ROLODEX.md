@@ -17,7 +17,7 @@
 >
 > I built a lightweight, zero-lag Road Freight & LDM departure board for dispatch desks: handles multi-line consignments, 2.4m trailer floor math, volumetric ratios (333 vs 250), and spits out an itemized quote in WhatsApp format in 5 seconds.
 >
-> Take a look on your phone: **[Insert Vercel URL / send index.html]**
+> Take a look on your phone: https://donvero.github.io/cargomodel-freight-calculator/
 >
 > If you or any of the subbies need a copy branded with your own rate card and company details, I'm doing custom white-labeled versions for a once-off R2,500—takes 1 hour to hand over."*
 
@@ -30,7 +30,7 @@
 >
 > I engineered a quick tool that calculates the exact 2.4m trailer floor LDM footprint and chargeable mass so you can dispute low-ball loads before you drop the tail lift.
 >
-> Test it here: **[Insert Link]**
+> Test it here: https://donvero.github.io/cargomodel-freight-calculator/
 >
 > Can white-label it for your business with your rates for R2,500 once-off."*
 
@@ -51,7 +51,7 @@
 >
 > I’m a former regional transport controller based in East London. I developed a single-screen quoting and dispatch audit tool (CARGOMODEL V2) that pre-audits shipments against the carrier's 2.4m trailer width rules before the truck is dispatched.
 >
-> Live demo: **[Insert Link]**
+> Live demo: https://donvero.github.io/cargomodel-freight-calculator/
 >
 > If you'd like your dispatch team running on a customized internal copy with your logistics terms and carrier benchmarks, I can deploy it to your team for a flat once-off fee of R 3,500.
 >
@@ -81,7 +81,7 @@
 > • 1-click WhatsApp quote + clean printable waybill estimate
 > • Built-in white-label config drawer (Shift + Click to bake company branding and download a ready-to-ship file)
 >
-> Live demo: **[Insert Link]**
+> Live demo: https://donvero.github.io/cargomodel-freight-calculator/
 >
 > I'm transferring the full unminified source code + 100% commercial IP rights for a flat **$199 USD**. You can drop it into any client website, embed it, or rebrand and resell it to multiple trucking clients.
 >

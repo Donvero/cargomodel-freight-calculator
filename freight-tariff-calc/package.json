@@ -1,0 +1,12 @@
+{
+  "name": "cargomodel",
+  "version": "2.0.0",
+  "description": "Industrial Freight Volume, LDM & Tariff Engine. Turnkey micro-app for road freight controllers, 3PL brokers and logistics developers.",
+  "scripts": {
+    "start": "npx serve .",
+    "deploy": "npx vercel deploy --prod"
+  },
+  "keywords": ["freight", "logistics", "cbm", "ldm", "3pl", "tariff", "saas", "south-africa"],
+  "author": "Fana Mgengo (ZAInnovate Technologies, East London, South Africa)",
+  "license": "Commercial — full IP transfer on sale"
+}

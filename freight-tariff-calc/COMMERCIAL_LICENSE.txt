@@ -1,0 +1,24 @@
+# ZAInnovate Technologies: Commercial Software License & IP Transfer Agreement
+Document Ref: ZAI-LIC-2026-001
+Product: CARGOMODEL V2 (Industrial Freight Tariff & LDM Engine)
+Licensor: Fana Siyasanga Qhawe Mgengo, ZAInnovate Technologies (East London, South Africa)
+
+1. GRANT OF UNRESTRICTED COMMERCIAL RIGHTS
+Upon receipt of agreed purchase funds (the "Purchase Price"), the Licensor hereby grants to the Buyer (individual, partnership, or corporate entity) an irrevocable, perpetual, worldwide, fully paid-up, royalty-free, exclusive license to use, modify, white-label, rebrand, distribute, deploy, embed, and resell the software known as CARGOMODEL V2 (the "Software").
+
+2. FULL INTELLECTUAL PROPERTY TRANSFER
+The Buyer acquires 100% of the commercial exploitation rights. The Buyer is expressly authorized to:
+a) Sublicense and resell custom white-labeled versions of the Software to third parties under the Buyer's own brand names, logos, and rate cards.
+b) Embed the Software into existing Transportation Management Systems (TMS), Enterprise Resource Planning (ERP) platforms, client portals, or marketing websites.
+c) Modify all source code, business rules, formulas, and visual themes without attribution or royalty obligations to the original Licensor.
+
+3. "AS-IS" WARRANTY & ZERO DEPENDENCY ASSURANCE
+The Software is provided "as-is", certified clean under ZAInnovate Standard ZAI-STD-ENG-001 (100% PASS on independent production-readiness audit, SHA-256 verified). The Licensor warrants that the codebase contains zero remote tracking, zero hidden backdoors, and zero proprietary third-party dependencies requiring ongoing licensing fees to the original author.
+
+4. JURISDICTION
+This agreement is governed by the laws of the Republic of South Africa.
+
+Signed for and on behalf of ZAInnovate Technologies:
+Fana S. Q. Mgengo (Founder & Lead Architect)
+East London, Eastern Cape, South Africa
+Date of Issuance: November 2026

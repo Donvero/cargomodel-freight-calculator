@@ -1,0 +1,1643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Industrial freight volumetric weight, Loading Meter and tariff engine for 3PL brokers, dispatch desks and manufacturers.">
+  <title>CARGOMODEL V2 — Industrial Freight Tariff & LDM Engine</title>
+
+  <!-- Hallmark stamp: theme wayfind (platform), genre modern-minimal, idea: the departure board as a quoting & dispute weapon -->
+  <!-- Wayfind system: Chivo Mono, 2px ink borders, square corners, cobalt live readings, amber financial figures -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono:ital,wght@0,400;0,500;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ─── TOKENS (Wayfind / platform colourway) ─────────────────────────── */
+    :root {
+      --paper:       oklch(95.5% 0.006 250);
+      --paper-2:     oklch(91%   0.009 250);
+      --paper-3:     oklch(99.5% 0.005 250);
+      --ink:         oklch(16%   0.014 262);
+      --ink-2:       oklch(29%   0.014 262);
+      --muted:       oklch(47%   0.016 260);
+      --rule:        oklch(80%   0.011 250);
+      --ink-rule:    oklch(34%   0.014 262);
+      --cobalt:      oklch(51%   0.22  264);
+      --cobalt-ink:  oklch(99.5% 0.003 250);
+      --amber:       oklch(81%   0.16   82);
+      --amber-ink:   oklch(16%   0.014 262);
+      --focus:       oklch(51%   0.22  264);
+      --red:         oklch(52%   0.22   25);
+      --red-bg:      oklch(92%   0.05   25);
+
+      --font: "Chivo Mono", ui-monospace, monospace; /* taste-skill-ignore: wayfind theme - mono is the board body face */
+
+      --bar:  2px;
+      --hair: 1px;
+
+      --space-xs:  0.375rem;
+      --space-sm:  0.625rem;
+      --space-md:  1rem;
+      --space-lg:  1.5rem;
+      --space-xl:  2.5rem;
+
+      --text-label: clamp(0.6875rem, 0.65rem + 0.2vw, 0.75rem);
+      --text-body:  clamp(0.8125rem, 0.78rem + 0.25vw, 0.9375rem);
+      --text-title: clamp(1rem,      0.9rem  + 0.4vw, 1.25rem);
+      --text-stat:  clamp(2.2rem,    1.8rem  + 1.8vw, 4rem);
+    }
+
+    /* ─── RESET ─────────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { overflow-x: clip; }
+    html { color-scheme: light; }
+
+    body {
+      font-family: var(--font);
+      font-size: var(--text-body);
+      font-variant-numeric: tabular-nums;
+      line-height: 1.5;
+      background: var(--paper);
+      color: var(--ink);
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    h1, h2, h3, h4 {
+      font-weight: 800;
+      line-height: 0.98;
+      letter-spacing: -0.03em;
+      overflow-wrap: break-word;
+      min-width: 0;
+    }
+
+    ::selection { background: var(--amber); color: var(--ink); }
+    :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+    .wrap {
+      padding-inline: clamp(1rem, 2.5vw, 2.5rem);
+      width: 100%;
+      max-width: 1600px;
+      margin-inline: auto;
+    }
+
+    /* ─── NAV ────────────────────────────────────────────────────────────── */
+    nav {
+      border-bottom: var(--bar) solid var(--ink);
+      background: var(--paper);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+      gap: var(--space-md);
+    }
+    .wordmark {
+      font-weight: 800;
+      font-size: var(--text-body);
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .wordmark span { color: var(--cobalt); }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    /* ─── HERO POSTURE ───────────────────────────────────────────────────── */
+    .hero {
+      border-bottom: var(--bar) solid var(--ink);
+      padding-block: var(--space-lg);
+      background: var(--paper);
+    }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: var(--space-lg);
+      align-items: end;
+    }
+    @media (max-width: 820px) {
+      .hero-inner { grid-template-columns: 1fr; }
+    }
+    .hero h1 {
+      font-size: min(var(--text-stat), 3.8rem);
+      max-width: 16ch;
+    }
+    .hero-sub {
+      font-size: var(--text-body);
+      color: var(--ink-2);
+      max-width: 52ch;
+      margin-top: var(--space-sm);
+    }
+
+    .hero-plates {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-sm);
+    }
+    @media (max-width: 480px) {
+      .hero-plates { grid-template-columns: 1fr; }
+    }
+
+    .plate {
+      border: var(--bar) solid var(--ink);
+      background: var(--ink);
+      color: var(--paper);
+      padding: var(--space-sm) var(--space-md);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 72px;
+    }
+    .plate-label {
+      font-size: var(--text-label);
+      font-weight: 500;
+      color: oklch(70% 0.016 260);
+    }
+    .plate-value {
+      font-size: var(--text-title);
+      font-weight: 800;
+      color: var(--amber);
+      white-space: nowrap;
+    }
+    .plate--cobalt .plate-value { color: oklch(76% 0.18 264); }
+
+    /* ─── SECTION COMMON ─────────────────────────────────────────────────── */
+    section {
+      border-bottom: var(--bar) solid var(--ink);
+      padding-block: var(--space-lg);
+    }
+
+    .section-head {
+      font-size: var(--text-label);
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: var(--space-md);
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .section-head::after {
+      content: "";
+      flex: 1;
+      height: var(--hair);
+      background: var(--rule);
+    }
+
+    /* ─── BUTTONS & CONTROLS ─────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+      padding: 0.55rem 0.9rem;
+      border: var(--bar) solid currentColor;
+      font-family: var(--font);
+      font-size: var(--text-body);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 60ms steps(1), color 60ms steps(1);
+      border-radius: 0;
+      white-space: nowrap;
+    }
+    .btn--primary {
+      background: var(--cobalt);
+      border-color: var(--cobalt);
+      color: var(--cobalt-ink);
+    }
+    .btn--primary:hover { background: oklch(43% 0.2 264); border-color: oklch(43% 0.2 264); }
+
+    .btn--secondary {
+      background: var(--paper-3);
+      border-color: var(--ink);
+      color: var(--ink);
+    }
+    .btn--secondary:hover { background: var(--ink); color: var(--paper); }
+
+    .btn--dark {
+      background: transparent;
+      border-color: var(--paper);
+      color: var(--paper);
+    }
+    .btn--dark:hover { background: var(--paper); color: var(--ink); }
+
+    .btn--sm {
+      padding: 0.35rem 0.6rem;
+      font-size: var(--text-label);
+    }
+
+    .btn--danger {
+      border-color: var(--red);
+      color: var(--red);
+      background: transparent;
+    }
+    .btn--danger:hover {
+      background: var(--red);
+      color: #fff;
+    }
+
+    /* ─── TABLE INPUT FORM ───────────────────────────────────────────────── */
+    .table-container {
+      overflow-x: auto;
+      border: var(--bar) solid var(--ink);
+      background: var(--paper-3);
+    }
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: var(--text-body);
+    }
+    table.data-table th {
+      padding: 0.5rem 0.75rem;
+      background: var(--ink);
+      color: var(--paper);
+      font-size: var(--text-label);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      border-right: var(--hair) solid var(--ink-rule);
+      white-space: nowrap;
+    }
+    table.data-table th:last-child { border-right: none; }
+    table.data-table td {
+      padding: 0.4rem 0.5rem;
+      border-bottom: var(--hair) solid var(--rule);
+      border-right: var(--hair) solid var(--rule);
+      vertical-align: middle;
+    }
+    table.data-table td:last-child { border-right: none; }
+    table.data-table tr:last-child td { border-bottom: none; }
+
+    .tbl-input {
+      font-family: var(--font);
+      font-size: var(--text-body);
+      font-weight: 700;
+      padding: 0.35rem 0.45rem;
+      border: var(--hair) solid var(--ink);
+      background: var(--paper);
+      color: var(--ink);
+      width: 100%;
+      border-radius: 0;
+    }
+    .tbl-input:focus {
+      outline: 2px solid var(--cobalt);
+      background: #fff;
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+    .tbl-check {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
+      cursor: pointer;
+    }
+    .tbl-check input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--cobalt);
+      cursor: pointer;
+    }
+
+    .alert-banner {
+      margin-top: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      border: var(--bar) solid var(--red);
+      background: var(--red-bg);
+      color: var(--ink);
+      font-size: var(--text-body);
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+    }
+    .alert-banner strong { font-weight: 800; color: var(--red); }
+
+    /* ─── COMMERCIALS GRID ───────────────────────────────────────────────── */
+    .commercials-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: var(--space-sm);
+    }
+    @media (max-width: 960px) {
+      .commercials-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 580px) {
+      .commercials-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .comm-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .comm-field label {
+      font-size: var(--text-label);
+      font-weight: 700;
+      color: var(--muted);
+    }
+    .comm-field input, .comm-field select {
+      font-family: var(--font);
+      font-size: var(--text-body);
+      font-weight: 800;
+      color: var(--ink);
+      background: var(--paper-3);
+      border: var(--bar) solid var(--ink);
+      padding: 0.5rem 0.65rem;
+      border-radius: 0;
+    }
+
+    /* ─── RATE ILLUSION COMPARATOR ───────────────────────────────────────── */
+    .comparator-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border: var(--bar) solid var(--ink);
+      background: var(--paper-3);
+    }
+    @media (max-width: 780px) {
+      .comparator-grid { grid-template-columns: 1fr; }
+    }
+    .comp-col {
+      padding: var(--space-md);
+      border-right: var(--bar) solid var(--ink);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .comp-col:last-child { border-right: none; }
+    @media (max-width: 780px) {
+      .comp-col { border-right: none; border-bottom: var(--bar) solid var(--ink); }
+      .comp-col:last-child { border-bottom: none; }
+    }
+    .comp-col.is-selected {
+      background: var(--paper-2);
+      outline: 2px solid var(--cobalt);
+      outline-offset: -2px;
+    }
+    .comp-title {
+      font-size: var(--text-title);
+      font-weight: 800;
+      margin-bottom: 0.2rem;
+    }
+    .comp-ratio {
+      font-size: var(--text-label);
+      color: var(--muted);
+      margin-bottom: var(--space-md);
+    }
+    .comp-metrics {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      margin-bottom: var(--space-md);
+    }
+    .comp-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: var(--text-body);
+    }
+    .comp-line span:first-child { color: var(--muted); }
+    .comp-total {
+      font-size: var(--text-title);
+      font-weight: 800;
+      color: var(--ink);
+      padding-top: var(--space-xs);
+      border-top: var(--hair) solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .comp-verdict {
+      margin-top: var(--space-sm);
+      font-size: var(--text-label);
+      font-weight: 700;
+      padding: 0.35rem 0.5rem;
+      border: var(--hair) solid currentColor;
+    }
+    .comp-verdict.--warn {
+      color: var(--red);
+      background: var(--red-bg);
+      border-color: var(--red);
+    }
+    .comp-verdict.--ok {
+      color: var(--ink);
+      background: var(--paper);
+    }
+
+    /* ─── RESULTS BOARD (DEPARTURE BAND) ─────────────────────────────────── */
+    .results-band {
+      background: var(--ink);
+      color: var(--paper);
+      margin-inline: calc(-1 * clamp(1rem, 2.5vw, 2.5rem));
+      padding-inline: clamp(1rem, 2.5vw, 2.5rem);
+      padding-block: var(--space-xl);
+    }
+
+    .results-board {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      border-top: var(--bar) solid var(--paper);
+      border-left: var(--bar) solid var(--paper);
+    }
+    @media (max-width: 900px) {
+      .results-board { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 520px) {
+      .results-board { grid-template-columns: 1fr 1fr; }
+    }
+
+    .board-cell {
+      border-right: var(--bar) solid var(--paper);
+      border-bottom: var(--bar) solid var(--paper);
+      padding: var(--space-sm) var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .board-cell .cell-label {
+      font-size: var(--text-label);
+      color: oklch(68% 0.016 260);
+      font-weight: 500;
+    }
+    .board-cell .cell-value {
+      font-size: var(--text-title);
+      font-weight: 800;
+      color: var(--paper);
+    }
+    .board-cell .cell-value.--amber { color: var(--amber); }
+    .board-cell .cell-value.--cobalt { color: oklch(76% 0.18 264); }
+
+    .chargeable-callout {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      padding-block: var(--space-lg);
+      border-bottom: var(--bar) solid var(--paper);
+    }
+    .callout-title {
+      font-size: var(--text-title);
+      font-weight: 500;
+      color: oklch(70% 0.016 260);
+    }
+    .callout-value {
+      font-size: var(--text-stat);
+      font-weight: 800;
+      color: var(--amber);
+      line-height: 1;
+    }
+    .callout-reason {
+      font-size: var(--text-body);
+      color: var(--paper);
+      background: var(--ink-rule);
+      padding: 0.25rem 0.6rem;
+      border: var(--hair) solid var(--paper);
+    }
+
+    /* ─── INVOICE BREAKDOWN ──────────────────────────────────────────────── */
+    .invoice-table {
+      margin-top: var(--space-md);
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .invoice-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding-block: 0.4rem;
+      border-bottom: var(--hair) solid var(--ink-rule);
+      font-size: var(--text-body);
+    }
+    .invoice-row .i-label { color: oklch(70% 0.016 260); }
+    .invoice-row .i-amount { font-weight: 700; color: var(--paper); }
+    .invoice-row.--total {
+      border-top: var(--bar) solid var(--paper);
+      border-bottom: none;
+      padding-top: var(--space-md);
+      margin-top: var(--space-xs);
+    }
+    .invoice-row.--total .i-label {
+      font-size: var(--text-title);
+      font-weight: 800;
+      color: var(--paper);
+    }
+    .invoice-row.--total .i-amount {
+      font-size: var(--text-stat);
+      font-weight: 800;
+      color: var(--amber);
+      line-height: 1;
+    }
+
+    .output-actions {
+      display: flex;
+      gap: var(--space-sm);
+      flex-wrap: wrap;
+      margin-top: var(--space-lg);
+    }
+
+    /* ─── MODAL (WHITE-LABEL DRAWER) ─────────────────────────────────────── */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: oklch(10% 0.01 262 / 0.7);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-md);
+    }
+    .modal-backdrop.active { display: flex; }
+    .modal-card {
+      background: var(--paper);
+      color: var(--ink);
+      border: var(--bar) solid var(--ink);
+      width: 100%;
+      max-width: 680px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: var(--bar) solid var(--ink);
+      padding-bottom: var(--space-sm);
+    }
+    .modal-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-sm);
+    }
+    @media (max-width: 520px) {
+      .modal-form { grid-template-columns: 1fr; }
+    }
+    .modal-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .modal-field label {
+      font-size: var(--text-label);
+      font-weight: 700;
+      color: var(--muted);
+    }
+    .modal-field input, .modal-field textarea {
+      font-family: var(--font);
+      font-size: var(--text-body);
+      font-weight: 700;
+      padding: 0.4rem 0.6rem;
+      border: var(--hair) solid var(--ink);
+      background: var(--paper-3);
+      color: var(--ink);
+      border-radius: 0;
+    }
+    .modal-field textarea {
+      grid-column: span 2;
+      height: 60px;
+      resize: vertical;
+    }
+    @media (max-width: 520px) {
+      .modal-field textarea { grid-column: span 1; }
+    }
+
+    /* ─── PRINT / WAYBILL STYLES ─────────────────────────────────────────── */
+    .print-only { display: none; }
+    @media print {
+      body {
+        background: #fff !important;
+        color: #000 !important;
+        font-size: 10pt !important;
+      }
+      nav, .hero-sub, .nav-actions, .output-actions, .btn, .modal-backdrop, .alert-banner,
+      #add-line-btn, .col-act, .hero-plates, .comparator-section, .mechanics-section,
+      footer {
+        display: none !important;
+      }
+      .print-only { display: block !important; }
+      .wrap { max-width: 100% !important; padding: 0 !important; }
+      .results-band {
+        background: #fff !important;
+        color: #000 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      .board-cell { border-color: #000 !important; }
+      .board-cell .cell-label { color: #555 !important; }
+      .board-cell .cell-value { color: #000 !important; }
+      .chargeable-callout { border-color: #000 !important; }
+      .callout-value { color: #000 !important; font-size: 20pt !important; }
+      .invoice-row { border-color: #ccc !important; }
+      .invoice-row .i-label { color: #333 !important; }
+      .invoice-row .i-amount { color: #000 !important; }
+      .invoice-row.--total { border-top: 2px solid #000 !important; }
+      .invoice-row.--total .i-amount { color: #000 !important; font-size: 22pt !important; }
+      table.data-table { border: 1px solid #000 !important; }
+      table.data-table th { background: #000 !important; color: #fff !important; }
+      table.data-table td { border-color: #ccc !important; }
+      .tbl-input { border: none !important; padding: 0 !important; font-size: 9.5pt !important; }
+      .print-header {
+        border-bottom: 2px solid #000;
+        padding-bottom: 1rem;
+        margin-bottom: 1.5rem;
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────────────────────────── */
+    footer {
+      border-top: var(--bar) solid var(--ink);
+      padding-block: var(--space-lg);
+      margin-top: auto;
+      background: var(--paper);
+    }
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: var(--space-md);
+    }
+    .footer-brand {
+      font-weight: 800;
+      font-size: var(--text-title);
+      letter-spacing: -0.03em;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- PRINT ONLY HEADER -->
+  <div class="wrap print-only">
+    <div class="print-header">
+      <div>
+        <h2 id="print-co-name" style="font-size: 16pt; font-weight:800;">ZAInnovate Technologies</h2>
+        <div id="print-co-meta" style="font-size: 9pt; color:#444;">Logistics Dispatch &amp; Road Transport Desk | East London, South Africa</div>
+        <div id="print-co-tel" style="font-size: 9pt; color:#444;">Tel: +27 67 670 7870 | VAT: 4890123456</div>
+      </div>
+      <div style="text-align: right;">
+        <h3 style="font-size: 13pt; font-weight:800;">FREIGHT QUOTATION / ESTIMATE</h3>
+        <div id="print-ref" style="font-size: 10pt; font-weight:700;">REF: ZAI-QT-2026-001</div>
+        <div id="print-date" style="font-size: 9pt;">DATE: 06 Nov 2026</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STICKY TOP NAV -->
+  <nav>
+    <div class="wrap nav-inner">
+      <a class="wordmark" id="brand-logo" onclick="handleBrandClick(event)" title="Shift + Click to open White-Label Config">
+        <span id="brand-title">CARGO</span><span id="brand-title-accent">MODEL</span>
+      </a>
+      <div class="nav-actions">
+        <button class="btn btn--secondary btn--sm" onclick="openConfigModal()" aria-label="Open White-Label Configuration">
+          White-Label Config
+        </button>
+        <button class="btn btn--primary btn--sm" onclick="window.print()" aria-label="Print Quote">
+          Print Quote
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <div class="hero">
+    <div class="wrap hero-inner">
+      <div>
+        <h1>Industrial Freight Quoting &amp; LDM Engine</h1>
+        <p class="hero-sub" id="co-tagline">
+          Built for dispatch desks, 3PL brokers and shippers. Enforces physical 2.4m trailer floor math,
+          batch consignment sum, and multi-carrier tariff comparison to isolate volumetric penalties.
+        </p>
+      </div>
+
+      <div class="hero-plates">
+        <div class="plate">
+          <span class="plate-label">Consignment Lines</span>
+          <span class="plate-value" id="plate-lines">2 lines</span>
+        </div>
+        <div class="plate plate--cobalt">
+          <span class="plate-label">Trailer Deck Occupancy</span>
+          <span class="plate-value" id="plate-deck">0.00 LDM</span>
+        </div>
+        <div class="plate">
+          <span class="plate-label">Billing Basis</span>
+          <span class="plate-value" id="plate-basis">Volumetric</span>
+        </div>
+        <div class="plate">
+          <span class="plate-label">Total Invoice (ZAR)</span>
+          <span class="plate-value" id="plate-total">R 0.00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: BATCH CONSIGNMENT BUILDER -->
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <span>1. Batch Consignment Builder (Physical Cargo Lines)</span>
+      </div>
+
+      <div class="table-container">
+        <table class="data-table" id="cargo-table">
+          <thead>
+            <tr>
+              <th style="width: 25%;">Cargo Description</th>
+              <th style="width: 7%;">Qty</th>
+              <th style="width: 10%;">L (cm)</th>
+              <th style="width: 10%;">W (cm)</th>
+              <th style="width: 10%;">H (cm)</th>
+              <th style="width: 10%;">Unit kg</th>
+              <th style="width: 10%;">Stackable?</th>
+              <th style="width: 10%;">LDM Footprint</th>
+              <th style="width: 8%;" class="col-act">Remove</th>
+            </tr>
+          </thead>
+          <tbody id="cargo-tbody">
+            <!-- Dynamically populated via JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:var(--space-sm); flex-wrap:wrap; gap:var(--space-sm);">
+        <button class="btn btn--secondary btn--sm" id="add-line-btn" onclick="addCargoLine()">
+          + Add Consignment Line
+        </button>
+        <div style="font-size:var(--text-label); color:var(--muted);" id="deck-width-note">
+          Standard Intermodal Trailer Deck Width: <strong>240 cm (2.40m)</strong>. Items wider than 120cm cannot sit side-by-side.
+        </div>
+      </div>
+
+      <!-- 2.4m Over-width Alert Container -->
+      <div id="deck-alert" class="alert-banner" style="display: none;">
+        <strong>TRAILER FLOOR PENALTY WARNING:</strong>
+        <span id="deck-alert-msg">One or more non-stackable lines cannot fit two-abreast on a 2.4m trailer and occupy full deck width slots.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: ROUTE COMMERCIALS -->
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <span>2. Commercial Tariff Variables &amp; Surcharges</span>
+      </div>
+
+      <div class="commercials-grid">
+        <div class="comm-field">
+          <label for="cfg-rate">Base Rate (R / chg kg)</label>
+          <input type="number" id="cfg-rate" value="2.85" step="0.05" min="0" oninput="recalculateAll()">
+        </div>
+        <div class="comm-field">
+          <label for="cfg-fsc">Fuel Surcharge (FSC %)</label>
+          <input type="number" id="cfg-fsc" value="18.5" step="0.5" min="0" oninput="recalculateAll()">
+        </div>
+        <div class="comm-field">
+          <label for="cfg-doc">Cross-Dock / Doc Fee (R)</label>
+          <input type="number" id="cfg-doc" value="150" min="0" oninput="recalculateAll()">
+        </div>
+        <div class="comm-field">
+          <label for="cfg-ldm-kg">LDM Mass Ratio (kg / LDM)</label>
+          <input type="number" id="cfg-ldm-kg" value="1800" step="50" min="1000" oninput="recalculateAll()" title="Universal road freight standard: 1 LDM = 1,800 kg">
+        </div>
+        <div class="comm-field">
+          <label for="cfg-vat">VAT Rate (%)</label>
+          <input type="number" id="cfg-vat" value="15" step="1" min="0" oninput="recalculateAll()">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: THE RATE ILLUSION COMPARATOR (MONEY SAVER) -->
+  <section class="comparator-section">
+    <div class="wrap">
+      <div class="section-head">
+        <span>3. The "Rate Illusion" Multi-Carrier Comparator</span>
+      </div>
+
+      <div class="comparator-grid">
+        <!-- Carrier A: Road General -->
+        <div class="comp-col" id="card-general">
+          <div>
+            <div class="comp-title">Road General</div>
+            <div class="comp-ratio">Standard 1:3000 (333 kg/m³)</div>
+            <div class="comp-metrics">
+              <div class="comp-line"><span>Chargeable Mass:</span><strong id="comp-gen-mass">0 kg</strong></div>
+              <div class="comp-line"><span>Base Freight:</span><span id="comp-gen-base">R 0.00</span></div>
+              <div class="comp-line"><span>Fuel (18.5%):</span><span id="comp-gen-fsc">R 0.00</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="comp-total"><span>Total (ZAR):</span><span id="comp-gen-total">R 0.00</span></div>
+            <div class="comp-verdict --ok" id="comp-gen-verdict">Active Baseline Mode</div>
+          </div>
+        </div>
+
+        <!-- Carrier B: Road Express -->
+        <div class="comp-col" id="card-express">
+          <div>
+            <div class="comp-title">Road Express</div>
+            <div class="comp-ratio">Express 1:4000 (250 kg/m³)</div>
+            <div class="comp-metrics">
+              <div class="comp-line"><span>Chargeable Mass:</span><strong id="comp-exp-mass">0 kg</strong></div>
+              <div class="comp-line"><span>Base Freight:</span><span id="comp-exp-base">R 0.00</span></div>
+              <div class="comp-line"><span>Fuel (18.5%):</span><span id="comp-exp-fsc">R 0.00</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="comp-total"><span>Total (ZAR):</span><span id="comp-exp-total">R 0.00</span></div>
+            <div class="comp-verdict --warn" id="comp-exp-verdict">Calculated on 250 kg/m³</div>
+          </div>
+        </div>
+
+        <!-- Carrier C: Pure Scale Benchmark -->
+        <div class="comp-col" id="card-scale">
+          <div>
+            <div class="comp-title">Pure Scale Weight</div>
+            <div class="comp-ratio">Zero Volumetric Adjustment</div>
+            <div class="comp-metrics">
+              <div class="comp-line"><span>Actual Mass:</span><strong id="comp-scale-mass">0 kg</strong></div>
+              <div class="comp-line"><span>Base Freight:</span><span id="comp-scale-base">R 0.00</span></div>
+              <div class="comp-line"><span>Fuel (18.5%):</span><span id="comp-scale-fsc">R 0.00</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="comp-total"><span>Total (ZAR):</span><span id="comp-scale-total">R 0.00</span></div>
+            <div class="comp-verdict --ok" id="comp-scale-verdict">Scale Weight Floor</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: MASTER DEPARTURE BOARD RESULTS -->
+  <section style="padding-block:0; border-bottom:none;">
+    <div class="results-band">
+      <div class="wrap">
+
+        <!-- 5-cell board -->
+        <div class="results-board">
+          <div class="board-cell">
+            <span class="cell-label">Total Volume (CBM)</span>
+            <span class="cell-value" id="out-cbm">0.00 m³</span>
+          </div>
+          <div class="board-cell">
+            <span class="cell-label">Trailer Deck (LDM)</span>
+            <span class="cell-value --cobalt" id="out-ldm">0.00 LDM</span>
+          </div>
+          <div class="board-cell">
+            <span class="cell-label">Actual Scale Mass</span>
+            <span class="cell-value" id="out-actual">0 kg</span>
+          </div>
+          <div class="board-cell">
+            <span class="cell-label">Volumetric Mass (333kg)</span>
+            <span class="cell-value" id="out-vol">0 kg</span>
+          </div>
+          <div class="board-cell">
+            <span class="cell-label">Floor Equivalent Mass</span>
+            <span class="cell-value --amber" id="out-ldm-kg">0 kg</span>
+          </div>
+        </div>
+
+        <!-- Chargeable Callout -->
+        <div class="chargeable-callout">
+          <div>
+            <div class="callout-title">Final Chargeable Billing Weight</div>
+            <div class="callout-reason" id="out-reason">CALCULATING...</div>
+          </div>
+          <div class="callout-value" id="out-chargeable">0 kg</div>
+        </div>
+
+        <!-- Invoice Breakdown -->
+        <div class="invoice-table">
+          <div class="invoice-row">
+            <span class="i-label">Base Freight (<span id="inv-chg-mass">0 kg</span> @ <span id="inv-rate">R 2.85</span>/kg)</span>
+            <span class="i-amount" id="inv-base">R 0.00</span>
+          </div>
+          <div class="invoice-row">
+            <span class="i-label">Fuel Surcharge (<span id="inv-fsc-pct">18.5</span>%)</span>
+            <span class="i-amount" id="inv-fsc">R 0.00</span>
+          </div>
+          <div class="invoice-row">
+            <span class="i-label">Cross-Dock &amp; Documentation Fee</span>
+            <span class="i-amount" id="inv-doc">R 0.00</span>
+          </div>
+          <div class="invoice-row">
+            <span class="i-label">Subtotal (Excl. VAT)</span>
+            <span class="i-amount" id="inv-subtotal">R 0.00</span>
+          </div>
+          <div class="invoice-row">
+            <span class="i-label">VAT (<span id="inv-vat-pct">15</span>%)</span>
+            <span class="i-amount" id="inv-vat">R 0.00</span>
+          </div>
+          <div class="invoice-row --total">
+            <span class="i-label">Total Estimated Invoice (ZAR)</span>
+            <span class="i-amount" id="inv-total">R 0.00</span>
+          </div>
+        </div>
+
+        <!-- Operational Action Buttons -->
+        <div class="output-actions">
+          <button class="btn btn--primary" onclick="copyWhatsAppQuote()" id="btn-wa">
+            Copy WhatsApp Quote
+          </button>
+          <button class="btn btn--dark" onclick="copyJSONPayload()" id="btn-json">
+            Copy Quotation JSON
+          </button>
+          <button class="btn btn--dark" onclick="window.print()">
+            Print Tax Quote / Waybill
+          </button>
+          <button class="btn btn--dark" onclick="resetToDefaults()">
+            Reset Demo Data
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: WHY INDUSTRIAL SHIPPERS BLEED MONEY -->
+  <section class="mechanics-section">
+    <div class="wrap">
+      <div class="section-head">
+        <span>4. Industrial Logistics Dispatch Rules</span>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-lg);">
+        <div>
+          <h3 style="margin-bottom:var(--space-xs); font-size:var(--text-title);">The "1-Pallet &amp; Over-Width" Trap</h3>
+          <p style="color:var(--ink-2); font-size:var(--text-body);">
+            On a 2.40m intermodal tautliner or flatdeck trailer, pallets wider than 120cm cannot sit 2-abreast.
+            If your cargo is 130cm wide and non-stackable, it consumes the entire 2.4m trailer width for its length.
+            Even for 1 standard 1.2m &times; 1.0m pallet, if it cannot be stacked and no co-load partner exists,
+            carriers bill for the full floor footprint.
+          </p>
+        </div>
+        <div>
+          <h3 style="margin-bottom:var(--space-xs); font-size:var(--text-title);">The Rate Illusion Warning</h3>
+          <p style="color:var(--ink-2); font-size:var(--text-body);">
+            A freight carrier offering R 2.60/kg on 1:250 terms frequently exceeds the invoice total of a transporter offering
+            R 2.85/kg on standard 1:333 road terms. Always audit the chargeable mass before accepting a tender rate.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap footer-inner">
+      <div>
+        <div class="footer-brand" id="footer-co-name">CARGOMODEL V2</div>
+        <div style="font-size:var(--text-label); color:var(--muted);" id="footer-co-sub">
+          Industrial Transport Engineering &middot; Eastern Cape Distribution Corridors
+        </div>
+      </div>
+      <div style="font-size:var(--text-label); color:var(--muted); text-align:right;">
+        <span>Shift + Click logo to rebrand</span> &middot;
+        <span>100% Client-Side Engine</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WHITE-LABEL CONFIGURATION DRAWER / MODAL -->
+  <div class="modal-backdrop" id="config-modal" role="dialog" aria-modal="true" aria-labelledby="modal-heading">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="modal-heading" style="font-size:var(--text-title); font-weight:800;">White-Label Branding &amp; Rate Card</h2>
+        <button class="btn btn--secondary btn--sm" onclick="closeConfigModal()" aria-label="Close modal">&times;</button>
+      </div>
+
+      <div class="modal-form">
+        <div class="modal-field">
+          <label for="cfg-co-name">Company / Broker Name</label>
+          <input type="text" id="cfg-co-name" value="ZAInnovate Technologies">
+        </div>
+        <div class="modal-field">
+          <label for="cfg-co-sub">Division / Subtitle</label>
+          <input type="text" id="cfg-co-sub" value="Logistics Dispatch &amp; Road Transport Desk">
+        </div>
+        <div class="modal-field">
+          <label for="cfg-co-tel">Contact Phone / WhatsApp</label>
+          <input type="text" id="cfg-co-tel" value="+27 67 670 7870">
+        </div>
+        <div class="modal-field">
+          <label for="cfg-co-vat">VAT / Registration No.</label>
+          <input type="text" id="cfg-co-vat" value="4890123456">
+        </div>
+        <div class="modal-field">
+          <label for="cfg-quote-pfx">Quote Ref Prefix</label>
+          <input type="text" id="cfg-quote-pfx" value="ZAI-QT">
+        </div>
+        <div class="modal-field">
+          <label for="cfg-def-rate">Default Base Rate (R/kg)</label>
+          <input type="number" id="cfg-def-rate" value="2.85" step="0.05">
+        </div>
+        <div class="modal-field">
+          <label for="cfg-def-fsc">Default FSC (%)</label>
+          <input type="number" id="cfg-def-fsc" value="18.5" step="0.5">
+        </div>
+        <div class="modal-field">
+          <label for="cfg-def-doc">Default Doc Fee (R)</label>
+          <input type="number" id="cfg-def-doc" value="150">
+        </div>
+        <div class="modal-field" style="grid-column: span 2;">
+          <label for="cfg-terms">Quotation Disclaimer / Terms</label>
+          <textarea id="cfg-terms">Quote valid for 7 days. Subject to physical depot re-weigh and laser volumetric audit. Standard RFA trading terms apply.</textarea>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; gap:var(--space-sm); flex-wrap:wrap; margin-top:var(--space-sm); border-top:var(--hair) solid var(--rule); padding-top:var(--space-md);">
+        <button class="btn btn--secondary" onclick="saveConfigLocal()">
+          Save in Browser Storage
+        </button>
+        <button class="btn btn--primary" onclick="bakeAndDownloadHTML()" title="Downloads this file with your branding permanently baked into the code">
+          Bake &amp; Download Production HTML
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCTION SCRIPT -->
+  <script>
+    // ─── INITIAL APP CONFIG (OVERRIDABLE VIA WHITE-LABEL) ────────────────────
+    const APP_DEFAULTS = {
+      coName: "ZAInnovate Technologies",
+      coSub: "Logistics Dispatch & Road Transport Desk",
+      coTel: "+27 67 670 7870",
+      coVat: "4890123456",
+      quotePfx: "ZAI-QT",
+      defRate: 2.85,
+      defFsc: 18.5,
+      defDoc: 150,
+      defLdmKg: 1800,
+      defVat: 15,
+      terms: "Quote valid for 7 days. Subject to physical depot re-weigh and laser volumetric audit. Standard RFA trading conditions apply."
+    };
+
+    let activeConfig = { ...APP_DEFAULTS };
+
+    // ─── CONSIGNMENT BATCH STATE ─────────────────────────────────────────────
+    let cargoLines = [
+      { id: 1, desc: "Automotive Stamping Crates", qty: 2, l: 130, w: 110, h: 140, unitKg: 350, stackable: false },
+      { id: 2, desc: "Fasteners & Hardware Pallets", qty: 2, l: 120, w: 100, h: 110, unitKg: 200, stackable: true }
+    ];
+
+    let nextLineId = 3;
+
+    // ─── INIT ON LOAD ────────────────────────────────────────────────────────
+    window.addEventListener("DOMContentLoaded", () => {
+      loadSavedConfig();
+      renderCargoTable();
+      recalculateAll();
+    });
+
+    // ─── CONFIGURATION MANAGEMENT ────────────────────────────────────────────
+    function loadSavedConfig() {
+      try {
+        const saved = localStorage.getItem("cargomodel_v2_cfg");
+        if (saved) {
+          activeConfig = { ...APP_DEFAULTS, ...JSON.parse(saved) };
+        }
+      } catch (e) {
+        console.warn("Storage load error", e);
+      }
+      applyConfigToDOM();
+    }
+
+    function applyConfigToDOM() {
+      // Document text
+      document.getElementById("cfg-rate").value = activeConfig.defRate;
+      document.getElementById("cfg-fsc").value = activeConfig.defFsc;
+      document.getElementById("cfg-doc").value = activeConfig.defDoc;
+      document.getElementById("cfg-ldm-kg").value = activeConfig.defLdmKg;
+      document.getElementById("cfg-vat").value = activeConfig.defVat;
+
+      // Header branding
+      document.getElementById("brand-title").textContent = activeConfig.coName.split(" ")[0] || "CARGO";
+      document.getElementById("brand-title-accent").textContent = activeConfig.coName.split(" ").slice(1).join(" ") || "MODEL";
+
+      // Print header & footers
+      document.getElementById("print-co-name").textContent = activeConfig.coName;
+      document.getElementById("print-co-meta").textContent = activeConfig.coSub;
+      document.getElementById("print-co-tel").textContent = "Tel: " + activeConfig.coTel + " | VAT: " + activeConfig.coVat;
+      document.getElementById("footer-co-name").textContent = activeConfig.coName;
+      document.getElementById("footer-co-sub").textContent = activeConfig.coSub;
+
+      // Modal inputs
+      document.getElementById("cfg-co-name").value = activeConfig.coName;
+      document.getElementById("cfg-co-sub").value = activeConfig.coSub;
+      document.getElementById("cfg-co-tel").value = activeConfig.coTel;
+      document.getElementById("cfg-co-vat").value = activeConfig.coVat;
+      document.getElementById("cfg-quote-pfx").value = activeConfig.quotePfx;
+      document.getElementById("cfg-def-rate").value = activeConfig.defRate;
+      document.getElementById("cfg-def-fsc").value = activeConfig.defFsc;
+      document.getElementById("cfg-def-doc").value = activeConfig.defDoc;
+      document.getElementById("cfg-terms").value = activeConfig.terms;
+
+      // Randomised Quote Ref
+      const today = new Date();
+      const yr = today.getFullYear();
+      const rnd = String(Math.floor(1000 + Math.random() * 9000));
+      document.getElementById("print-ref").textContent = "REF: " + activeConfig.quotePfx + "-" + yr + "-" + rnd;
+      document.getElementById("print-date").textContent = "DATE: " + today.toLocaleDateString("en-ZA", {day:"2-digit", month:"short", year:"numeric"});
+    }
+
+    function handleBrandClick(event) {
+      if (event.shiftKey) {
+        openConfigModal();
+      }
+    }
+
+    function openConfigModal() {
+      document.getElementById("config-modal").classList.add("active");
+    }
+
+    function closeConfigModal() {
+      document.getElementById("config-modal").classList.remove("active");
+    }
+
+    function saveConfigLocal() {
+      activeConfig = {
+        coName: document.getElementById("cfg-co-name").value.trim(),
+        coSub: document.getElementById("cfg-co-sub").value.trim(),
+        coTel: document.getElementById("cfg-co-tel").value.trim(),
+        coVat: document.getElementById("cfg-co-vat").value.trim(),
+        quotePfx: document.getElementById("cfg-quote-pfx").value.trim(),
+        defRate: parseFloat(document.getElementById("cfg-def-rate").value) || 2.85,
+        defFsc: parseFloat(document.getElementById("cfg-def-fsc").value) || 18.5,
+        defDoc: parseFloat(document.getElementById("cfg-def-doc").value) || 150,
+        defLdmKg: parseFloat(document.getElementById("cfg-ldm-kg").value) || 1800,
+        defVat: parseFloat(document.getElementById("cfg-vat").value) || 15,
+        terms: document.getElementById("cfg-terms").value.trim()
+      };
+      try {
+        localStorage.setItem("cargomodel_v2_cfg", JSON.stringify(activeConfig));
+      } catch (e) {
+        console.warn("Save failed", e);
+      }
+      applyConfigToDOM();
+      recalculateAll();
+      closeConfigModal();
+      alert("Configuration saved! Defaults are now updated for this browser.");
+    }
+
+    // ─── BAKE & DOWNLOAD PRODUCTION HTML (1-CLICK WHITE LABEL) ────────────────
+    function bakeAndDownloadHTML() {
+      // Gather latest inputs
+      const bakedCfg = {
+        coName: document.getElementById("cfg-co-name").value.trim(),
+        coSub: document.getElementById("cfg-co-sub").value.trim(),
+        coTel: document.getElementById("cfg-co-tel").value.trim(),
+        coVat: document.getElementById("cfg-co-vat").value.trim(),
+        quotePfx: document.getElementById("cfg-quote-pfx").value.trim(),
+        defRate: parseFloat(document.getElementById("cfg-def-rate").value) || 2.85,
+        defFsc: parseFloat(document.getElementById("cfg-def-fsc").value) || 18.5,
+        defDoc: parseFloat(document.getElementById("cfg-def-doc").value) || 150,
+        defLdmKg: parseFloat(document.getElementById("cfg-ldm-kg").value) || 1800,
+        defVat: parseFloat(document.getElementById("cfg-vat").value) || 15,
+        terms: document.getElementById("cfg-terms").value.trim()
+      };
+
+      let htmlSource = document.documentElement.outerHTML;
+
+      // Replace APP_DEFAULTS definition with baked values
+      const targetRegex = /const APP_DEFAULTS = \{[\s\S]*?\};/;
+      const replacement = "const APP_DEFAULTS = " + JSON.stringify(bakedCfg, null, 2) + ";";
+      htmlSource = "<!DOCTYPE html>\n<html lang=\"en\">\n" + htmlSource.replace(targetRegex, replacement) + "\n</html>";
+
+      const blob = new Blob([htmlSource], { type: "text/html;charset=utf-8" });
+      const link = document.createElement("a");
+      const safeFilename = (bakedCfg.coName.toLowerCase().replace(/[^a-z0-9]/g, "-") || "cargomodel") + "-calculator.html";
+      link.href = URL.createObjectURL(blob);
+      link.download = safeFilename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      closeConfigModal();
+    }
+
+    // ─── BATCH CONSIGNMENT TABLE LOGIC ───────────────────────────────────────
+    function renderCargoTable() {
+      const tbody = document.getElementById("cargo-tbody");
+      tbody.innerHTML = "";
+
+      cargoLines.forEach((item, index) => {
+        const tr = document.createElement("tr");
+
+        // LDM footprint calculation for this individual line
+        const ldmData = computeLineLDM(item);
+
+        tr.innerHTML = `
+          <td>
+            <input type="text" class="tbl-input" value="${escapeHtml(item.desc)}" onchange="updateLineField(${item.id}, 'desc', this.value)" aria-label="Description">
+          </td>
+          <td>
+            <input type="number" class="tbl-input" min="1" max="9999" value="${item.qty}" oninput="updateLineField(${item.id}, 'qty', this.value)" aria-label="Quantity">
+          </td>
+          <td>
+            <input type="number" class="tbl-input" min="1" max="2500" value="${item.l}" oninput="updateLineField(${item.id}, 'l', this.value)" aria-label="Length">
+          </td>
+          <td>
+            <input type="number" class="tbl-input" min="1" max="250" value="${item.w}" oninput="updateLineField(${item.id}, 'w', this.value)" aria-label="Width">
+          </td>
+          <td>
+            <input type="number" class="tbl-input" min="1" max="300" value="${item.h}" oninput="updateLineField(${item.id}, 'h', this.value)" aria-label="Height">
+          </td>
+          <td>
+            <input type="number" class="tbl-input" min="0.1" value="${item.unitKg}" oninput="updateLineField(${item.id}, 'unitKg', this.value)" aria-label="Unit weight">
+          </td>
+          <td style="text-align:center;">
+            <label class="tbl-check">
+              <input type="checkbox" ${item.stackable ? "checked" : ""} onchange="updateLineField(${item.id}, 'stackable', this.checked)">
+              <span style="font-size:0.75rem;">${item.stackable ? "Yes" : "No"}</span>
+            </label>
+          </td>
+          <td style="font-weight:700; white-space:nowrap; text-align:right; padding-right:0.75rem;">
+            ${ldmData.ldm.toFixed(2)} LDM
+            ${ldmData.isOverwidth ? '<span style="color:var(--red); font-size:0.7rem; display:block;">(Full Width)</span>' : ''}
+          </td>
+          <td style="text-align:center;" class="col-act">
+            <button class="btn btn--danger btn--sm" onclick="removeCargoLine(${item.id})" aria-label="Delete line">&times;</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function addCargoLine() {
+      cargoLines.push({
+        id: nextLineId++,
+        desc: "General Cargo Line #" + cargoLines.length,
+        qty: 1,
+        l: 120,
+        w: 100,
+        h: 120,
+        unitKg: 150,
+        stackable: false
+      });
+      renderCargoTable();
+      recalculateAll();
+    }
+
+    function removeCargoLine(id) {
+      if (cargoLines.length <= 1) {
+        alert("At least one cargo line is required.");
+        return;
+      }
+      cargoLines = cargoLines.filter(line => line.id !== id);
+      renderCargoTable();
+      recalculateAll();
+    }
+
+    function updateLineField(id, field, value) {
+      const line = cargoLines.find(l => l.id === id);
+      if (!line) return;
+
+      if (field === "desc") {
+        line.desc = String(value);
+      } else if (field === "stackable") {
+        line.stackable = Boolean(value);
+      } else {
+        line[field] = parseFloat(value) || 0;
+      }
+      renderCargoTable();
+      recalculateAll();
+    }
+
+    function resetToDefaults() {
+      cargoLines = [
+        { id: 1, desc: "Automotive Stamping Crates", qty: 2, l: 130, w: 110, h: 140, unitKg: 350, stackable: false },
+        { id: 2, desc: "Fasteners & Hardware Pallets", qty: 2, l: 120, w: 100, h: 110, unitKg: 200, stackable: true }
+      ];
+      renderCargoTable();
+      recalculateAll();
+    }
+
+    // ─── 2.4M DECK WIDTH & LDM MECHANICS ─────────────────────────────────────
+    function computeLineLDM(item) {
+      const l = item.l || 0;
+      const w = item.w || 0;
+      const qty = item.qty || 1;
+
+      // Standard trailer deck width = 240 cm
+      // Can two items sit abreast?
+      const minDim = Math.min(l, w);
+      const maxDim = Math.max(l, w);
+      const canSitTwoAbreast = (minDim * 2) <= 240;
+
+      let ldm = 0;
+      let isOverwidth = false;
+
+      if (item.stackable) {
+        // Stackable items can double stack, sharing floor slots
+        ldm = (l * w * qty) / (100 * 240);
+      } else {
+        // Non-stackable cargo:
+        if (!canSitTwoAbreast) {
+          // Over-width: Each unit takes the full 2.4m width for its entire length!
+          isOverwidth = true;
+          ldm = (maxDim / 100) * qty;
+        } else {
+          // Can sit two-abreast: pairs of items occupy trailer length
+          const pairs = Math.ceil(qty / 2);
+          ldm = pairs * (maxDim / 100);
+        }
+      }
+
+      return { ldm: Math.max(ldm, 0), isOverwidth };
+    }
+
+    // ─── MASTER RECALCULATION & COMPARATOR ENGINE ────────────────────────────
+    function recalculateAll() {
+      // 1. Gather Consignment Totals
+      let totalActualKg = 0;
+      let totalCbm = 0;
+      let totalLdm = 0;
+      let overwidthDetected = false;
+
+      cargoLines.forEach(item => {
+        const itemActual = (item.unitKg || 0) * (item.qty || 1);
+        const itemCbm = ((item.l || 0) * (item.w || 0) * (item.h || 0) * (item.qty || 1)) / 1_000_000;
+        const itemLdmData = computeLineLDM(item);
+
+        totalActualKg += itemActual;
+        totalCbm += itemCbm;
+        totalLdm += itemLdmData.ldm;
+        if (itemLdmData.isOverwidth) overwidthDetected = true;
+      });
+
+      // 2. Commercials
+      const baseRate = parseFloat(document.getElementById("cfg-rate").value) || 0;
+      const fscPct = parseFloat(document.getElementById("cfg-fsc").value) || 0;
+      const docFee = parseFloat(document.getElementById("cfg-doc").value) || 0;
+      const ldmKgRatio = parseFloat(document.getElementById("cfg-ldm-kg").value) || 1800;
+      const vatPct = parseFloat(document.getElementById("cfg-vat").value) || 15;
+
+      // 3. Volumetric and LDM Mass Calculations
+      const volKg333 = totalCbm * 333.33; // Road General
+      const volKg250 = totalCbm * 250.00; // Road Express
+      const ldmMass = totalLdm * ldmKgRatio;
+
+      // Primary Chargeable Basis (Road General Default)
+      const primaryVolKg = volKg333;
+      const chargeableMass = Math.max(totalActualKg, primaryVolKg, ldmMass);
+
+      let basisReason = "ACTUAL SCALE WEIGHT";
+      let alertReason = "Cargo billed on true scale mass (dense goods).";
+      if (chargeableMass === ldmMass && ldmMass > totalActualKg) {
+        basisReason = "TRAILER LDM FLOOR PENALTY";
+        alertReason = `Non-stackable trailer floor occupancy overrides scale weight (+${Math.round(ldmMass - totalActualKg).toLocaleString("en-ZA")} kg adjustment).`;
+      } else if (chargeableMass === primaryVolKg && primaryVolKg > totalActualKg) {
+        basisReason = "VOLUMETRIC CBM ADJUSTMENT";
+        alertReason = `Low-density cargo displaced cubic capacity (+${Math.round(primaryVolKg - totalActualKg).toLocaleString("en-ZA")} kg adjustment).`;
+      }
+
+      // Financials for Primary Mode
+      const baseFreight = chargeableMass * baseRate;
+      const fscAmount = baseFreight * (fscPct / 100);
+      const subtotal = baseFreight + fscAmount + docFee;
+      const vatAmount = subtotal * (vatPct / 100);
+      const grandTotal = subtotal + vatAmount;
+
+      // 4. Update Header Plates & Master Board
+      document.getElementById("plate-lines").textContent = cargoLines.length + (cargoLines.length === 1 ? " line" : " lines");
+      document.getElementById("plate-deck").textContent = totalLdm.toFixed(2) + " LDM";
+      document.getElementById("plate-basis").textContent = basisReason.split(" ")[0];
+      document.getElementById("plate-total").textContent = formatZAR(grandTotal);
+
+      document.getElementById("out-cbm").textContent = totalCbm.toFixed(2) + " m³";
+      document.getElementById("out-ldm").textContent = totalLdm.toFixed(2) + " LDM";
+      document.getElementById("out-actual").textContent = Math.round(totalActualKg).toLocaleString("en-ZA") + " kg";
+      document.getElementById("out-vol").textContent = Math.round(primaryVolKg).toLocaleString("en-ZA") + " kg";
+      document.getElementById("out-ldm-kg").textContent = Math.round(ldmMass).toLocaleString("en-ZA") + " kg";
+
+      document.getElementById("out-chargeable").textContent = Math.round(chargeableMass).toLocaleString("en-ZA") + " kg";
+      document.getElementById("out-reason").textContent = basisReason + ": " + alertReason;
+
+      // 5. Update Itemized Invoice Table
+      document.getElementById("inv-chg-mass").textContent = Math.round(chargeableMass).toLocaleString("en-ZA") + " kg";
+      document.getElementById("inv-rate").textContent = formatZAR(baseRate);
+      document.getElementById("inv-base").textContent = formatZAR(baseFreight);
+      document.getElementById("inv-fsc-pct").textContent = fscPct.toFixed(1);
+      document.getElementById("inv-fsc").textContent = formatZAR(fscAmount);
+      document.getElementById("inv-doc").textContent = formatZAR(docFee);
+      document.getElementById("inv-subtotal").textContent = formatZAR(subtotal);
+      document.getElementById("inv-vat-pct").textContent = vatPct.toFixed(0);
+      document.getElementById("inv-vat").textContent = formatZAR(vatAmount);
+      document.getElementById("inv-total").textContent = formatZAR(grandTotal);
+
+      // Over-width Banner Display
+      const alertDiv = document.getElementById("deck-alert");
+      if (overwidthDetected) {
+        alertDiv.style.display = "flex";
+      } else {
+        alertDiv.style.display = "none";
+      }
+
+      // 6. Calculate the "Rate Illusion" Comparator
+      calculateComparator({
+        totalActualKg,
+        totalCbm,
+        totalLdm,
+        ldmMass,
+        baseRate,
+        fscPct,
+        docFee,
+        vatPct
+      });
+    }
+
+    function calculateComparator(data) {
+      // Option A: Road General (333 kg/m³)
+      const genChg = Math.max(data.totalActualKg, data.totalCbm * 333.33, data.ldmMass);
+      const genBase = genChg * data.baseRate;
+      const genFsc = genBase * (data.fscPct / 100);
+      const genSub = genBase + genFsc + data.docFee;
+      const genTotal = genSub * (1 + data.vatPct / 100);
+
+      document.getElementById("comp-gen-mass").textContent = Math.round(genChg).toLocaleString("en-ZA") + " kg";
+      document.getElementById("comp-gen-base").textContent = formatZAR(genBase);
+      document.getElementById("comp-gen-fsc").textContent = formatZAR(genFsc);
+      document.getElementById("comp-gen-total").textContent = formatZAR(genTotal);
+
+      // Option B: Road Express (250 kg/m³) - Often quoted with an artificially "cheaper" per-kg rate (e.g. 5% discount)
+      const expRate = data.baseRate * 0.95; // 5% cheaper rate illusion
+      const expChg = Math.max(data.totalActualKg, data.totalCbm * 250.00, data.ldmMass);
+      const expBase = expChg * expRate;
+      const expFsc = expBase * (data.fscPct / 100);
+      const expSub = expBase + expFsc + data.docFee;
+      const expTotal = expSub * (1 + data.vatPct / 100);
+
+      document.getElementById("comp-exp-mass").textContent = Math.round(expChg).toLocaleString("en-ZA") + " kg";
+      document.getElementById("comp-exp-base").textContent = formatZAR(expBase) + " (@ R " + expRate.toFixed(2) + ")";
+      document.getElementById("comp-exp-fsc").textContent = formatZAR(expFsc);
+      document.getElementById("comp-exp-total").textContent = formatZAR(expTotal);
+
+      const expDiff = expTotal - genTotal;
+      const expVerdict = document.getElementById("comp-exp-verdict");
+      if (expDiff > 50) {
+        expVerdict.textContent = "RATE TRAP: Costs " + formatZAR(expDiff) + " MORE despite lower rate/kg!";
+        expVerdict.className = "comp-verdict --warn";
+      } else {
+        expVerdict.textContent = "Competitive: " + formatZAR(Math.abs(expDiff)) + (expDiff <= 0 ? " cheaper" : " difference");
+        expVerdict.className = "comp-verdict --ok";
+      }
+
+      // Option C: Pure Scale Weight Floor (No volume penalty)
+      const scaleChg = data.totalActualKg;
+      const scaleBase = scaleChg * data.baseRate;
+      const scaleFsc = scaleBase * (data.fscPct / 100);
+      const scaleSub = scaleBase + scaleFsc + data.docFee;
+      const scaleTotal = scaleSub * (1 + data.vatPct / 100);
+
+      document.getElementById("comp-scale-mass").textContent = Math.round(scaleChg).toLocaleString("en-ZA") + " kg";
+      document.getElementById("comp-scale-base").textContent = formatZAR(scaleBase);
+      document.getElementById("comp-scale-fsc").textContent = formatZAR(scaleFsc);
+      document.getElementById("comp-scale-total").textContent = formatZAR(scaleTotal);
+
+      const penaltyDiff = genTotal - scaleTotal;
+      const scaleVerdict = document.getElementById("comp-scale-verdict");
+      if (penaltyDiff > 10) {
+        scaleVerdict.textContent = "Volumetric/LDM Surcharge: +" + formatZAR(penaltyDiff);
+        scaleVerdict.className = "comp-verdict --warn";
+      } else {
+        scaleVerdict.textContent = "Scale weight aligns with volumetric capacity";
+        scaleVerdict.className = "comp-verdict --ok";
+      }
+    }
+
+    // ─── EXPORT CLIPBOARD INTEGRATIONS ───────────────────────────────────────
+    function copyWhatsAppQuote() {
+      const coName = activeConfig.coName.toUpperCase();
+      const quoteRef = document.getElementById("print-ref").textContent;
+      const dateStr = document.getElementById("print-date").textContent;
+
+      let cargoSummary = "";
+      cargoLines.forEach((item, i) => {
+        cargoSummary += `• Line ${i + 1}: ${item.qty}x ${item.desc} (${item.l}×${item.w}×${item.h}cm) - ${item.unitKg * item.qty} kg [${item.stackable ? "Stackable" : "Non-stackable"}]\n`;
+      });
+
+      const actualKg = document.getElementById("out-actual").textContent;
+      const cbm = document.getElementById("out-cbm").textContent;
+      const ldm = document.getElementById("out-ldm").textContent;
+      const chgKg = document.getElementById("out-chargeable").textContent;
+      const basisReason = document.getElementById("out-reason").textContent;
+
+      const baseAmount = document.getElementById("inv-base").textContent;
+      const fscAmount = document.getElementById("inv-fsc").textContent;
+      const fscPct = document.getElementById("inv-fsc-pct").textContent;
+      const docAmount = document.getElementById("inv-doc").textContent;
+      const subtotal = document.getElementById("inv-subtotal").textContent;
+      const vatAmount = document.getElementById("inv-vat").textContent;
+      const totalAmount = document.getElementById("inv-total").textContent;
+
+      const waText = 
+`*${coName} — FREIGHT QUOTE & CONSIGNMENT ESTIMATE*
+${quoteRef} | ${dateStr}
+
+*CARGO SPECIFICATIONS:*
+${cargoSummary}
+*DISPATCH AUDIT:*
+• Actual Mass: ${actualKg}
+• Volume: ${cbm}
+• Trailer Floor: ${ldm}
+*BILLING BASIS:* ${chgKg} (${basisReason})
+
+*COMMERCIAL BREAKDOWN:*
+• Base Freight: ${baseAmount}
+• Fuel Surcharge (${fscPct}%): ${fscAmount}
+• Cross-Dock / Doc Fee: ${docAmount}
+• Subtotal: ${subtotal}
+• VAT (15%): ${vatAmount}
+*TOTAL INVOICE (ZAR): ${totalAmount}*
+
+_Terms: ${activeConfig.terms}_
+_Generated via CARGOMODEL V2 Engine_`;
+
+      navigator.clipboard.writeText(waText).then(() => {
+        const btn = document.getElementById("btn-wa");
+        const prev = btn.textContent;
+        btn.textContent = "Copied to WhatsApp Format!";
+        setTimeout(() => { btn.textContent = prev; }, 2200);
+      }).catch(err => alert("Copy failed: " + err));
+    }
+
+    function copyJSONPayload() {
+      const payload = {
+        meta: {
+          app: "CARGOMODEL-V2",
+          company: activeConfig.coName,
+          reference: document.getElementById("print-ref").textContent,
+          timestamp: new Date().toISOString()
+        },
+        cargoLines: cargoLines.map(l => ({
+          ...l,
+          lineCbm: ((l.l * l.w * l.h * l.qty) / 1_000_000).toFixed(3),
+          lineTotalActualKg: l.unitKg * l.qty
+        })),
+        metrics: {
+          totalCbm: document.getElementById("out-cbm").textContent,
+          totalLdm: document.getElementById("out-ldm").textContent,
+          actualMassKg: document.getElementById("out-actual").textContent,
+          volumetricMassKg: document.getElementById("out-vol").textContent,
+          chargeableMassKg: document.getElementById("out-chargeable").textContent,
+          billingReason: document.getElementById("out-reason").textContent
+        },
+        financials: {
+          baseFreightZAR: document.getElementById("inv-base").textContent,
+          fuelSurchargeZAR: document.getElementById("inv-fsc").textContent,
+          docFeeZAR: document.getElementById("inv-doc").textContent,
+          subtotalZAR: document.getElementById("inv-subtotal").textContent,
+          vatZAR: document.getElementById("inv-vat").textContent,
+          grandTotalZAR: document.getElementById("inv-total").textContent
+        }
+      };
+
+      navigator.clipboard.writeText(JSON.stringify(payload, null, 2)).then(() => {
+        const btn = document.getElementById("btn-json");
+        const prev = btn.textContent;
+        btn.textContent = "Copied JSON to Clipboard!";
+        setTimeout(() => { btn.textContent = prev; }, 2200);
+      }).catch(err => alert("Copy failed: " + err));
+    }
+
+    // ─── HELPERS ─────────────────────────────────────────────────────────────
+    function formatZAR(val) {
+      return "R " + Number(val || 0).toLocaleString("en-ZA", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+  </script>
+</body>
+</html>

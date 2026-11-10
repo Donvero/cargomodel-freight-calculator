@@ -18,6 +18,8 @@
     /* Tokens */
     :root {
       color-scheme: light;
+      scrollbar-color: var(--color-rule) transparent;
+      caret-color: var(--color-accent);
       --color-paper:       oklch(95.5% 0.006 250);
       --color-paper-2:     oklch(91.5% 0.009 250);
       --color-paper-3:     oklch(99.2% 0.005 250);
@@ -848,7 +850,6 @@
       position: fixed;
       inset: 0;
       background: var(--color-backdrop);
-      backdrop-filter: blur(2px);
       z-index: 100;
       display: none;
       align-items: center;

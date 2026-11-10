@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="TRIPGUARD V1 - Diesel Siphon & Fleet Debrief Dispute Terminal for South African Road Freight Depots. Detect diesel bleed, compute ZAR theft recovery, and generate BCEA AOD slips.">
-  <title>TRIPGUARD V1 · Diesel Siphon & Fleet Debrief Dispute Terminal</title>
+  <meta name="description" content="TRIPGUARD V1 - Diesel Siphon and Fleet Debrief Dispute Terminal for South African road freight depots. Detect diesel bleed, compute ZAR theft recovery, and generate BCEA Section 34 AOD notices.">
+  <title>TRIPGUARD V1 · Diesel Siphon and Fleet Debrief Dispute Terminal</title>
 
   <!-- Hallmark Wayfind System Typography (Chivo Mono with robust monospaced fallback) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,41 +12,61 @@
   <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
 
   <style>
+/* Hallmark stamp: theme wayfind (platform), genre modern-minimal, idea: diesel siphon and fleet debrief dispute terminal */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 · weakest: S, South African road freight debrief and BCEA Section 34 legal recovery */
+/* Hallmark · answered F3 · display head wraps cleanly with text-wrap balance */
+
     /* ══════════════════════════════════════════════════════════════════════════
-       HALLMARK WAYFIND DESIGN SYSTEM TOKENS (Departure Board Platform Theme)
-       Zero Dependencies · 2px Solid Ink Borders · Tabular Typography · Crisp Grid
+       HALLMARK WAYFIND TOKENS (Strict Single Token Declaration Block)
+       Zero npm/CDN dependencies · 2px Solid Ink Borders · Tabular Typography
        ══════════════════════════════════════════════════════════════════════════ */
     :root {
-      --paper:       oklch(96% 0.005 250);
-      --paper-2:     oklch(92% 0.008 250);
-      --paper-3:     oklch(99.5% 0.002 250);
-      --ink:         oklch(15% 0.015 262);
-      --ink-2:       oklch(28% 0.014 262);
-      --muted:       oklch(46% 0.015 260);
-      --rule:        oklch(80% 0.010 250);
-      --ink-rule:    oklch(32% 0.014 262);
+      --paper:          oklch(96%   0.006 250);
+      --paper-2:        oklch(91.5% 0.008 250);
+      --paper-3:        oklch(99.2% 0.004 250);
+      --paper-4:        oklch(97.5% 0.005 250);
+      --ink:            oklch(16%   0.014 262);
+      --ink-2:          oklch(29%   0.014 262);
+      --ink-3:          oklch(40%   0.014 262);
+      --muted:          oklch(46%   0.015 260);
+      --rule:           oklch(80%   0.010 250);
+      --ink-rule:       oklch(32%   0.014 262);
+      --rule-subtle:    oklch(88%   0.008 250);
 
-      /* Wayfind Functional Signaling Accents */
-      --cobalt:      oklch(50% 0.23 264);
-      --cobalt-ink:  oklch(99.5% 0.002 250);
-      --amber:       oklch(80% 0.17 84);
-      --amber-ink:   oklch(16% 0.015 262);
-      --amber-bg:    oklch(94% 0.06 84);
-      --green:       oklch(56% 0.20 144);
-      --green-bg:    oklch(93% 0.06 144);
-      --green-ink:   oklch(15% 0.02 144);
-      --red:         oklch(52% 0.24 26);
-      --red-bg:      oklch(92% 0.07 26);
-      --red-ink:     oklch(99% 0.002 250);
+      --cobalt:         oklch(48%   0.24  264);
+      --cobalt-ink:     oklch(99.2% 0.004 250);
+      --cobalt-hover:   oklch(42%   0.24  264);
 
-      /* Departure Board Industrial Grays */
-      --board-bg:    oklch(18% 0.016 262);
-      --board-fg:    oklch(98% 0.005 250);
-      --board-amber: oklch(85% 0.18 84);
-      --board-green: oklch(72% 0.20 144);
-      --board-red:   oklch(65% 0.24 26);
+      --amber:          oklch(76%   0.17  80);
+      --amber-ink:      oklch(22%   0.08  80);
+      --amber-bg:       oklch(94%   0.05  80);
 
-      --font: "Chivo Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --green:          oklch(42%   0.18  144);
+      --green-bg:       oklch(93%   0.05  144);
+      --green-text:     oklch(26%   0.12  144);
+      --green-hover:    oklch(36%   0.18  144);
+
+      --red:            oklch(44%   0.24  26);
+      --red-bg:         oklch(93%   0.05  26);
+      --red-text:       oklch(28%   0.16  26);
+      --red-hover:      oklch(38%   0.24  26);
+
+      --board-bg:       oklch(17%   0.015 262);
+      --board-fg:       oklch(98%   0.005 250);
+      --board-line:     oklch(32%   0.015 262);
+      --board-amber:    oklch(82%   0.17  80);
+      --board-green:    oklch(74%   0.19  144);
+      --board-red:      oklch(68%   0.22  26);
+      --board-dim:      oklch(68%   0.015 260);
+      --board-dimmer:   oklch(48%   0.015 260);
+      --board-slot:     oklch(13%   0.015 262);
+      --board-hairline: oklch(22%   0.015 262);
+      --board-status-bg:oklch(22%   0.020 262);
+
+      --overlay-bg:     oklch(14%   0.014 262);
+      --shadow-color:   oklch(10%   0.014 262);
+
+      --font: "Chivo Mono", ui-monospace, monospace; /* taste-skill-ignore: wayfind theme - mono is the board body face */
 
       --bar:  2px;
       --hair: 1px;
@@ -58,20 +78,20 @@
       --space-lg:  1.5rem;
       --space-xl:  2.25rem;
 
-      --text-micro: clamp(0.625rem, 0.60rem + 0.12vw, 0.6875rem);
-      --text-label: clamp(0.6875rem, 0.65rem + 0.2vw, 0.75rem);
-      --text-body:  clamp(0.8125rem, 0.78rem + 0.25vw, 0.9375rem);
-      --text-title: clamp(1rem,      0.9rem  + 0.4vw, 1.25rem);
-      --text-hero:  clamp(1.5rem,    1.3rem  + 1.0vw, 2.25rem);
-      --text-stat:  clamp(2.1rem,    1.7rem  + 1.8vw, 3.8rem);
+      --text-micro: clamp(0.6875rem, 0.65rem + 0.12vw, 0.75rem);
+      --text-label: clamp(0.75rem,   0.72rem + 0.15vw, 0.8125rem);
+      --text-body:  clamp(0.8125rem, 0.78rem + 0.20vw, 0.9375rem);
+      --text-title: clamp(1rem,      0.95rem + 0.35vw, 1.25rem);
+      --text-hero:  clamp(1.35rem,   1.20rem + 0.80vw, 1.95rem);
+      --text-stat:  clamp(2.0rem,    1.65rem + 1.50vw, 3.4rem);
     }
 
-    /* ─── RESET & DEFAULTS ────────────────────────────────────────────────── */
+    /* ─── RESET AND DEFAULTS ──────────────────────────────────────────────── */
     *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      border-radius: 0 !important; /* Hallmark strict square corners */
+      border-radius: 0 !important;
     }
 
     html, body {
@@ -89,7 +109,9 @@
     h1, h2, h3, h4, h5 {
       font-weight: 800;
       line-height: 1.05;
-      letter-spacing: -0.025em;
+      text-wrap: balance;
+      overflow-wrap: break-word;
+      min-width: 0;
     }
 
     ::selection {
@@ -106,10 +128,10 @@
       width: 100%;
       max-width: 1540px;
       margin-inline: auto;
-      padding-inline: clamp(0.875rem, 2vw, 2rem);
+      padding-inline: var(--space-md);
     }
 
-    /* ─── TOP SYSTEM HEADER ────────────────────────────────────────────────── */
+    /* ─── TOP SYSTEM BAR ─────────────────────────────────────────────────── */
     header.top-bar {
       border-bottom: var(--bar) solid var(--ink);
       background: var(--paper-3);
@@ -135,30 +157,26 @@
     .brand-icon {
       background: var(--ink);
       color: var(--amber);
-      font-weight: 900;
+      font-weight: 800;
       font-size: var(--text-body);
-      padding: 0.25rem 0.5rem;
+      padding: var(--space-xxs) var(--space-xs);
       border: var(--bar) solid var(--ink);
-      letter-spacing: 0.05em;
     }
 
     .brand-name {
-      font-weight: 900;
+      font-weight: 800;
       font-size: var(--text-title);
-      letter-spacing: -0.04em;
-      text-transform: uppercase;
       display: flex;
       align-items: baseline;
-      gap: 0.35rem;
+      gap: var(--space-xxs);
     }
 
     .brand-name span.sub {
-      font-weight: 600;
+      font-weight: 500;
       font-size: var(--text-micro);
       color: var(--muted);
-      letter-spacing: 0.06em;
       border-left: var(--hair) solid var(--rule);
-      padding-left: 0.45rem;
+      padding-left: var(--space-xs);
     }
 
     .terminal-meta {
@@ -170,11 +188,11 @@
     .depot-badge {
       display: flex;
       align-items: center;
-      gap: 0.35rem;
+      gap: var(--space-xxs);
       border: var(--bar) solid var(--ink);
       background: var(--paper-2);
-      padding: 0.2rem 0.6rem;
-      font-size: var(--text-label);
+      padding: var(--space-xxs) var(--space-xs);
+      font-size: var(--text-micro);
       font-weight: 700;
     }
 
@@ -182,19 +200,18 @@
       background: transparent;
       border: none;
       font-family: var(--font);
-      font-size: var(--text-label);
-      font-weight: 800;
+      font-size: var(--text-micro);
+      font-weight: 700;
       color: var(--ink);
       cursor: pointer;
       outline: none;
-      text-transform: uppercase;
     }
 
     .clock-ticker {
-      font-size: var(--text-label);
+      font-size: var(--text-micro);
       font-weight: 700;
       color: var(--ink-2);
-      padding: 0.2rem 0.6rem;
+      padding: var(--space-xxs) var(--space-xs);
       border: var(--hair) solid var(--rule);
       background: var(--paper-3);
       display: none;
@@ -207,12 +224,12 @@
     .shift-alert-ticker {
       display: flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: var(--space-xxs);
       background: var(--board-bg);
       color: var(--board-amber);
-      font-size: var(--text-label);
-      font-weight: 800;
-      padding: 0.3rem 0.75rem;
+      font-size: var(--text-micro);
+      font-weight: 700;
+      padding: var(--space-xxs) var(--space-xs);
       border: var(--bar) solid var(--ink);
     }
 
@@ -224,11 +241,16 @@
       animation: blinker 1.2s steps(2, start) infinite;
     }
 
+    .shift-alert-ticker:hover span.pulse,
+    .shift-alert-ticker:focus-within span.pulse {
+      animation-play-state: paused;
+    }
+
     @keyframes blinker {
       to { visibility: hidden; }
     }
 
-    /* ─── HERO PLATFORM DEPARTURE BOARD ───────────────────────────────────── */
+    /* ─── PLATFORM DEPARTURE BOARD HERO ───────────────────────────────────── */
     .hero-board {
       background: var(--board-bg);
       color: var(--board-fg);
@@ -240,28 +262,26 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: var(--hair) solid oklch(35% 0.015 262);
-      padding-bottom: 0.5rem;
+      border-bottom: var(--hair) solid var(--board-line);
+      padding-bottom: var(--space-xs);
       margin-bottom: var(--space-md);
       font-size: var(--text-micro);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: oklch(70% 0.015 260);
+      color: var(--board-dim);
     }
 
     .board-grid {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: var(--space-sm);
     }
 
     @media (max-width: 1200px) {
-      .board-grid { grid-template-columns: repeat(3, 1fr); }
+      .board-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .board-cell:nth-child(4), .board-cell:nth-child(5) { grid-column: span 1.5; }
     }
 
     @media (max-width: 768px) {
-      .board-grid { grid-template-columns: 1fr 1fr; }
+      .board-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .board-cell:last-child { grid-column: span 2; }
     }
 
@@ -271,8 +291,8 @@
     }
 
     .board-cell {
-      background: oklch(14% 0.015 262);
-      border: var(--bar) solid oklch(35% 0.015 262);
+      background: var(--board-slot);
+      border: var(--bar) solid var(--board-line);
       padding: var(--space-sm) var(--space-md);
       display: flex;
       flex-direction: column;
@@ -287,83 +307,74 @@
       left: 0;
       right: 0;
       top: 50%;
-      height: 1px;
-      background: rgba(255, 255, 255, 0.04);
+      height: var(--hair);
+      background: var(--board-hairline);
       pointer-events: none;
     }
 
     .cell-label {
       font-size: var(--text-micro);
       font-weight: 700;
-      color: oklch(65% 0.015 260);
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
+      color: var(--board-dim);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     .cell-value {
-      font-size: clamp(1.35rem, 1.2rem + 0.8vw, 2.1rem);
-      font-weight: 900;
-      letter-spacing: -0.03em;
+      font-size: var(--text-stat);
+      font-weight: 800;
       color: var(--board-fg);
       white-space: nowrap;
-      margin-top: 0.2rem;
+      margin-top: var(--space-xxs);
     }
 
     .cell-sub {
       font-size: var(--text-micro);
-      color: oklch(75% 0.015 260);
+      color: var(--board-dim);
       font-weight: 500;
-      margin-top: 0.15rem;
+      margin-top: var(--space-xxs);
     }
 
     .board-cell.amber .cell-value { color: var(--board-amber); }
     .board-cell.red .cell-value   { color: var(--board-red); }
     .board-cell.green .cell-value { color: var(--board-green); }
 
-    /* Verdict Alert Billboard Plate */
     .board-cell.verdict {
-      background: oklch(22% 0.02 262);
+      background: var(--board-status-bg);
       border-color: var(--ink);
     }
 
     .board-cell.verdict.status-green {
-      background: oklch(24% 0.08 144);
-      border-color: var(--green);
+      border-color: var(--board-green);
     }
     .board-cell.verdict.status-amber {
-      background: oklch(26% 0.09 84);
-      border-color: var(--amber);
+      border-color: var(--board-amber);
     }
     .board-cell.verdict.status-red {
-      background: oklch(25% 0.12 26);
-      border-color: var(--red);
+      border-color: var(--board-red);
     }
 
     .verdict-tag {
       display: inline-block;
-      font-size: clamp(0.75rem, 0.7rem + 0.2vw, 0.875rem);
-      font-weight: 900;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      padding: 0.2rem 0.45rem;
+      font-size: var(--text-label);
+      font-weight: 800;
+      padding: var(--space-xxs) var(--space-xs);
       border: var(--bar) solid currentColor;
-      margin-top: 0.3rem;
+      margin-top: var(--space-xs);
       white-space: normal;
-      line-height: 1.2;
+      line-height: 1.25;
     }
 
     .status-green .verdict-tag { color: var(--board-green); border-color: var(--board-green); }
     .status-amber .verdict-tag { color: var(--board-amber); border-color: var(--board-amber); }
-    .status-red   .verdict-tag { color: oklch(90% 0.18 26); border-color: oklch(90% 0.18 26); background: rgba(0,0,0,0.3); }
+    .status-red   .verdict-tag { color: var(--board-red);   border-color: var(--board-red); }
 
-    /* ─── QUICK PRESET & DEMO SCENARIO TOOLBAR ────────────────────────────── */
+    /* ─── QUICK PRESET AND SCENARIO TOOLBAR ──────────────────────────────── */
     .preset-toolbar {
       border-bottom: var(--bar) solid var(--ink);
       background: var(--paper-2);
-      padding-block: 0.45rem;
+      padding-block: var(--space-xs);
     }
 
     .preset-toolbar-inner {
@@ -377,36 +388,43 @@
     .preset-group {
       display: flex;
       align-items: center;
-      gap: 0.35rem;
+      gap: var(--space-xs);
       flex-wrap: wrap;
     }
 
     .preset-label {
       font-size: var(--text-micro);
-      font-weight: 800;
+      font-weight: 700;
       color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-right: 0.25rem;
+      margin-right: var(--space-xxs);
     }
 
     .pill-btn {
       font-family: var(--font);
       font-size: var(--text-micro);
       font-weight: 700;
-      padding: 0.28rem 0.55rem;
+      padding: var(--space-xxs) var(--space-xs);
       border: var(--bar) solid var(--ink);
       background: var(--paper-3);
       color: var(--ink);
       cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
+      white-space: nowrap;
       transition: background-color 60ms steps(1), color 60ms steps(1);
     }
 
     .pill-btn:hover {
       background: var(--ink);
       color: var(--paper-3);
+    }
+
+    .pill-btn:active {
+      transform: translateY(1px);
+    }
+
+    .pill-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
     }
 
     .pill-btn.danger-demo {
@@ -420,7 +438,7 @@
       color: var(--paper-3);
     }
 
-    /* ─── MAIN DUAL PANE LAYOUT (INPUT + LIVE VERDICT) ─────────────────────── */
+    /* ─── MAIN DUAL PANE WORKSPACE ────────────────────────────────────────── */
     main.workspace-grid {
       display: grid;
       grid-template-columns: 1.15fr 0.85fr;
@@ -451,8 +469,6 @@
       font-size: var(--text-label);
       font-weight: 800;
       color: var(--ink);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
       margin-bottom: var(--space-md);
       display: flex;
       align-items: center;
@@ -469,20 +485,20 @@
     .section-title span.count-tag {
       background: var(--ink);
       color: var(--paper-3);
-      padding: 0.15rem 0.4rem;
+      padding: var(--space-xxs) var(--space-xs);
       font-size: var(--text-micro);
     }
 
-    /* Form Fields & Grid Rows */
+    /* Form Fields */
     .form-row {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: var(--space-md);
       margin-bottom: var(--space-md);
     }
 
     .form-row.col-3 {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     @media (max-width: 680px) {
@@ -492,14 +508,12 @@
     .field {
       display: flex;
       flex-direction: column;
-      gap: 0.25rem;
+      gap: var(--space-xxs);
     }
 
     .field label {
       font-size: var(--text-micro);
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      font-weight: 700;
       color: var(--ink-2);
       display: flex;
       justify-content: space-between;
@@ -508,7 +522,6 @@
     .field label span.hint {
       font-weight: 500;
       color: var(--muted);
-      text-transform: none;
     }
 
     .input-wrap {
@@ -524,9 +537,9 @@
     .input-addon {
       background: var(--paper-2);
       color: var(--ink);
-      font-size: var(--text-label);
+      font-size: var(--text-micro);
       font-weight: 700;
-      padding: 0.5rem 0.65rem;
+      padding: var(--space-xs) var(--space-sm);
       border-right: var(--hair) solid var(--rule);
       display: flex;
       align-items: center;
@@ -545,12 +558,18 @@
       width: 100%;
       border: none;
       outline: none;
-      padding: 0.5rem 0.65rem;
+      padding: var(--space-xs) var(--space-sm);
       font-family: var(--font);
       font-size: var(--text-body);
       font-weight: 700;
       color: var(--ink);
       background: transparent;
+    }
+
+    input:disabled,
+    select:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
     select {
@@ -561,17 +580,17 @@
       background-image: url("data:image/svg+xml;utf8,<svg fill='%23111827' height='18' viewBox='0 0 24 24' width='18' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
       background-repeat: no-repeat;
       background-position: right 0.65rem center;
-      padding-right: 2rem;
+      padding-right: var(--space-lg);
     }
 
     .field-note {
       font-size: var(--text-micro);
       color: var(--muted);
-      margin-top: 0.2rem;
-      line-height: 1.3;
+      margin-top: var(--space-xxs);
+      line-height: 1.35;
     }
 
-    /* Telematics Alert Banner */
+    /* Telematics Warning Flag */
     .telematics-flag {
       border: var(--bar) solid var(--amber);
       background: var(--amber-bg);
@@ -579,7 +598,7 @@
       padding: var(--space-sm) var(--space-md);
       font-size: var(--text-micro);
       font-weight: 700;
-      margin-top: -0.25rem;
+      margin-top: calc(-1 * var(--space-xxs));
       margin-bottom: var(--space-md);
       display: flex;
       align-items: center;
@@ -591,7 +610,7 @@
       display: none;
     }
 
-    /* ─── LIVE VERDICT & ACTION PANEL (RIGHT PANE) ────────────────────────── */
+    /* ─── LIVE VERDICT AND AUDIT PANEL ────────────────────────────────────── */
     .audit-card {
       border: var(--bar) solid var(--ink);
       background: var(--paper-3);
@@ -600,12 +619,10 @@
 
     .audit-card-title {
       font-size: var(--text-micro);
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+      font-weight: 700;
       color: var(--muted);
       border-bottom: var(--hair) solid var(--rule);
-      padding-bottom: 0.4rem;
+      padding-bottom: var(--space-xs);
       margin-bottom: var(--space-sm);
       display: flex;
       justify-content: space-between;
@@ -617,7 +634,7 @@
       padding: var(--space-md);
       text-align: center;
       margin-bottom: var(--space-md);
-      transition: all 120ms ease;
+      transition: background-color 60ms steps(1), border-color 60ms steps(1);
     }
 
     .variance-hero-banner.status-green {
@@ -635,19 +652,18 @@
 
     .variance-hero-title {
       font-size: var(--text-hero);
-      font-weight: 900;
-      letter-spacing: -0.04em;
-      line-height: 1;
+      font-weight: 800;
+      line-height: 1.1;
     }
 
-    .status-green .variance-hero-title { color: var(--green-ink); }
+    .status-green .variance-hero-title { color: var(--green-text); }
     .status-amber .variance-hero-title { color: var(--amber-ink); }
-    .status-red   .variance-hero-title { color: var(--red); }
+    .status-red   .variance-hero-title { color: var(--red-text); }
 
     .variance-hero-sub {
-      font-size: var(--text-label);
-      font-weight: 700;
-      margin-top: 0.35rem;
+      font-size: var(--text-micro);
+      font-weight: 600;
+      margin-top: var(--space-xs);
       color: var(--ink-2);
     }
 
@@ -659,19 +675,19 @@
     }
 
     .calc-breakdown-table td {
-      padding: 0.45rem 0.25rem;
+      padding: var(--space-xs) var(--space-xxs);
       border-bottom: var(--hair) solid var(--rule);
     }
 
     .calc-breakdown-table tr:last-child td {
       border-bottom: var(--bar) solid var(--ink);
-      font-weight: 900;
+      font-weight: 800;
       font-size: var(--text-title);
     }
 
     .calc-breakdown-table td.label-col {
       color: var(--ink-2);
-      font-weight: 600;
+      font-weight: 500;
       width: 58%;
     }
 
@@ -691,7 +707,7 @@
       color: var(--green);
     }
 
-    /* Primary Action Buttons */
+    /* Action Buttons */
     .action-stack {
       display: flex;
       flex-direction: column;
@@ -706,13 +722,22 @@
       font-family: var(--font);
       font-size: var(--text-label);
       font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      padding: 0.75rem 1rem;
+      white-space: nowrap;
+      padding: var(--space-sm) var(--space-md);
       border: var(--bar) solid var(--ink);
       cursor: pointer;
       text-decoration: none;
       transition: background-color 60ms steps(1), color 60ms steps(1);
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
     }
 
     .btn-primary {
@@ -730,7 +755,7 @@
       border-color: var(--red);
     }
     .btn-danger:hover {
-      background: oklch(45% 0.24 26);
+      background: var(--red-hover);
       color: var(--paper-3);
     }
 
@@ -749,7 +774,7 @@
       border-color: var(--green);
     }
     .btn-success:hover {
-      background: oklch(48% 0.20 144);
+      background: var(--green-hover);
     }
 
     .btn-group {
@@ -758,7 +783,7 @@
       gap: var(--space-sm);
     }
 
-    /* ─── BATCH TRIP AUDIT HISTORY TABLE ─────────────────────────────────── */
+    /* ─── SHIFT TRIP AUDIT HISTORY TABLE ─────────────────────────────────── */
     section.history-section {
       padding-block: var(--space-lg);
       background: var(--paper-3);
@@ -791,16 +816,14 @@
       background: var(--ink);
       color: var(--paper-3);
       font-size: var(--text-micro);
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 0.65rem 0.6rem;
+      font-weight: 700;
+      padding: var(--space-xs) var(--space-sm);
       text-align: left;
       border-right: var(--hair) solid var(--ink-rule);
     }
 
     table.history-table td {
-      padding: 0.6rem 0.6rem;
+      padding: var(--space-xs) var(--space-sm);
       border-bottom: var(--bar) solid var(--rule);
       border-right: var(--hair) solid var(--rule);
       vertical-align: middle;
@@ -811,38 +834,42 @@
     }
 
     table.history-table tr:hover td {
-      background: oklch(98% 0.03 264);
+      background: var(--paper-4);
     }
 
     .badge-status {
       display: inline-block;
       font-size: var(--text-micro);
-      font-weight: 900;
-      padding: 0.2rem 0.45rem;
+      font-weight: 800;
+      padding: var(--space-xxs) var(--space-xs);
       border: var(--bar) solid currentColor;
-      text-transform: uppercase;
       white-space: nowrap;
     }
 
-    .badge-status.b-green { color: var(--green); background: var(--green-bg); }
-    .badge-status.b-amber { color: var(--amber-ink); background: var(--amber-bg); }
-    .badge-status.b-red   { color: var(--red); background: var(--red-bg); }
+    .badge-status.b-green { color: var(--green-text); background: var(--green-bg); }
+    .badge-status.b-amber { color: var(--amber-ink);  background: var(--amber-bg); }
+    .badge-status.b-red   { color: var(--red-text);   background: var(--red-bg); }
 
     .tbl-action-btn {
       font-family: var(--font);
       font-size: var(--text-micro);
       font-weight: 700;
-      padding: 0.25rem 0.45rem;
+      padding: var(--space-xxs) var(--space-xs);
       border: var(--hair) solid var(--ink);
       background: var(--paper-3);
       cursor: pointer;
-      margin-right: 0.2rem;
-      text-transform: uppercase;
+      margin-right: var(--space-xxs);
+      white-space: nowrap;
+      transition: background-color 60ms steps(1), color 60ms steps(1);
     }
 
     .tbl-action-btn:hover {
       background: var(--ink);
       color: var(--paper-3);
+    }
+
+    .tbl-action-btn:active {
+      transform: translateY(1px);
     }
 
     .empty-state {
@@ -853,12 +880,11 @@
       background: var(--paper);
     }
 
-    /* ─── MODAL OVERLAYS (AOD SLIP & WHATSAPP GENERATOR) ─────────────────── */
+    /* ─── MODAL OVERLAYS (Solid Scrim, Zero Blur) ─────────────────────────── */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(15, 20, 28, 0.82);
-      backdrop-filter: blur(2px);
+      background: var(--overlay-bg);
       z-index: 500;
       display: flex;
       align-items: center;
@@ -879,13 +905,13 @@
       max-height: 92vh;
       display: flex;
       flex-direction: column;
-      box-shadow: 12px 12px 0px rgba(0, 0, 0, 0.5);
+      box-shadow: 10px 10px 0px var(--shadow-color);
     }
 
     .modal-header {
       background: var(--ink);
       color: var(--paper-3);
-      padding: var(--space-sm) var(--space-md);
+      padding: var(--space-xs) var(--space-md);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -894,9 +920,7 @@
 
     .modal-title {
       font-size: var(--text-label);
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
+      font-weight: 800;
     }
 
     .btn-close-modal {
@@ -904,10 +928,12 @@
       border: var(--hair) solid var(--paper-3);
       color: var(--paper-3);
       font-family: var(--font);
-      font-size: var(--text-label);
+      font-size: var(--text-micro);
       font-weight: 800;
-      padding: 0.2rem 0.5rem;
+      padding: var(--space-xxs) var(--space-xs);
       cursor: pointer;
+      white-space: nowrap;
+      transition: background-color 60ms steps(1), color 60ms steps(1);
     }
     .btn-close-modal:hover {
       background: var(--red);
@@ -930,137 +956,133 @@
       gap: var(--space-sm);
     }
 
-    /* ─── OFFICIAL PRINT-READY AOD SLIP STYLING (FORM AOD-104) ───────────── */
+    /* ─── PRINT-READY AOD SLIP STYLING (FORM AOD-104) ─────────────────────── */
     .aod-slip-container {
-      background: #ffffff;
-      color: #000000;
-      padding: 1.5rem;
-      border: 2px solid #000000;
+      background: var(--paper-3);
+      color: var(--ink);
+      padding: var(--space-lg);
+      border: var(--bar) solid var(--ink);
       font-family: var(--font);
     }
 
     .aod-header {
-      border-bottom: 2px solid #000000;
-      padding-bottom: 0.75rem;
-      margin-bottom: 1rem;
+      border-bottom: var(--bar) solid var(--ink);
+      padding-bottom: var(--space-xs);
+      margin-bottom: var(--space-md);
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
     }
 
     .aod-badge-stamp {
-      border: 2px solid #000000;
-      padding: 0.35rem 0.65rem;
-      font-weight: 900;
-      font-size: 0.75rem;
+      border: var(--bar) solid var(--ink);
+      padding: var(--space-xs) var(--space-sm);
+      font-weight: 800;
+      font-size: var(--text-micro);
       text-align: right;
     }
 
     .aod-doc-title {
-      font-size: 1.15rem;
-      font-weight: 900;
-      letter-spacing: -0.02em;
-      text-transform: uppercase;
-      line-height: 1.1;
+      font-size: var(--text-title);
+      font-weight: 800;
+      line-height: 1.15;
     }
 
     .aod-statutory-cite {
-      font-size: 0.6875rem;
-      color: #333333;
-      margin-top: 0.25rem;
-      font-weight: 600;
+      font-size: var(--text-micro);
+      color: var(--ink-2);
+      margin-top: var(--space-xxs);
+      font-weight: 500;
     }
 
     .aod-meta-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.75rem;
-      margin-bottom: 1rem;
-      border: 1px solid #000000;
-      padding: 0.75rem;
-      background: #fbfbfb;
-      font-size: 0.8125rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+      border: var(--hair) solid var(--ink);
+      padding: var(--space-sm);
+      background: var(--paper-4);
+      font-size: var(--text-micro);
     }
 
     .aod-meta-item {
       display: flex;
       justify-content: space-between;
-      border-bottom: 1px dotted #999999;
-      padding-bottom: 0.2rem;
+      border-bottom: var(--hair) solid var(--rule);
+      padding-bottom: var(--space-xxs);
     }
 
-    .aod-meta-item span.k { font-weight: 700; color: #444; }
-    .aod-meta-item span.v { font-weight: 800; color: #000; }
+    .aod-meta-item span.k { font-weight: 600; color: var(--ink-2); }
+    .aod-meta-item span.v { font-weight: 800; color: var(--ink); }
 
     .aod-table {
       width: 100%;
       border-collapse: collapse;
-      margin-bottom: 1.25rem;
-      font-size: 0.8125rem;
-      border: 2px solid #000;
+      margin-bottom: var(--space-md);
+      font-size: var(--text-micro);
+      border: var(--bar) solid var(--ink);
     }
 
     .aod-table th {
-      background: #eeeeee;
-      border: 1px solid #000;
-      padding: 0.45rem;
+      background: var(--paper-2);
+      border: var(--hair) solid var(--ink);
+      padding: var(--space-xs);
       text-align: left;
-      font-size: 0.7rem;
-      font-weight: 800;
-      text-transform: uppercase;
+      font-size: var(--text-micro);
+      font-weight: 700;
     }
 
     .aod-table td {
-      border: 1px solid #000;
-      padding: 0.45rem;
+      border: var(--hair) solid var(--ink);
+      padding: var(--space-xs);
     }
 
     .aod-table td.money {
-      font-weight: 900;
+      font-weight: 800;
       text-align: right;
     }
 
     .aod-legal-clause {
-      font-size: 0.7rem;
+      font-size: var(--text-micro);
       line-height: 1.45;
-      color: #222222;
-      border: 1px solid #000;
-      padding: 0.65rem;
-      margin-bottom: 1.25rem;
-      background: #fafafa;
+      color: var(--ink-2);
+      border: var(--hair) solid var(--ink);
+      padding: var(--space-sm);
+      margin-bottom: var(--space-md);
+      background: var(--paper-4);
     }
 
     .aod-sig-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin-top: 1.5rem;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-md);
+      margin-top: var(--space-lg);
     }
 
     .aod-sig-box {
-      border-top: 1px solid #000;
-      padding-top: 0.35rem;
-      font-size: 0.6875rem;
+      border-top: var(--hair) solid var(--ink);
+      padding-top: var(--space-xs);
+      font-size: var(--text-micro);
       text-align: center;
     }
 
     .aod-sig-line {
-      height: 38px;
+      height: 36px;
     }
 
     .aod-sig-title {
       font-weight: 800;
-      text-transform: uppercase;
     }
 
-    /* ─── WHATSAPP MODAL PREVIEW BOX ──────────────────────────────────────── */
+    /* WhatsApp Preview */
     .wa-preview-box {
-      background: #0b141a;
-      color: #e9edef;
+      background: var(--board-bg);
+      color: var(--board-fg);
       border: var(--bar) solid var(--ink);
       padding: var(--space-md);
       font-family: var(--font);
-      font-size: 0.8125rem;
+      font-size: var(--text-micro);
       white-space: pre-wrap;
       line-height: 1.5;
       user-select: all;
@@ -1068,11 +1090,23 @@
       overflow-y: auto;
     }
 
-    /* ─── PRINT MEDIA OVERRIDES (@media print) ────────────────────────────── */
+    /* ─── ACCESSIBILITY AND PREFERS-REDUCED-MOTION ────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .shift-alert-ticker span.pulse {
+        animation: none !important;
+      }
+    }
+
+    /* ─── PRINT MEDIA OVERRIDES ───────────────────────────────────────────── */
     @media print {
       body {
-        background: #ffffff !important;
-        color: #000000 !important;
+        background: var(--paper-3) !important;
+        color: var(--ink) !important;
         font-size: 10pt;
       }
       header.top-bar,
@@ -1090,7 +1124,6 @@
       .modal-overlay {
         position: static !important;
         background: transparent !important;
-        backdrop-filter: none !important;
         padding: 0 !important;
       }
       .modal-box {
@@ -1104,7 +1137,7 @@
         overflow: visible !important;
       }
       .aod-slip-container {
-        border: 2px solid #000000 !important;
+        border: var(--bar) solid var(--ink) !important;
         page-break-after: avoid;
       }
     }
@@ -1121,18 +1154,18 @@
         <div class="brand-icon">TG-1</div>
         <div class="brand-name">
           TRIPGUARD
-          <span class="sub">DIESEL SIPHON & FLEET DEBRIEF DISPUTE TERMINAL</span>
+          <span class="sub">Diesel siphon and fleet debrief dispute terminal</span>
         </div>
       </div>
 
       <div class="terminal-meta">
         <div class="depot-badge">
-          DEPOT:
+          Depot:
           <select id="activeDepotSelect" class="depot-select" aria-label="Select Active Fleet Depot">
-            <option value="East London (West Bank Depot)">EAST LONDON [EC-EL-01]</option>
-            <option value="Gqeberha (Deal Party Depot)">GQEBERHA [EC-PLZ-02]</option>
-            <option value="Johannesburg (City Deep Freight Hub)" selected>JOHANNESBURG [GP-JHB-04]</option>
-            <option value="Durban (Bayhead Port Terminal)">DURBAN [KZN-DBN-03]</option>
+            <option value="East London (West Bank Depot)">East London [EC-EL-01]</option>
+            <option value="Gqeberha (Deal Party Depot)">Gqeberha [EC-PLZ-02]</option>
+            <option value="Johannesburg (City Deep Freight Hub)" selected>Johannesburg [GP-JHB-04]</option>
+            <option value="Durban (Bayhead Port Terminal)">Durban [KZN-DBN-03]</option>
           </select>
         </div>
 
@@ -1142,28 +1175,28 @@
 
         <div class="shift-alert-ticker">
           <span class="pulse"></span>
-          <span id="shiftLossTicker">SHIFT LOSS: R 0.00 | 0.0 L BLEED</span>
+          <span id="shiftLossTicker">Shift loss: R 0.00 | 0.0 L bleed</span>
         </div>
       </div>
     </div>
   </header>
 
   <!-- ══════════════════════════════════════════════════════════════════════════
-       2. HERO PLATFORM DEPARTURE BOARD (High-Density Telemetry Plates)
+       2. HERO PLATFORM DEPARTURE BOARD
        ══════════════════════════════════════════════════════════════════════════ -->
   <section class="hero-board">
     <div class="wrap">
       <div class="board-header">
-        <span>PLATFORM MONITOR · REAL-TIME DEBRIEF VARIANCE BILLBOARD</span>
-        <span>STANDARDS: NBCRFLI & BCEA SEC 34 COMPLIANT</span>
+        <span>Platform monitor: real-time debrief variance billboard</span>
+        <span>Statutory standards: NBCRFLI &amp; BCEA Section 34 compliant</span>
       </div>
 
       <div class="board-grid">
         <!-- Plate 1: Actual Consumption -->
         <div class="board-cell">
           <div class="cell-label">
-            <span>ACTUAL CONSUMPTION</span>
-            <span>L/100KM</span>
+            <span>Actual consumption</span>
+            <span>L/100km</span>
           </div>
           <div id="plateActualConsumption" class="cell-value">0.00</div>
           <div id="plateActualKmL" class="cell-sub">0.00 km / Litre</div>
@@ -1172,40 +1205,40 @@
         <!-- Plate 2: Baseline Allowance -->
         <div class="board-cell">
           <div class="cell-label">
-            <span>BASELINE ALLOWANCE</span>
-            <span>STANDARD</span>
+            <span>Baseline allowance</span>
+            <span>Standard</span>
           </div>
           <div id="plateBaselineRate" class="cell-value">48.00</div>
-          <div class="cell-sub">34-Ton Interlink Preset</div>
+          <div class="cell-sub">34-Ton Interlink preset</div>
         </div>
 
         <!-- Plate 3: Litres Bleed / Siphon -->
         <div id="plateVarianceCell" class="board-cell red">
           <div class="cell-label">
-            <span>UNACCOUNTED BLEED</span>
-            <span>VARIANCE</span>
+            <span>Unaccounted bleed</span>
+            <span>Variance</span>
           </div>
           <div id="plateVarianceLitres" class="cell-value">+0.0 L</div>
-          <div id="plateVariancePct" class="cell-sub">0.0% vs Baseline</div>
+          <div id="plateVariancePct" class="cell-sub">0.0% vs baseline</div>
         </div>
 
         <!-- Plate 4: Total Financial Loss (ZAR) -->
         <div class="board-cell amber">
           <div class="cell-label">
-            <span>FINANCIAL RECOVERY</span>
-            <span>ZAR (EX VAT)</span>
+            <span>Financial recovery</span>
+            <span>ZAR ex VAT</span>
           </div>
           <div id="plateFinancialLoss" class="cell-value">R 0.00</div>
-          <div class="cell-sub">Payable Under AOD Slip</div>
+          <div class="cell-sub">Payable under AOD notice</div>
         </div>
 
         <!-- Plate 5: Real-time Verdict Status -->
         <div id="plateStatusBadge" class="board-cell verdict status-green">
           <div class="cell-label">
-            <span>DEBRIEF AUDIT VERDICT</span>
-            <span>STATUS</span>
+            <span>Debrief audit verdict</span>
+            <span>Status</span>
           </div>
-          <div id="plateStatusDescription" class="verdict-tag">CLEAR - DEBRIEF APPROVED</div>
+          <div id="plateStatusDescription" class="verdict-tag">Clear - debrief approved</div>
           <div class="cell-sub">Variance within 3.0% threshold</div>
         </div>
       </div>
@@ -1213,24 +1246,24 @@
   </section>
 
   <!-- ══════════════════════════════════════════════════════════════════════════
-       3. QUICK PRESET & DEMO SCENARIO STRIP
+       3. QUICK PRESET & DEMO SCENARIO TOOLBAR
        ══════════════════════════════════════════════════════════════════════════ -->
   <div class="preset-toolbar">
     <div class="wrap preset-toolbar-inner">
       <div class="preset-group">
-        <span class="preset-label">TRUCK CLASS PRESETS:</span>
-        <button type="button" class="pill-btn" onclick="applyTruckPreset('interlink34')">34T INTERLINK (48L)</button>
-        <button type="button" class="pill-btn" onclick="applyTruckPreset('triaxle28')">28T TRIAXLE (38L)</button>
-        <button type="button" class="pill-btn" onclick="applyTruckPreset('rigid14')">14T HINO (28L)</button>
-        <button type="button" class="pill-btn" onclick="applyTruckPreset('rigid8')">8T FREIGHTLINER (20L)</button>
-        <button type="button" class="pill-btn" onclick="applyTruckPreset('ldd4')">4T LDD (15L)</button>
+        <span class="preset-label">Truck class presets:</span>
+        <button type="button" class="pill-btn" onclick="applyTruckPreset('interlink34')">34t Interlink (48L)</button>
+        <button type="button" class="pill-btn" onclick="applyTruckPreset('triaxle28')">28t Triaxle (38L)</button>
+        <button type="button" class="pill-btn" onclick="applyTruckPreset('rigid14')">14t Hino (28L)</button>
+        <button type="button" class="pill-btn" onclick="applyTruckPreset('rigid8')">8t Freightliner (20L)</button>
+        <button type="button" class="pill-btn" onclick="applyTruckPreset('ldd4')">4t Delivery (15L)</button>
       </div>
 
       <div class="preset-group">
-        <span class="preset-label">DISPUTE SCENARIOS:</span>
-        <button type="button" id="btnDemoTheft" class="pill-btn danger-demo">LOAD SIPHON THEFT (+26%)</button>
-        <button type="button" id="btnDemoFlagged" class="pill-btn">LOAD IDLE FLAGGED (+6%)</button>
-        <button type="button" id="btnDemoClear" class="pill-btn">LOAD NORMAL CLEAR (1%)</button>
+        <span class="preset-label">Dispute scenarios:</span>
+        <button type="button" id="btnDemoTheft" class="pill-btn danger-demo">Load siphon theft (+26%)</button>
+        <button type="button" id="btnDemoFlagged" class="pill-btn">Load idle flagged (+6%)</button>
+        <button type="button" id="btnDemoClear" class="pill-btn">Load normal clear (1%)</button>
       </div>
     </div>
   </div>
@@ -1243,13 +1276,13 @@
     <div class="pane-left">
       <div class="section-title">
         <span class="count-tag">01</span>
-        TRIP TELEMETRY & VEHICLE SPECIFICATION
+        Trip telemetry and vehicle specification
       </div>
 
       <!-- Row 1: Vehicle & Class Preset -->
       <div class="form-row">
         <div class="field">
-          <label for="truckClassSelect">TRUCK CLASS & BASELINE PRESET</label>
+          <label for="truckClassSelect">Truck class and baseline preset</label>
           <div class="input-wrap">
             <select id="truckClassSelect">
               <option value="48.0" selected>34-Ton Interlink (Baseline: 48.0 L/100km | 2.08 km/L)</option>
@@ -1257,15 +1290,15 @@
               <option value="28.0">14-Tonner Rigid Hino / Isuzu (Baseline: 28.0 L/100km | 3.57 km/L)</option>
               <option value="20.0">8-Tonner Freightliner / UD (Baseline: 20.0 L/100km | 5.00 km/L)</option>
               <option value="15.0">4-Ton Light Delivery / NPR (Baseline: 15.0 L/100km | 6.67 km/L)</option>
-              <option value="custom">Custom Specified Class...</option>
+              <option value="custom">Custom specified class…</option>
             </select>
           </div>
         </div>
 
         <div class="field">
           <label for="vehicleRegInput">
-            VEHICLE REGISTRATION / FLEET ID
-            <span class="hint">HORSE & TRAILER</span>
+            Vehicle registration / fleet ID
+            <span class="hint">Horse and trailer</span>
           </label>
           <div class="input-wrap">
             <input type="text" id="vehicleRegInput" value="CA 842-991" placeholder="e.g. CA 842-991 / ND 593-102">
@@ -1277,7 +1310,7 @@
       <!-- Row 2: Driver & Route -->
       <div class="form-row">
         <div class="field">
-          <label for="driverNameInput">DRIVER NAME & STAFF ID</label>
+          <label for="driverNameInput">Driver name and staff ID</label>
           <div class="input-wrap">
             <input type="text" id="driverNameInput" value="Sipho Ndlovu" placeholder="Driver Full Name">
             <input type="text" id="staffIdInput" value="EMP-4402" placeholder="Staff ID" style="max-width: 120px; border-left: var(--hair) solid var(--rule);">
@@ -1285,123 +1318,123 @@
         </div>
 
         <div class="field">
-          <label for="routeSelect">ROUTE CORRIDOR & TERRAIN</label>
+          <label for="routeSelect">Route corridor and terrain</label>
           <div class="input-wrap">
             <select id="routeSelect">
-              <option value="JHB City Deep ⇄ DBN Bayhead (N3 Corridor)" selected>JHB City Deep ⇄ DBN Bayhead (N3 Corridor · 570 km)</option>
-              <option value="JHB ⇄ CPT (N1 Karoo Corridor)">JHB ⇄ CPT (N1 Karoo Corridor · 1,400 km)</option>
-              <option value="Gqeberha (PE) ⇄ East London (R72 / N2)">Gqeberha (PE) ⇄ East London (R72 / N2 · 290 km)</option>
-              <option value="East London ⇄ JHB (N6 / N1)">East London ⇄ JHB (N6 / N1 · 980 km)</option>
-              <option value="Durban ⇄ East London (N2 Coastline)">Durban ⇄ East London (N2 Coastline · 660 km)</option>
-              <option value="custom">Custom Route / Local Delivery...</option>
+              <option value="JHB City Deep ⇄ DBN Bayhead (N3 Corridor)" selected>JHB City Deep ⇄ DBN Bayhead (N3 Corridor, 570 km)</option>
+              <option value="JHB ⇄ CPT (N1 Karoo Corridor)">JHB ⇄ CPT (N1 Karoo Corridor, 1,400 km)</option>
+              <option value="Gqeberha (PE) ⇄ East London (R72 / N2)">Gqeberha (PE) ⇄ East London (R72 / N2, 290 km)</option>
+              <option value="East London ⇄ JHB (N6 / N1)">East London ⇄ JHB (N6 / N1, 980 km)</option>
+              <option value="Durban ⇄ East London (N2 Coastline)">Durban ⇄ East London (N2 Coastline, 660 km)</option>
+              <option value="custom">Custom route / local delivery…</option>
             </select>
           </div>
         </div>
       </div>
 
       <div class="field" style="margin-bottom: var(--space-md);">
-        <label for="customRouteInput">CUSTOM ROUTE / MANIFEST NOTES</label>
+        <label for="customRouteInput">Custom route / manifest notes</label>
         <div class="input-wrap">
-          <input type="text" id="customRouteInput" value="Trip Manifest #TR-88190 · Full 34T Container Shunt" placeholder="Specific corridor notes, cargo load, or waybill numbers">
+          <input type="text" id="customRouteInput" value="Trip Manifest #TR-88190, Full 34T Container Shunt" placeholder="Specific corridor notes, cargo load, or waybill numbers">
         </div>
       </div>
 
       <div class="section-title">
         <span class="count-tag">02</span>
-        ODOMETER & TELEMATICS VERIFICATION
+        Odometer and telematics verification
       </div>
 
       <!-- Row 3: Odo Start, Odo End, Calculated Km -->
       <div class="form-row col-3">
         <div class="field">
-          <label for="odoStartInput">ODOMETER START</label>
+          <label for="odoStartInput">Odometer start</label>
           <div class="input-wrap">
             <input type="number" id="odoStartInput" value="384210" step="1" min="0">
-            <span class="input-addon addon-right">KM</span>
+            <span class="input-addon addon-right">km</span>
           </div>
         </div>
 
         <div class="field">
-          <label for="odoEndInput">ODOMETER END</label>
+          <label for="odoEndInput">Odometer end</label>
           <div class="input-wrap">
             <input type="number" id="odoEndInput" value="384780" step="1" min="0">
-            <span class="input-addon addon-right">KM</span>
+            <span class="input-addon addon-right">km</span>
           </div>
         </div>
 
         <div class="field">
-          <label for="totalDistanceInput">AUDITED TOTAL KM</label>
+          <label for="totalDistanceInput">Audited total km</label>
           <div class="input-wrap">
-            <input type="number" id="totalDistanceInput" value="570" readonly style="background: var(--paper-2); font-weight: 900;">
-            <span class="input-addon addon-right">KM</span>
+            <input type="number" id="totalDistanceInput" value="570" readonly style="background: var(--paper-2); font-weight: 800;">
+            <span class="input-addon addon-right">km</span>
           </div>
         </div>
       </div>
 
-      <!-- Row 4: GPS Telematics Verification (Ctrack / MiX Telematics) -->
+      <!-- Row 4: GPS Telematics Verification -->
       <div class="form-row">
         <div class="field">
           <label for="gpsDistanceInput">
-            CTRACK / MIX TELEMATICS GPS KM
-            <span class="hint">SATELLITE AUDIT</span>
+            Ctrack / MiX Telematics GPS km
+            <span class="hint">Satellite audit</span>
           </label>
           <div class="input-wrap">
             <input type="number" id="gpsDistanceInput" value="568" step="1" min="0" placeholder="GPS Tracking verified distance">
-            <span class="input-addon addon-right">KM</span>
+            <span class="input-addon addon-right">km</span>
           </div>
           <div class="field-note">Compares wheel hubodometer against satellite breadcrumb tracking to detect speedo disconnection.</div>
         </div>
 
         <div class="field">
           <label for="baselineRateInput">
-            BASELINE CONSUMPTION RATE
-            <span class="hint">OVERRIDE PERMITTED</span>
+            Baseline consumption rate
+            <span class="hint">Override permitted</span>
           </label>
           <div class="input-wrap">
             <input type="number" id="baselineRateInput" value="48.0" step="0.1" min="5" max="100">
-            <span class="input-addon addon-right">L / 100KM</span>
+            <span class="input-addon addon-right">L / 100km</span>
           </div>
-          <div class="field-note">Default engineering allowance for fleet class. Override if mountain pass / heavy headwind documented.</div>
+          <div class="field-note">Default engineering allowance for fleet class. Override if mountain pass or heavy headwind documented.</div>
         </div>
       </div>
 
       <!-- Telematics Discrepancy Warning Flag -->
       <div id="gpsVarianceWarning" class="telematics-flag hidden">
         <div>
-          <strong>⚠️ TELEMATICS DISCREPANCY DETECTED:</strong>
-          <span id="gpsVarianceText">Odometer distance differs from GPS tracking by >3.0%. Inspect hubodometer seal for speedo cable tampering.</span>
+          <strong>[FLAG] Telematics discrepancy detected:</strong>
+          <span id="gpsVarianceText">Odometer distance differs from GPS tracking by &gt;3.0%. Inspect hubodometer seal for speedo cable tampering.</span>
         </div>
-        <button type="button" id="applyGpsBtn" class="pill-btn">USE GPS DISTANCE</button>
+        <button type="button" id="applyGpsBtn" class="pill-btn">Use GPS distance</button>
       </div>
 
       <div class="section-title">
         <span class="count-tag">03</span>
-        FUEL RE-FUELLING & CARD EXPENDITURE
+        Fuel refuelling and card expenditure
       </div>
 
       <!-- Row 5: Diesel Pumped, Tariff Type, Price Per Litre -->
       <div class="form-row col-3">
         <div class="field">
-          <label for="dieselPumpedInput">DIESEL PUMPED / BILLED</label>
+          <label for="dieselPumpedInput">Diesel pumped / billed</label>
           <div class="input-wrap">
             <input type="number" id="dieselPumpedInput" value="345.0" step="0.1" min="0">
-            <span class="input-addon addon-right">LITRES</span>
+            <span class="input-addon addon-right">Litres</span>
           </div>
         </div>
 
         <div class="field">
-          <label for="fuelTariffType">PUMP LOCATION / RATE</label>
+          <label for="fuelTariffType">Pump location / rate</label>
           <div class="input-wrap">
             <select id="fuelTariffType">
               <option value="23.50" selected>En-route Card (Retail R23.50/L)</option>
               <option value="21.80">Depot Bulk Bowser (Wholesale R21.80/L)</option>
-              <option value="custom">Custom Price Per Litre...</option>
+              <option value="custom">Custom price per litre…</option>
             </select>
           </div>
         </div>
 
         <div class="field">
-          <label for="fuelPriceInput">FUEL RATE APPLIED</label>
+          <label for="fuelPriceInput">Fuel rate applied</label>
           <div class="input-wrap">
             <span class="input-addon">R</span>
             <input type="number" id="fuelPriceInput" value="23.50" step="0.05" min="5">
@@ -1413,22 +1446,22 @@
       <!-- Row 6: Total Fuel Card Cost & Terrain Fine Tuning -->
       <div class="form-row">
         <div class="field">
-          <label for="totalFuelCostInput">TOTAL FUEL CARD / SLIP INVOICE</label>
+          <label for="totalFuelCostInput">Total fuel card / slip invoice</label>
           <div class="input-wrap">
             <span class="input-addon">ZAR</span>
             <input type="number" id="totalFuelCostInput" value="8107.50" step="0.50" min="0">
           </div>
-          <div class="field-note">Auto-synchronizes with `Litres × Price/L`. Editing this auto-derives exact pump tariff.</div>
+          <div class="field-note">Auto-synchronizes with pumped litres and price per litre. Editing auto-derives exact tariff.</div>
         </div>
 
         <div class="field">
-          <label for="terrainSelect">ROUTE LOAD / CONGESTION MODIFIER</label>
+          <label for="terrainSelect">Route load / congestion modifier</label>
           <div class="input-wrap">
             <select id="terrainSelect">
-              <option value="1.00" selected>Standard Legal Payload (100% Baseline)</option>
-              <option value="1.08">Heavy Mountain Pass / Van Reenen (+8% Allowance)</option>
-              <option value="1.05">High Port Congestion / City Idle (+5% Allowance)</option>
-              <option value="0.90">Empty Return / Deadhead (-10% Allowance)</option>
+              <option value="1.00" selected>Standard legal payload (100% baseline)</option>
+              <option value="1.08">Heavy mountain pass / Van Reenen (+8% allowance)</option>
+              <option value="1.05">High port congestion / city idle (+5% allowance)</option>
+              <option value="0.90">Empty return / deadhead (-10% allowance)</option>
             </select>
           </div>
         </div>
@@ -1439,59 +1472,59 @@
     <div class="pane-right">
       <div class="section-title">
         <span class="count-tag">04</span>
-        LIVE VARIANCE & BLEED RECONCILIATION
+        Live variance and bleed reconciliation
       </div>
 
       <!-- Big Status Banner -->
       <div id="outVerdictBox" class="variance-hero-banner status-red">
-        <div class="cell-label" style="justify-content: center; margin-bottom: 0.25rem;">DEBRIEF STATUS AUDIT</div>
-        <div id="outDebriefVerdict" class="variance-hero-title">THEFT ALERT: UNEXPLAINED DIESEL SIPHON CONFIRMED</div>
+        <div class="cell-label" style="justify-content: center; margin-bottom: var(--space-xxs);">Debrief status audit</div>
+        <div id="outDebriefVerdict" class="variance-hero-title">Theft alert: unexplained diesel siphon confirmed</div>
         <div id="outVerdictDetails" class="variance-hero-sub">Consumption variance of +26.1% exceeds the 8.0% forensic investigation threshold.</div>
       </div>
 
       <!-- Forensic Accounting Breakdown Table -->
       <div class="audit-card">
         <div class="audit-card-title">
-          <span>MATHEMATICAL RECONCILIATION</span>
-          <span>CURRENCY: ZAR</span>
+          <span>Mathematical reconciliation</span>
+          <span>Currency: ZAR</span>
         </div>
 
         <table class="calc-breakdown-table">
           <tbody>
             <tr>
-              <td class="label-col">Trip Distance Audited</td>
+              <td class="label-col">Trip distance audited</td>
               <td id="outDistanceKm" class="val-col">570.0 km</td>
             </tr>
             <tr>
-              <td class="label-col">Authorized Baseline Rate</td>
+              <td class="label-col">Authorized baseline rate</td>
               <td id="outBaselineRate" class="val-col">48.0 L / 100km</td>
             </tr>
             <tr>
-              <td class="label-col">Expected Diesel Allowance</td>
+              <td class="label-col">Expected diesel allowance</td>
               <td id="outExpectedLitres" class="val-col">273.60 Litres</td>
             </tr>
             <tr>
-              <td class="label-col">Actual Diesel Pumped / Billed</td>
+              <td class="label-col">Actual diesel pumped / billed</td>
               <td id="outActualLitres" class="val-col">345.00 Litres</td>
             </tr>
             <tr>
-              <td class="label-col">Actual Consumption Achieved</td>
+              <td class="label-col">Actual consumption achieved</td>
               <td id="outActualL100" class="val-col" style="color: var(--red);">60.53 L / 100km</td>
             </tr>
             <tr>
-              <td class="label-col">Variance Percentage</td>
+              <td class="label-col">Variance percentage</td>
               <td id="outVariancePct" class="val-col bleed-red">+26.10%</td>
             </tr>
             <tr>
-              <td class="label-col">Unaccounted Diesel Bleed</td>
+              <td class="label-col">Unaccounted diesel bleed</td>
               <td id="outBleedLitres" class="val-col bleed-red">+71.40 Litres</td>
             </tr>
             <tr>
-              <td class="label-col">Tariff Applied Per Litre</td>
+              <td class="label-col">Tariff applied per litre</td>
               <td id="outTariffRate" class="val-col">R 23.50 / L</td>
             </tr>
             <tr>
-              <td class="label-col"><strong>TOTAL RECOVERABLE LOSS</strong></td>
+              <td class="label-col"><strong>Total recoverable loss</strong></td>
               <td id="outBleedCost" class="val-col bleed-red" style="font-size: 1.4rem;">R 1,677.90</td>
             </tr>
           </tbody>
@@ -1499,29 +1532,29 @@
 
         <!-- Telematics discrepancy notice if any -->
         <div id="telematicsAlertBox" class="field-note" style="color: var(--amber-ink); font-weight: 700; display: none;">
-          ℹ️ Telematics check: GPS tracking confirms 568 km vs 570 km hubodometer.
+          [Audit] Telematics check: GPS tracking confirms 568 km vs 570 km hubodometer.
         </div>
       </div>
 
       <!-- Action Stack -->
       <div class="action-stack">
         <button type="button" id="btnLogTrip" class="btn btn-primary">
-          💾 LOG TRIP TO CURRENT SHIFT AUDIT
+          Log trip to current shift audit
         </button>
 
         <div class="btn-group">
           <button type="button" id="btnGenerateAod" class="btn btn-danger">
-            📄 GENERATE DRIVER AOD SLIP
+            Generate driver AOD notice
           </button>
           <button type="button" id="btnWhatsAppCopy" class="btn btn-secondary">
-            💬 WHATSAPP DISPUTE COPY
+            WhatsApp debrief copy
           </button>
         </div>
       </div>
 
       <!-- Statutory Compliance Note -->
       <div class="audit-card" style="font-size: var(--text-micro); line-height: 1.4; color: var(--muted);">
-        <strong>LEGAL GOVERNANCE:</strong>
+        <strong>Legal governance:</strong>
         Payroll deduction for fuel theft requires compliant acknowledgement in terms of Section 34 of the Basic Conditions of Employment Act (Act 75 of 1997) and the NBCRFLI Main Collective Agreement. Generating Form AOD-104 provides the statutory evidentiary trail.
       </div>
     </div>
@@ -1534,53 +1567,53 @@
     <div class="wrap">
       <div class="history-head-cluster">
         <div>
-          <div class="section-title" style="margin-bottom: 0.25rem;">
+          <div class="section-title" style="margin-bottom: var(--space-xxs);">
             <span class="count-tag">05</span>
-            SHIFT TRIP AUDIT REGISTER & ACCUMULATED FLEET BLEED
+            Shift trip audit register and accumulated fleet bleed
           </div>
-          <div style="font-size: var(--text-label); color: var(--muted);">
-            Active Depot Shift Log · Auto-persisted in terminal storage · Generates shift handover reports
+          <div style="font-size: var(--text-micro); color: var(--muted);">
+            Active depot shift log, auto-persisted in terminal storage for shift handover reporting
           </div>
         </div>
 
         <div style="display: flex; gap: var(--space-sm); align-items: center;">
-          <button type="button" id="btnExportCsv" class="pill-btn">EXPORT SHIFT CSV</button>
-          <button type="button" id="btnClearHistory" class="pill-btn" style="color: var(--red);">CLEAR SHIFT LOG</button>
+          <button type="button" id="btnExportCsv" class="pill-btn">Export shift CSV</button>
+          <button type="button" id="btnClearHistory" class="pill-btn" style="color: var(--red);">Clear shift log</button>
         </div>
       </div>
 
       <!-- Shift Summary Metrics Bar -->
       <div class="board-grid" style="margin-bottom: var(--space-md);">
         <div class="board-cell" style="background: var(--paper-2); border-color: var(--ink);">
-          <div class="cell-label" style="color: var(--ink-2);">TRIPS AUDITED</div>
+          <div class="cell-label" style="color: var(--ink-2);">Trips audited</div>
           <div id="shiftTotalTrips" class="cell-value" style="color: var(--ink);">0</div>
           <div class="cell-sub" style="color: var(--muted);">Shift total</div>
         </div>
 
         <div class="board-cell" style="background: var(--paper-2); border-color: var(--ink);">
-          <div class="cell-label" style="color: var(--ink-2);">TOTAL KM AUDITED</div>
+          <div class="cell-label" style="color: var(--ink-2);">Total km audited</div>
           <div id="shiftTotalKm" class="cell-value" style="color: var(--ink);">0 km</div>
           <div class="cell-sub" style="color: var(--muted);">Combined fleet distance</div>
         </div>
 
         <div class="board-cell red" style="background: var(--paper-2); border-color: var(--red);">
-          <div class="cell-label" style="color: var(--red);">FLEET DIESEL BLEED</div>
+          <div class="cell-label" style="color: var(--red);">Fleet diesel bleed</div>
           <div id="shiftTotalBleedLitres" class="cell-value" style="color: var(--red);">0.0 L</div>
           <div class="cell-sub" style="color: var(--muted);">Total unaccounted fuel</div>
         </div>
 
         <div class="board-cell amber" style="background: var(--paper-2); border-color: var(--ink);">
-          <div class="cell-label" style="color: var(--ink);">FINANCIAL BLEED</div>
+          <div class="cell-label" style="color: var(--ink);">Financial bleed</div>
           <div id="shiftTotalLossZar" class="cell-value" style="color: var(--amber-ink);">R 0.00</div>
           <div class="cell-sub" style="color: var(--muted);">Direct financial loss</div>
         </div>
 
         <div class="board-cell" style="background: var(--paper-2); border-color: var(--ink);">
-          <div class="cell-label" style="color: var(--ink-2);">AUDIT BREAKDOWN</div>
-          <div style="font-size: var(--text-label); font-weight: 800; margin-top: 0.4rem;">
-            <span id="shiftClearCount" style="color: var(--green);">0 CLEAR</span> ·
-            <span id="shiftFlaggedCount" style="color: var(--amber-ink);">0 FLAGGED</span> ·
-            <span id="shiftTheftCount" style="color: var(--red);">0 THEFT</span>
+          <div class="cell-label" style="color: var(--ink-2);">Audit breakdown</div>
+          <div style="font-size: var(--text-label); font-weight: 800; margin-top: var(--space-xxs);">
+            <span id="shiftClearCount" style="color: var(--green);">0 Clear</span>,
+            <span id="shiftFlaggedCount" style="color: var(--amber-ink);">0 Flagged</span>,
+            <span id="shiftTheftCount" style="color: var(--red);">0 Theft</span>
           </div>
           <div class="cell-sub" style="color: var(--muted);">Shift compliance ratio</div>
         </div>
@@ -1591,18 +1624,18 @@
         <table class="history-table">
           <thead>
             <tr>
-              <th>TIME</th>
-              <th>VEHICLE REG & FLEET #</th>
-              <th>DRIVER (STAFF ID)</th>
-              <th>ROUTE CORRIDOR</th>
-              <th>DISTANCE</th>
-              <th>EXPECTED</th>
-              <th>PUMPED</th>
-              <th>ACTUAL L/100</th>
-              <th>BLEED (LITRES)</th>
-              <th>FINANCIAL LOSS</th>
-              <th>STATUS VERDICT</th>
-              <th>ACTIONS</th>
+              <th>Time</th>
+              <th>Vehicle reg &amp; fleet #</th>
+              <th>Driver (Staff ID)</th>
+              <th>Route corridor</th>
+              <th>Distance</th>
+              <th>Expected</th>
+              <th>Pumped</th>
+              <th>Actual L/100</th>
+              <th>Bleed (Litres)</th>
+              <th>Financial loss</th>
+              <th>Status verdict</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody id="historyTableBody">
@@ -1612,7 +1645,7 @@
       </div>
 
       <div id="emptyHistoryNotice" class="empty-state">
-        No trips logged in current shift. Complete the debrief form above and click "LOG TRIP TO CURRENT SHIFT AUDIT".
+        No trips logged in current shift. Complete the debrief form above and click “Log trip to current shift audit”.
       </div>
     </div>
   </section>
@@ -1623,8 +1656,8 @@
   <div id="aodModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="aodModalTitle">
     <div class="modal-box">
       <div class="modal-header">
-        <div id="aodModalTitle" class="modal-title">FORM AOD-104 · ACKNOWLEDGEMENT OF DEBT & DISCIPLINARY NOTICE</div>
-        <button type="button" id="btnCloseAod" class="btn-close-modal">✕ CLOSE</button>
+        <div id="aodModalTitle" class="modal-title">Form AOD-104: Acknowledgement of Debt and Disciplinary Notice</div>
+        <button type="button" id="btnCloseAod" class="btn-close-modal">Close</button>
       </div>
 
       <div class="modal-body">
@@ -1632,41 +1665,41 @@
           <!-- AOD Header -->
           <div class="aod-header">
             <div>
-              <div class="aod-doc-title">FORM AOD-104: FLEET DEBRIEF DIESEL VARIANCE NOTICE</div>
+              <div class="aod-doc-title">Form AOD-104: Fleet debrief diesel variance notice</div>
               <div class="aod-statutory-cite">
-                ISSUED IN ACCORDANCE WITH SECTION 34 OF BASIC CONDITIONS OF EMPLOYMENT ACT (ACT 75 OF 1997) & NBCRFLI CLAUSE 54
+                Issued in accordance with Section 34 of Basic Conditions of Employment Act (Act 75 of 1997) and NBCRFLI Clause 54
               </div>
             </div>
             <div class="aod-badge-stamp">
-              <div>DISPUTE REF: <span id="aodSlipSerial">AOD-202611-9842</span></div>
-              <div id="aodDateStamp">10 NOV 2026 16:45</div>
+              <div>Dispute ref: <span id="aodSlipSerial">AOD-202611-9842</span></div>
+              <div id="aodDateStamp">10 Nov 2026 16:45</div>
             </div>
           </div>
 
           <!-- Trip & Driver Information Grid -->
           <div class="aod-meta-grid">
             <div class="aod-meta-item">
-              <span class="k">OPERATING DEPOT:</span>
-              <span id="aodDepotName" class="v">JOHANNESBURG (CITY DEEP)</span>
+              <span class="k">Operating depot:</span>
+              <span id="aodDepotName" class="v">Johannesburg (City Deep)</span>
             </div>
             <div class="aod-meta-item">
-              <span class="k">VEHICLE REGISTRATION:</span>
+              <span class="k">Vehicle registration:</span>
               <span id="aodVehicleReg" class="v">CA 842-991</span>
             </div>
             <div class="aod-meta-item">
-              <span class="k">FLEET UNIT NUMBER:</span>
+              <span class="k">Fleet unit number:</span>
               <span id="aodFleetUnit" class="v">RIG-104B</span>
             </div>
             <div class="aod-meta-item">
-              <span class="k">DRIVER NAME:</span>
+              <span class="k">Driver name:</span>
               <span id="aodDriverName" class="v">Sipho Ndlovu</span>
             </div>
             <div class="aod-meta-item">
-              <span class="k">EMPLOYEE / STAFF ID:</span>
+              <span class="k">Employee / staff ID:</span>
               <span id="aodStaffId" class="v">EMP-4402</span>
             </div>
             <div class="aod-meta-item">
-              <span class="k">ROUTE / CORRIDOR:</span>
+              <span class="k">Route / corridor:</span>
               <span id="aodRouteCorridor" class="v">JHB City Deep ⇄ DBN Bayhead</span>
             </div>
           </div>
@@ -1675,64 +1708,64 @@
           <table class="aod-table">
             <thead>
               <tr>
-                <th>METRIC / AUDIT ITEM</th>
-                <th>HUBODOMETER / RECORD</th>
-                <th>TELEMATICS (GPS)</th>
-                <th>AUDITED VARIANCE</th>
+                <th>Metric / audit item</th>
+                <th>Hubodometer / record</th>
+                <th>Telematics (GPS)</th>
+                <th>Audited variance</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Departure Odometer (Start)</td>
+                <td>Departure odometer (start)</td>
                 <td id="aodOdoStart">384,210 km</td>
-                <td>Verified Svc Gate</td>
+                <td>Verified service gate</td>
                 <td>-</td>
               </tr>
               <tr>
-                <td>Arrival Odometer (End)</td>
+                <td>Arrival odometer (end)</td>
                 <td id="aodOdoEnd">384,780 km</td>
-                <td>Verified Depot Bowser</td>
+                <td>Verified depot bowser</td>
                 <td>-</td>
               </tr>
               <tr>
-                <td><strong>Total Distance Traveled</strong></td>
+                <td><strong>Total distance traveled</strong></td>
                 <td id="aodOdoKm" style="font-weight: 800;">570.0 km</td>
                 <td id="aodGpsKm">568.0 km</td>
-                <td>Within 0.4% Tolerance</td>
+                <td>Within 0.4% tolerance</td>
               </tr>
               <tr>
-                <td>Approved Fleet Baseline Allowance</td>
+                <td>Approved fleet baseline allowance</td>
                 <td id="aodBaselineRate">48.0 L / 100km</td>
-                <td>Class Engineering Std</td>
-                <td>Standard Tare</td>
+                <td>Class engineering standard</td>
+                <td>Standard tare</td>
               </tr>
               <tr>
-                <td>Authorized Fuel Allowance</td>
+                <td>Authorized fuel allowance</td>
                 <td id="aodAllowedLitres">273.60 Litres</td>
-                <td>Permitted Quantity</td>
+                <td>Permitted quantity</td>
                 <td>Benchmark</td>
               </tr>
               <tr>
-                <td>Actual Diesel Pumped & Billed</td>
+                <td>Actual diesel pumped and billed</td>
                 <td id="aodPumpedLitres" style="font-weight: 800;">345.00 Litres</td>
-                <td>Card Slip Reconciled</td>
-                <td style="color: #990000; font-weight: 800;">Excess Consumption</td>
+                <td>Card slip reconciled</td>
+                <td style="color: var(--red); font-weight: 800;">Excess consumption</td>
               </tr>
-              <tr style="background: #fdf2f2;">
-                <td><strong>UNACCOUNTED DIESEL BLEED / DEFICIT</strong></td>
-                <td id="aodBleedLitres" style="font-weight: 900; color: #990000;">+71.40 Litres</td>
-                <td id="aodBleedPct" style="font-weight: 800; color: #990000;">+26.10% Above Target</td>
-                <td><strong>SIPHON ALERT</strong></td>
+              <tr style="background: var(--red-bg);">
+                <td><strong>Unaccounted diesel bleed / deficit</strong></td>
+                <td id="aodBleedLitres" style="font-weight: 800; color: var(--red);">+71.40 Litres</td>
+                <td id="aodBleedPct" style="font-weight: 800; color: var(--red);">+26.10% above target</td>
+                <td><strong>Siphon alert</strong></td>
               </tr>
-              <tr style="background: #fff8e6;">
-                <td>Applicable Bowser / Retail Tariff</td>
+              <tr style="background: var(--amber-bg);">
+                <td>Applicable bowser / retail tariff</td>
                 <td id="aodFuelPrice">R 23.50 / Litre</td>
-                <td>Wholesale / Fleet Rate</td>
+                <td>Wholesale / fleet rate</td>
                 <td>Billed</td>
               </tr>
-              <tr style="background: #ffeeee; font-size: 0.95rem;">
-                <td><strong>TOTAL FINANCIAL RECOVERY OWED</strong></td>
-                <td colspan="3" id="aodTotalDeduction" class="money" style="color: #990000; font-size: 1.15rem;">
+              <tr style="background: var(--paper-2); font-size: 0.95rem;">
+                <td><strong>Total financial recovery owed</strong></td>
+                <td colspan="3" id="aodTotalDeduction" class="money" style="color: var(--red); font-size: 1.15rem;">
                   R 1,677.90 ZAR
                 </td>
               </tr>
@@ -1741,11 +1774,11 @@
 
           <!-- Legal Deduction & Disciplinary Clause -->
           <div class="aod-legal-clause">
-            <strong>1. STATUTORY ACKNOWLEDGEMENT & UNDERTAKING:</strong><br>
+            <strong>1. Statutory acknowledgement and undertaking:</strong><br>
             I, the undersigned Driver, hereby confirm that I operated the vehicle detailed above on the specified route corridor. I note that the actual fuel consumed exceeded the authorized fleet baseline allowance by the amount stipulated above.<br><br>
-            <strong>2. SECTION 34 PAYROLL RECOVERY NOTICE:</strong><br>
+            <strong>2. Section 34 payroll recovery notice:</strong><br>
             In accordance with Section 34(1)(b) of the Basic Conditions of Employment Act (Act 75 of 1997) and the Main Collective Agreement of the National Bargaining Council for the Road Freight and Logistics Industry (NBCRFLI), I agree that in the event an independent telematics / technical debrief fails to establish legitimate mechanical cause for this discrepancy, the company may deduct the agreed loss from my remuneration across no more than 3 consecutive pay periods.<br><br>
-            <strong>3. FORMAL INVESTIGATION:</strong><br>
+            <strong>3. Formal investigation:</strong><br>
             This notice constitutes formal notification to appear before the Depot Fleet Controller for physical tank dip and telematics idle inspection within 24 hours of arrival.
           </div>
 
@@ -1753,30 +1786,30 @@
           <div class="aod-sig-grid">
             <div class="aod-sig-box">
               <div class="aod-sig-line"></div>
-              <div class="aod-sig-title">DRIVER SIGNATURE</div>
-              <div id="aodDriverNameSign" style="color: #555; margin-top: 0.2rem;">Sipho Ndlovu</div>
-              <div style="color: #777;">Date: ____________________</div>
+              <div class="aod-sig-title">Driver signature</div>
+              <div id="aodDriverNameSign" style="color: var(--ink-2); margin-top: var(--space-xxs);">Sipho Ndlovu</div>
+              <div style="color: var(--muted);">Date: ____________________</div>
             </div>
 
             <div class="aod-sig-box">
               <div class="aod-sig-line"></div>
-              <div class="aod-sig-title">FLEET CONTROLLER / AUDITOR</div>
-              <div id="aodControllerName" style="color: #555; margin-top: 0.2rem;">Debrief Officer #04</div>
-              <div style="color: #777;">Date: ____________________</div>
+              <div class="aod-sig-title">Fleet controller / auditor</div>
+              <div id="aodControllerName" style="color: var(--ink-2); margin-top: var(--space-xxs);">Debrief Officer #04</div>
+              <div style="color: var(--muted);">Date: ____________________</div>
             </div>
 
             <div class="aod-sig-box">
               <div class="aod-sig-line"></div>
-              <div class="aod-sig-title">WITNESS / SHOP STEWARD</div>
-              <div id="aodWitnessName" style="color: #555; margin-top: 0.2rem;">Depot Supervisor</div>
-              <div style="color: #777;">Date: ____________________</div>
+              <div class="aod-sig-title">Witness / shop steward</div>
+              <div id="aodWitnessName" style="color: var(--ink-2); margin-top: var(--space-xxs);">Depot Supervisor</div>
+              <div style="color: var(--muted);">Date: ____________________</div>
             </div>
           </div>
         </div>
       </div>
 
       <div class="modal-footer">
-        <button type="button" id="btnPrintAod" class="btn btn-primary">🖨️ PRINT OFFICIAL AOD SLIP (CTRL+P)</button>
+        <button type="button" id="btnPrintAod" class="btn btn-primary">Print official AOD notice (Ctrl+P)</button>
       </div>
     </div>
   </div>
@@ -1787,12 +1820,12 @@
   <div id="waModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="waModalTitle">
     <div class="modal-box" style="max-width: 650px;">
       <div class="modal-header">
-        <div id="waModalTitle" class="modal-title">WHATSAPP FLEET OWNER / OPERATIONS DEBRIEF DISPUTE</div>
-        <button type="button" id="btnCloseWa" class="btn-close-modal">✕ CLOSE</button>
+        <div id="waModalTitle" class="modal-title">WhatsApp fleet owner / operations debrief dispute</div>
+        <button type="button" id="btnCloseWa" class="btn-close-modal">Close</button>
       </div>
 
       <div class="modal-body">
-        <div style="font-size: var(--text-label); color: var(--muted); margin-bottom: var(--space-sm);">
+        <div style="font-size: var(--text-micro); color: var(--muted); margin-bottom: var(--space-sm);">
           Pre-formatted for instant transmission to Fleet Owner, Dispatch Manager, and Line-Haul Controller:
         </div>
 
@@ -1800,14 +1833,14 @@
           <!-- Populated by JS -->
         </div>
 
-        <div id="waCopyFeedback" style="color: var(--green); font-size: var(--text-micro); font-weight: 800; margin-top: 0.5rem; display: none;">
-          ✓ COPIED TO CLIPBOARD! READY TO PASTE INTO WHATSAPP
+        <div id="waCopyFeedback" style="color: var(--green); font-size: var(--text-micro); font-weight: 700; margin-top: var(--space-xs); display: none;">
+          Copied to clipboard. Ready to paste into WhatsApp.
         </div>
       </div>
 
       <div class="modal-footer">
-        <button type="button" id="btnCopyWaText" class="btn btn-secondary">📋 COPY TO CLIPBOARD</button>
-        <button type="button" id="btnLaunchWa" class="btn btn-success">📲 OPEN WHATSAPP WEB</button>
+        <button type="button" id="btnCopyWaText" class="btn btn-secondary">Copy notice text</button>
+        <button type="button" id="btnLaunchWa" class="btn btn-success">Open WhatsApp Web</button>
       </div>
     </div>
   </div>
@@ -1838,7 +1871,7 @@
         driverName: "Sipho Ndlovu",
         staffId: "EMP-4402",
         route: "JHB City Deep ⇄ DBN Bayhead (N3 Corridor)",
-        notes: "Trip Manifest #TR-88190 · Full 34T Container Shunt",
+        notes: "Trip Manifest #TR-88190, Full 34T Container Shunt",
         odoStart: 384210,
         odoEnd: 384780,
         totalKm: 570,
@@ -1857,7 +1890,7 @@
         variancePct: 26.10,
         financialLoss: 1677.90,
         status: "RED", // GREEN | AMBER | RED
-        statusText: "THEFT ALERT: UNEXPLAINED DIESEL SIPHON CONFIRMED",
+        statusText: "Theft alert: unexplained diesel siphon confirmed",
         slipSerial: "AOD-" + new Date().getFullYear() + ("0" + (new Date().getMonth() + 1)).slice(-2) + "-" + Math.floor(1000 + Math.random() * 9000)
       };
 
@@ -2055,34 +2088,32 @@
         // AMBER: 3% - 8% variance (Flagged - Idle / mountain check)
         // RED:   > 8% variance (Theft Alert - Siphon confirmed)
         let status = "GREEN";
-        let statusText = "CLEAR - DEBRIEF APPROVED";
+        let statusText = "Clear - debrief approved";
         let statusSub = "Consumption within 3.0% operational fleet tolerance.";
 
         if (variancePct > 8.0) {
           status = "RED";
-          statusText = "THEFT ALERT: UNEXPLAINED DIESEL SIPHON CONFIRMED";
+          statusText = "Theft alert: unexplained diesel siphon confirmed";
           statusSub = `Consumption variance of +${variancePct.toFixed(1)}% exceeds 8.0% forensic threshold. Immediate physical dip required.`;
         } else if (variancePct > 3.0) {
           status = "AMBER";
-          statusText = "FLAGGED - EXCESS IDLE / DRIVER LOG CHECK";
+          statusText = "Flagged - excess idle / driver log check";
           statusSub = `Moderate variance of +${variancePct.toFixed(1)}% detected. Check telematics idle log, mountain passes, or trailer reefer fuel.`;
         }
 
         // Hubodometer vs GPS Satellite Variance Check
-        let gpsTamper = false;
         if (gpsKm > 0 && distance > 0) {
           const gpsDiff = Math.abs(distance - gpsKm);
           const gpsDiffPct = (gpsDiff / distance) * 100;
           if (gpsDiffPct > 3.0) {
-            gpsTamper = true;
-            gpsVarianceText.textContent = `Odometer (${distance} km) differs from GPS (${gpsKm} km) by ${gpsDiff.toFixed(1)} km (${gpsDiffPct.toFixed(1)}%). Check for hubodometer disconnection or unauthorized off-route deviation!`;
+            gpsVarianceText.textContent = `Odometer (${distance} km) differs from GPS (${gpsKm} km) by ${gpsDiff.toFixed(1)} km (${gpsDiffPct.toFixed(1)}%). Check for hubodometer disconnection or unauthorized off-route deviation.`;
             gpsVarianceWarning.classList.remove("hidden");
             telematicsAlertBox.style.display = "block";
-            telematicsAlertBox.textContent = `⚠️ Telematics warning: Hubodometer shows ${distance} km vs GPS satellite ${gpsKm} km. Discrepancy: ${gpsDiff.toFixed(1)} km.`;
+            telematicsAlertBox.textContent = `[Warning] Hubodometer shows ${distance} km vs GPS satellite ${gpsKm} km. Discrepancy: ${gpsDiff.toFixed(1)} km.`;
           } else {
             gpsVarianceWarning.classList.add("hidden");
             telematicsAlertBox.style.display = "block";
-            telematicsAlertBox.textContent = `ℹ️ Telematics check: Satellite GPS tracking confirms ${gpsKm} km vs ${distance} km odometer (variance ${gpsDiffPct.toFixed(1)}% within tolerance).`;
+            telematicsAlertBox.textContent = `[Audit] Satellite GPS tracking confirms ${gpsKm} km vs ${distance} km odometer (variance ${gpsDiffPct.toFixed(1)}% within tolerance).`;
           }
         } else {
           gpsVarianceWarning.classList.add("hidden");
@@ -2123,7 +2154,7 @@
         plateBaselineRate.textContent = effectiveBaseline.toFixed(2);
 
         plateVarianceLitres.textContent = (bleedLitres >= 0 ? "+" : "") + bleedLitres.toFixed(1) + " L";
-        plateVariancePct.textContent = (variancePct >= 0 ? "+" : "") + variancePct.toFixed(1) + "% vs Baseline";
+        plateVariancePct.textContent = (variancePct >= 0 ? "+" : "") + variancePct.toFixed(1) + "% vs baseline";
         plateFinancialLoss.textContent = "R " + financialLoss.toLocaleString("en-ZA", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
         // Update Hero Plate Status Colors
@@ -2267,7 +2298,6 @@
         const preset = TRUCK_PRESETS[presetKey];
         if (!preset) return;
         baselineRateInput.value = preset.baseline.toFixed(1);
-        // Find matching option in select or set custom
         let matched = false;
         for (let i = 0; i < truckClassSelect.options.length; i++) {
           if (parseFloat(truckClassSelect.options[i].value) === preset.baseline) {
@@ -2283,7 +2313,6 @@
       // ─── SCENARIO LOADER ──────────────────────────────────────────────────
       function loadScenario(type) {
         if (type === "theft") {
-          // 34T Interlink on JHB -> DBN Corridor: Siphoned 71.4L (+26.1% theft)
           truckClassSelect.value = "48.0";
           vehicleRegInput.value = "CA 842-991";
           fleetIdInput.value = "RIG-104B";
@@ -2292,7 +2321,7 @@
           routeSelect.value = "JHB City Deep ⇄ DBN Bayhead (N3 Corridor)";
           customRouteInput.value = "Trip Manifest #TR-88190 · Full 34T Container Shunt";
           odoStartInput.value = "384210";
-          odoEndInput.value = "384780"; // 570 km
+          odoEndInput.value = "384780";
           gpsDistanceInput.value = "568";
           baselineRateInput.value = "48.0";
           terrainSelect.value = "1.00";
@@ -2301,7 +2330,6 @@
           fuelPriceInput.value = "23.50";
           totalFuelCostInput.value = (345.0 * 23.50).toFixed(2);
         } else if (type === "flagged") {
-          // 28T Triaxle: High mountain pass / idle bleed (+5.8% variance)
           truckClassSelect.value = "38.0";
           vehicleRegInput.value = "FS 29 RT GP";
           fleetIdInput.value = "TRK-77";
@@ -2310,16 +2338,15 @@
           routeSelect.value = "JHB ⇄ CPT (N1 Karoo Corridor)";
           customRouteInput.value = "High Karoo wind & Hex River Pass climb";
           odoStartInput.value = "512400";
-          odoEndInput.value = "513800"; // 1,400 km
+          odoEndInput.value = "513800";
           gpsDistanceInput.value = "1402";
           baselineRateInput.value = "38.0";
           terrainSelect.value = "1.00";
-          dieselPumpedInput.value = "563.0"; // Expected: 532L. Bleed: 31L (+5.8%)
+          dieselPumpedInput.value = "563.0";
           fuelTariffType.value = "23.50";
           fuelPriceInput.value = "23.50";
           totalFuelCostInput.value = (563.0 * 23.50).toFixed(2);
         } else if (type === "clear") {
-          // 14T Rigid Hino: Clean route (+0.9% variance - CLEAR)
           truckClassSelect.value = "28.0";
           vehicleRegInput.value = "BC 18 ND EC";
           fleetIdInput.value = "HINO-14";
@@ -2328,11 +2355,11 @@
           routeSelect.value = "Gqeberha (PE) ⇄ East London (R72 / N2)";
           customRouteInput.value = "General freight automotive component delivery";
           odoStartInput.value = "192300";
-          odoEndInput.value = "192590"; // 290 km
+          odoEndInput.value = "192590";
           gpsDistanceInput.value = "290";
           baselineRateInput.value = "28.0";
           terrainSelect.value = "1.00";
-          dieselPumpedInput.value = "82.0"; // Expected: 81.2L (+0.98%)
+          dieselPumpedInput.value = "82.0";
           fuelTariffType.value = "21.80";
           fuelPriceInput.value = "21.80";
           totalFuelCostInput.value = (82.0 * 21.80).toFixed(2);
@@ -2344,7 +2371,6 @@
       function logCurrentTrip() {
         calculateAudit();
 
-        // Create a copy of currentAudit
         const entry = {
           id: "TRIP-" + Date.now(),
           timestamp: new Date().toLocaleTimeString("en-ZA", { hour: "2-digit", minute: "2-digit" }),
@@ -2374,11 +2400,10 @@
         saveHistoryToStorage();
         renderHistory();
 
-        // Visual confirmation
-        btnLogTrip.textContent = "✓ TRIP LOGGED TO SHIFT!";
+        btnLogTrip.textContent = "Trip logged to shift";
         btnLogTrip.style.background = "var(--green)";
         setTimeout(() => {
-          btnLogTrip.textContent = "💾 LOG TRIP TO CURRENT SHIFT AUDIT";
+          btnLogTrip.textContent = "Log trip to current shift audit";
           btnLogTrip.style.background = "";
         }, 1200);
       }
@@ -2426,15 +2451,15 @@
             <td style="color:${trip.bleedLitres > 0 ? 'var(--red)' : 'var(--green)'}; font-weight:800;">
               ${trip.bleedLitres > 0 ? "+" : ""}${trip.bleedLitres.toFixed(1)} L
             </td>
-            <td style="font-weight:900; color:${trip.financialLoss > 0 ? 'var(--red)' : 'var(--ink)'};">
+            <td style="font-weight:800; color:${trip.financialLoss > 0 ? 'var(--red)' : 'var(--ink)'};">
               R ${trip.financialLoss.toLocaleString("en-ZA", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </td>
             <td>
-              <span class="badge-status ${badgeClass}">${trip.status === "RED" ? "THEFT ALERT" : trip.status === "AMBER" ? "FLAGGED" : "APPROVED"}</span>
+              <span class="badge-status ${badgeClass}">${trip.status === "RED" ? "Theft alert" : trip.status === "AMBER" ? "Flagged" : "Approved"}</span>
             </td>
             <td style="white-space:nowrap;">
-              <button type="button" class="tbl-action-btn" onclick="window.viewSlipForHistory(${index})">SLIP</button>
-              <button type="button" class="tbl-action-btn" onclick="window.deleteHistoryItem(${index})" style="color:var(--red);">DEL</button>
+              <button type="button" class="tbl-action-btn" onclick="window.viewSlipForHistory(${index})">Slip</button>
+              <button type="button" class="tbl-action-btn" onclick="window.deleteHistoryItem(${index})" style="color:var(--red);">Del</button>
             </td>
           `;
 
@@ -2450,11 +2475,11 @@
         shiftTotalBleedLitres.textContent = bleed.toFixed(1) + " L";
         shiftTotalLossZar.textContent = "R " + loss.toLocaleString("en-ZA", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-        shiftClearCount.textContent = `${clear} CLEAR`;
-        shiftFlaggedCount.textContent = `${flagged} FLAGGED`;
-        shiftTheftCount.textContent = `${theft} THEFT`;
+        shiftClearCount.textContent = `${clear} Clear`;
+        shiftFlaggedCount.textContent = `${flagged} Flagged`;
+        shiftTheftCount.textContent = `${theft} Theft`;
 
-        shiftLossTicker.textContent = `SHIFT LOSS: R ${loss.toFixed(2)} | ${bleed.toFixed(1)} L BLEED | ${theft} THEFT ALERTS`;
+        shiftLossTicker.textContent = `Shift loss: R ${loss.toFixed(2)} | ${bleed.toFixed(1)} L bleed | ${theft} theft alerts`;
       }
 
       window.viewSlipForHistory = function(index) {
@@ -2528,8 +2553,8 @@
       // ─── AOD DISPUTE SLIP GENERATOR ───────────────────────────────────────
       function populateAodFromRecord(data) {
         aodSlipSerial.textContent = data.slipSerial || "AOD-202611-9842";
-        aodDateStamp.textContent = new Date().toLocaleDateString("en-ZA", { day: "2-digit", month: "short", year: "numeric" }).toUpperCase() + " " + (data.timestamp || "16:45");
-        aodDepotName.textContent = data.depot ? data.depot.toUpperCase() : "EAST LONDON DEPOT";
+        aodDateStamp.textContent = new Date().toLocaleDateString("en-ZA", { day: "2-digit", month: "short", year: "numeric" }) + " " + (data.timestamp || "16:45");
+        aodDepotName.textContent = data.depot || "East London Depot";
         aodVehicleReg.textContent = data.vehicleReg || "CA 842-991";
         aodFleetUnit.textContent = data.fleetId || "FLEET-01";
         aodDriverName.textContent = data.driverName || "Driver";
@@ -2548,7 +2573,7 @@
 
         const bleed = (data.bleedLitres || 0);
         aodBleedLitres.textContent = (bleed >= 0 ? "+" : "") + bleed.toFixed(2) + " Litres";
-        aodBleedPct.textContent = ((data.variancePct || 0) >= 0 ? "+" : "") + (data.variancePct || 0).toFixed(2) + "% Above Target";
+        aodBleedPct.textContent = ((data.variancePct || 0) >= 0 ? "+" : "") + (data.variancePct || 0).toFixed(2) + "% above target";
 
         aodFuelPrice.textContent = "R " + (data.fuelPrice || 23.50).toFixed(2) + " / Litre";
         aodTotalDeduction.textContent = "R " + (data.financialLoss || 0).toLocaleString("en-ZA", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " ZAR";
@@ -2566,13 +2591,11 @@
 
       // ─── WHATSAPP DISPUTE GENERATOR ───────────────────────────────────────
       function formatWhatsAppMessage(data) {
-        const isTheft = data.status === "RED";
-        const icon = isTheft ? "🚨" : data.status === "AMBER" ? "⚠️" : "✅";
         const now = new Date();
         const dateStr = now.toLocaleDateString("en-ZA", { day: "2-digit", month: "short", year: "numeric" });
         const timeStr = now.toLocaleTimeString("en-ZA", { hour: "2-digit", minute: "2-digit" });
 
-        return `${icon} *TRIPGUARD DEBRIEF DISPUTE ALERT* ${icon}
+        return `[TRIPGUARD DEBRIEF DISPUTE ALERT]
 --------------------------------------
 *DEPOT:* ${data.depot}
 *DATE:* ${dateStr}, ${timeStr}
@@ -2608,19 +2631,18 @@ _TRIPGUARD V1 • South African Road Freight Telematics_`;
         const text = waTextPreview.textContent;
         navigator.clipboard.writeText(text).then(() => {
           waCopyFeedback.style.display = "block";
-          btnCopyWaText.textContent = "✓ COPIED!";
+          btnCopyWaText.textContent = "Copied";
           setTimeout(() => {
-            btnCopyWaText.textContent = "📋 COPY TO CLIPBOARD";
+            btnCopyWaText.textContent = "Copy notice text";
           }, 2000);
         }).catch(() => {
-          // Fallback selection
           const range = document.createRange();
           range.selectNodeContents(waTextPreview);
           const sel = window.getSelection();
           sel.removeAllRanges();
           sel.addRange(range);
           waCopyFeedback.style.display = "block";
-          waCopyFeedback.textContent = "Selected! Press CTRL+C to copy.";
+          waCopyFeedback.textContent = "Selected. Press Ctrl+C to copy.";
         });
       }
 

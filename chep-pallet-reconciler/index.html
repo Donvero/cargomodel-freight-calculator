@@ -1,0 +1,3321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PALLETLOCK V1: CHEP & Loscam Pallet Exchange & Loss Ledger. Production-grade zero-dependency supply chain audit instrument for South African road freight depots.">
+  <title>PALLETLOCK V1 · CHEP & Loscam Pallet Exchange & Loss Ledger</title>
+
+  <!-- Hallmark Wayfind System: Chivo Mono, 2px ink borders, square corners, cobalt live readings, amber financial figures -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ─── TOKENS (Wayfind / Industrial Departure Board Colourway) ─── */
+    :root {
+      --paper:       oklch(95.5% 0.006 250);
+      --paper-2:     oklch(91.5% 0.009 250);
+      --paper-3:     #ffffff;
+      --ink:         oklch(16%   0.014 262);
+      --ink-2:       oklch(29%   0.014 262);
+      --muted:       oklch(47%   0.016 260);
+      --rule:        oklch(80%   0.011 250);
+      --ink-rule:    oklch(34%   0.014 262);
+
+      --cobalt:      #1c52d8;
+      --cobalt-ink:  #ffffff;
+      --amber:       #d97706;
+      --amber-dark:  #b45309;
+      --amber-ink:   #161922;
+      --red:         #dc2626;
+      --red-bg:      #fee2e2;
+      --green:       #16a34a;
+      --green-bg:    #dcfce7;
+      --chep-blue:   #0052cc;
+      --loscam-wood: #c25e00;
+
+      --font: 'Chivo Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+      --bar:  2px;
+      --hair: 1px;
+
+      --space-xs:  0.375rem;
+      --space-sm:  0.625rem;
+      --space-md:  1rem;
+      --space-lg:  1.5rem;
+      --space-xl:  2.5rem;
+
+      --text-label: clamp(0.6875rem, 0.65rem + 0.2vw, 0.75rem);
+      --text-body:  clamp(0.8125rem, 0.78rem + 0.25vw, 0.9375rem);
+      --text-title: clamp(1rem,      0.9rem  + 0.4vw, 1.25rem);
+      --text-stat:  clamp(1.8rem,    1.5rem  + 1.5vw, 3.2rem);
+    }
+
+    /* ─── RESET & DEFAULTS ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { overflow-x: clip; }
+    html { color-scheme: light; }
+
+    body {
+      font-family: var(--font);
+      font-size: var(--text-body);
+      font-variant-numeric: tabular-nums;
+      line-height: 1.45;
+      background: var(--paper);
+      color: var(--ink);
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    h1, h2, h3, h4 {
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    ::selection { background: var(--amber); color: var(--paper-3); }
+    :focus-visible { outline: 2px solid var(--cobalt); outline-offset: 2px; }
+
+    .wrap {
+      padding-inline: clamp(1rem, 2.5vw, 2.5rem);
+      width: 100%;
+      max-width: 1600px;
+      margin-inline: auto;
+    }
+
+    /* ─── TOP NAV (Platform Departure Strip) ─── */
+    nav#app-header {
+      border-bottom: var(--bar) solid var(--ink);
+      background: var(--paper);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+    }
+    .brand-block {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .wordmark {
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .wordmark-badge {
+      font-size: var(--text-label);
+      background: var(--ink);
+      color: var(--paper);
+      padding: 0.15rem 0.45rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .depot-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: var(--text-label);
+      font-weight: 700;
+      color: var(--ink-2);
+      border-left: var(--hair) solid var(--ink-rule);
+      padding-left: 0.75rem;
+    }
+    .depot-pulse {
+      width: 8px;
+      height: 8px;
+      background: var(--green);
+      display: inline-block;
+      border: 1px solid var(--ink);
+    }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    /* ─── BUTTONS & PIILLS (Wayfind 2px Solid) ─── */
+    .btn {
+      font-family: var(--font);
+      font-size: var(--text-label);
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      padding: 0.45rem 0.75rem;
+      border: var(--bar) solid var(--ink);
+      background: var(--paper-3);
+      color: var(--ink);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      text-decoration: none;
+      border-radius: 0;
+      transition: background-color 60ms steps(1), color 60ms steps(1);
+      user-select: none;
+      white-space: nowrap;
+    }
+    .btn:hover {
+      background: var(--ink);
+      color: var(--paper-3);
+    }
+    .btn:active {
+      transform: translate(1px, 1px);
+    }
+    .btn-primary {
+      background: var(--cobalt);
+      border-color: var(--ink);
+      color: var(--cobalt-ink);
+    }
+    .btn-primary:hover {
+      background: var(--ink);
+      color: var(--paper-3);
+    }
+    .btn-amber {
+      background: var(--amber);
+      border-color: var(--ink);
+      color: #ffffff;
+    }
+    .btn-amber:hover {
+      background: var(--ink);
+      color: var(--paper-3);
+    }
+    .btn-red {
+      background: var(--red);
+      border-color: var(--ink);
+      color: #ffffff;
+    }
+    .btn-red:hover {
+      background: var(--ink);
+      color: var(--paper-3);
+    }
+    .btn-sm {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.6875rem;
+    }
+
+    /* ─── HERO & PLATFORM DEPARTURE BOARD ─── */
+    .hero {
+      border-bottom: var(--bar) solid var(--ink);
+      padding-block: var(--space-md);
+      background: var(--paper);
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1.3fr;
+      gap: var(--space-md);
+      align-items: stretch;
+    }
+    @media (max-width: 990px) {
+      .hero-grid { grid-template-columns: 1fr; }
+    }
+    .hero-meta {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .hero-title-tag {
+      font-size: var(--text-label);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--cobalt);
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .hero h1 {
+      font-size: clamp(1.4rem, 1.2rem + 1vw, 2.2rem);
+      margin-bottom: 0.4rem;
+    }
+    .hero-desc {
+      font-size: var(--text-body);
+      color: var(--ink-2);
+      max-width: 62ch;
+      line-height: 1.4;
+    }
+    .hero-tags {
+      display: flex;
+      gap: 0.4rem;
+      margin-top: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .tag-chip {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      padding: 0.15rem 0.45rem;
+      background: var(--paper-2);
+      border: var(--hair) solid var(--ink-rule);
+      color: var(--ink-2);
+      text-transform: uppercase;
+    }
+
+    /* ─── DEPARTURE BOARD PLATES ─── */
+    .board-plates {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+    }
+    @media (max-width: 760px) {
+      .board-plates { grid-template-columns: repeat(2, 1fr); }
+    }
+    .plate {
+      border: var(--bar) solid var(--ink);
+      background: var(--ink);
+      color: var(--paper);
+      padding: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 86px;
+    }
+    .plate-label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      color: oklch(75% 0.016 260);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .plate-value {
+      font-size: clamp(1.15rem, 1rem + 0.6vw, 1.6rem);
+      font-weight: 800;
+      color: var(--amber);
+      white-space: nowrap;
+      margin-top: 0.25rem;
+    }
+    .plate-sub {
+      font-size: 0.6875rem;
+      color: oklch(65% 0.016 260);
+      margin-top: 0.2rem;
+    }
+    .plate--cobalt .plate-value { color: #60a5fa; }
+    .plate--red .plate-value { color: #f87171; }
+    .plate--green .plate-value { color: #4ade80; }
+
+    /* ─── SECONDARY AUDIT STRIP ─── */
+    .audit-strip {
+      border-bottom: var(--bar) solid var(--ink);
+      background: var(--paper-2);
+      padding-block: 0.5rem;
+      font-size: var(--text-label);
+    }
+    .audit-strip-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .audit-stat-group {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .audit-metric {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .audit-metric-label {
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .audit-metric-val {
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    /* ─── TABS NAVIGATION ─── */
+    .tabs-bar {
+      border-bottom: var(--bar) solid var(--ink);
+      background: var(--paper);
+    }
+    .tabs-list {
+      display: flex;
+      list-style: none;
+      gap: 0;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .tab-btn {
+      font-family: var(--font);
+      font-size: var(--text-label);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.85rem 1.25rem;
+      border: none;
+      border-right: var(--bar) solid var(--ink);
+      background: var(--paper);
+      color: var(--muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: background-color 60ms steps(1), color 60ms steps(1);
+    }
+    .tab-btn:hover {
+      background: var(--paper-2);
+      color: var(--ink);
+    }
+    .tab-btn.active {
+      background: var(--ink);
+      color: var(--paper-3);
+    }
+    .tab-counter {
+      font-size: 0.6875rem;
+      padding: 0.1rem 0.4rem;
+      border: 1px solid currentColor;
+      font-weight: 700;
+    }
+
+    /* ─── WORKSPACE CONTENT ─── */
+    .workspace-section {
+      padding-block: var(--space-md);
+      flex: 1;
+    }
+    .tab-pane {
+      display: none;
+    }
+    .tab-pane.active {
+      display: block;
+    }
+
+    /* ─── FORM & PANEL CONTAINERS ─── */
+    .panel {
+      border: var(--bar) solid var(--ink);
+      background: var(--paper-3);
+      margin-bottom: var(--space-md);
+    }
+    .panel-header {
+      background: var(--paper-2);
+      border-bottom: var(--bar) solid var(--ink);
+      padding: 0.6rem 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .panel-title {
+      font-size: var(--text-label);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .panel-body {
+      padding: var(--space-md);
+    }
+
+    /* Preset Buttons Strip */
+    .presets-row {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      overflow-x: auto;
+      padding-bottom: 0.75rem;
+      margin-bottom: 0.75rem;
+      border-bottom: var(--hair) solid var(--rule);
+    }
+    .preset-chip {
+      font-family: var(--font);
+      font-size: 0.6875rem;
+      font-weight: 700;
+      padding: 0.25rem 0.55rem;
+      border: var(--hair) solid var(--ink);
+      background: var(--paper-2);
+      color: var(--ink);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .preset-chip:hover {
+      background: var(--ink);
+      color: var(--paper-3);
+    }
+
+    /* Form Fields Grid */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+    }
+    @media (max-width: 1024px) {
+      .form-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .form-grid { grid-template-columns: 1fr; }
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .form-group.col-span-2 {
+      grid-column: span 2;
+    }
+    @media (max-width: 600px) {
+      .form-group.col-span-2 { grid-column: span 1; }
+    }
+    .form-label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--ink-2);
+    }
+    .form-input, .form-select, .form-textarea {
+      font-family: var(--font);
+      font-size: var(--text-body);
+      font-variant-numeric: tabular-nums;
+      padding: 0.45rem 0.6rem;
+      border: var(--bar) solid var(--ink);
+      background: var(--paper-3);
+      color: var(--ink);
+      border-radius: 0;
+      width: 100%;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      outline: none;
+      border-color: var(--cobalt);
+      background: #fafbff;
+    }
+    .form-textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+
+    /* Live Entry Math Calculation Bar */
+    .calc-banner {
+      background: var(--paper-2);
+      border: var(--bar) solid var(--ink);
+      padding: 0.65rem 0.85rem;
+      margin-top: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .calc-items {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .calc-unit {
+      display: flex;
+      flex-direction: column;
+    }
+    .calc-label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .calc-val {
+      font-size: 1.15rem;
+      font-weight: 800;
+    }
+    .calc-val.val-amber { color: var(--amber-dark); }
+    .calc-val.val-red { color: var(--red); }
+    .calc-val.val-green { color: var(--green); }
+
+    /* ─── FILTERS & SEARCH TOOLBAR ─── */
+    .filter-toolbar {
+      border: var(--bar) solid var(--ink);
+      background: var(--paper-2);
+      padding: 0.65rem 0.85rem;
+      margin-bottom: var(--space-sm);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .filter-inputs {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      flex: 1;
+    }
+    .search-field {
+      min-width: 200px;
+      max-width: 320px;
+    }
+
+    /* ─── TABLES (Departure Board Ledger) ─── */
+    .table-container {
+      border: var(--bar) solid var(--ink);
+      background: var(--paper-3);
+      overflow-x: auto;
+      margin-bottom: var(--space-md);
+    }
+    .ledger-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--text-body);
+      white-space: nowrap;
+    }
+    .ledger-table th {
+      background: var(--ink);
+      color: var(--paper);
+      font-size: 0.6875rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.6rem 0.75rem;
+      text-align: left;
+      border-right: var(--hair) solid var(--ink-rule);
+      user-select: none;
+    }
+    .ledger-table th:last-child {
+      border-right: none;
+    }
+    .ledger-table td {
+      padding: 0.55rem 0.75rem;
+      border-bottom: var(--hair) solid var(--rule);
+      border-right: var(--hair) solid var(--rule);
+      color: var(--ink);
+      vertical-align: middle;
+    }
+    .ledger-table td:last-child {
+      border-right: none;
+    }
+    .ledger-table tbody tr:hover {
+      background: var(--paper-2);
+    }
+    .ledger-table tbody tr.row-critical {
+      background: #fef2f2;
+    }
+    .ledger-table tbody tr.row-critical:hover {
+      background: #fee2e2;
+    }
+    .ledger-table tfoot td {
+      background: var(--paper-2);
+      font-weight: 800;
+      border-top: var(--bar) solid var(--ink);
+      border-bottom: none;
+    }
+
+    /* Status Badges */
+    .badge {
+      display: inline-block;
+      font-size: 0.6875rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 0.15rem 0.45rem;
+      border: var(--hair) solid var(--ink);
+      letter-spacing: 0.03em;
+    }
+    .badge-chep {
+      background: #dbeafe;
+      border-color: #1d4ed8;
+      color: #1e40af;
+    }
+    .badge-loscam {
+      background: #ffedd5;
+      border-color: #c2410c;
+      color: #9a3412;
+    }
+    .badge-white {
+      background: #f1f5f9;
+      border-color: #64748b;
+      color: #334155;
+    }
+    .badge-critical {
+      background: var(--red);
+      border-color: var(--ink);
+      color: #ffffff;
+      animation: pulse-danger 2s infinite ease-in-out;
+    }
+    .badge-warning {
+      background: var(--amber);
+      border-color: var(--ink);
+      color: #ffffff;
+    }
+    .badge-normal {
+      background: var(--green);
+      border-color: var(--ink);
+      color: #ffffff;
+    }
+    .badge-balanced {
+      background: var(--paper-2);
+      border-color: var(--ink-rule);
+      color: var(--ink-2);
+    }
+
+    @keyframes pulse-danger {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.75; }
+    }
+
+    /* ─── CARDS MATRIX (Tab 2: Account Balances) ─── */
+    .account-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+    .account-card {
+      border: var(--bar) solid var(--ink);
+      background: var(--paper-3);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+    .account-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.5rem;
+      border-bottom: var(--hair) solid var(--rule);
+      padding-bottom: 0.5rem;
+    }
+    .account-name {
+      font-size: 1rem;
+      font-weight: 800;
+    }
+    .account-trips-count {
+      font-size: 0.6875rem;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .account-stat-matrix {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.4rem;
+      background: var(--paper-2);
+      padding: 0.5rem;
+      border: var(--hair) solid var(--ink-rule);
+    }
+    .account-metric-cell {
+      text-align: center;
+    }
+    .account-metric-cell .cell-label {
+      font-size: 0.625rem;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .account-metric-cell .cell-val {
+      font-size: 1rem;
+      font-weight: 800;
+    }
+    .aging-progress-bar {
+      display: flex;
+      height: 8px;
+      border: var(--hair) solid var(--ink);
+      background: var(--paper-2);
+      overflow: hidden;
+      margin-top: 0.25rem;
+    }
+    .aging-seg-normal { background: var(--green); }
+    .aging-seg-warning { background: var(--amber); }
+    .aging-seg-critical { background: var(--red); }
+
+    /* ─── RECOVERY DEMAND NOTICE (TAB 3 & PRINT) ─── */
+    .notice-wrapper {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: var(--space-md);
+    }
+    @media (max-width: 900px) {
+      .notice-wrapper { grid-template-columns: 1fr; }
+    }
+    .notice-controls {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    .notice-sheet {
+      border: var(--bar) solid var(--ink);
+      background: #ffffff;
+      padding: clamp(1.2rem, 3vw, 2.5rem);
+      box-shadow: 4px 4px 0px var(--ink);
+      color: #0f172a;
+      font-family: var(--font);
+      font-size: 0.8125rem;
+      line-height: 1.5;
+    }
+    .sheet-letterhead {
+      border-bottom: 2px solid #0f172a;
+      padding-bottom: 1rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .sheet-depot-name {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .sheet-meta-block {
+      text-align: right;
+      font-size: 0.6875rem;
+      color: #334155;
+    }
+    .sheet-subject {
+      background: #f1f5f9;
+      border-left: 4px solid #0f172a;
+      padding: 0.6rem 0.85rem;
+      font-weight: 800;
+      font-size: 0.875rem;
+      margin-block: 1rem;
+      text-transform: uppercase;
+    }
+    .sheet-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-block: 1rem;
+      font-size: 0.75rem;
+    }
+    .sheet-table th, .sheet-table td {
+      border: 1px solid #334155;
+      padding: 0.4rem 0.6rem;
+      text-align: left;
+    }
+    .sheet-table th {
+      background: #f1f5f9;
+      font-weight: 800;
+    }
+    .sheet-signatures {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px dashed #64748b;
+    }
+    .sig-line {
+      border-top: 1px solid #0f172a;
+      margin-top: 2.5rem;
+      padding-top: 0.35rem;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    /* ─── WHATSAPP AUDIT PANEL (TAB 4) ─── */
+    .whatsapp-box {
+      border: var(--bar) solid var(--ink);
+      background: #eef2eb;
+      padding: var(--space-md);
+      position: relative;
+    }
+    .whatsapp-terminal {
+      font-family: var(--font);
+      background: #ffffff;
+      border: var(--bar) solid var(--ink);
+      padding: 1.25rem;
+      white-space: pre-wrap;
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      color: #111827;
+      max-height: 480px;
+      overflow-y: auto;
+    }
+
+    /* ─── MODALS ─── */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(2px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal-backdrop.open {
+      display: flex;
+    }
+    .modal-dialog {
+      border: var(--bar) solid var(--ink);
+      background: var(--paper-3);
+      width: 100%;
+      max-width: 620px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 6px 6px 0px var(--ink);
+    }
+    .modal-header {
+      background: var(--ink);
+      color: var(--paper-3);
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-title {
+      font-size: var(--text-label);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .modal-body {
+      padding: var(--space-md);
+      overflow-y: auto;
+    }
+    .modal-footer {
+      background: var(--paper-2);
+      border-top: var(--bar) solid var(--ink);
+      padding: 0.75rem 1rem;
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+    }
+
+    /* Toast Notification */
+    #toast-msg {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: var(--ink);
+      color: var(--paper-3);
+      border: var(--bar) solid var(--amber);
+      padding: 0.65rem 1rem;
+      font-size: var(--text-label);
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      z-index: 200;
+      display: none;
+      box-shadow: 4px 4px 0px rgba(0,0,0,0.3);
+    }
+
+    /* ─── @MEDIA PRINT (STRICT A4 AUDIT LETTER FORMAT) ─── */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-size: 10pt !important;
+      }
+      #app-header,
+      .hero,
+      .audit-strip,
+      .tabs-bar,
+      .notice-controls,
+      .presets-row,
+      .nav-actions,
+      .btn,
+      .filter-toolbar,
+      #tab-ledger,
+      #tab-accounts,
+      #tab-whatsapp,
+      .modal-backdrop,
+      #toast-msg,
+      footer {
+        display: none !important;
+      }
+      .workspace-section {
+        padding: 0 !important;
+      }
+      #tab-demand {
+        display: block !important;
+      }
+      .notice-wrapper {
+        display: block !important;
+      }
+      .notice-sheet {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        width: 100% !important;
+      }
+      .sheet-subject {
+        background: #f1f5f9 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .sheet-table th {
+        background: #f1f5f9 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── TOP NAVIGATION BAR ─── -->
+  <nav id="app-header">
+    <div class="wrap nav-inner">
+      <div class="brand-block">
+        <a class="wordmark" href="#" id="brand-logo" aria-label="PalletLock Home">
+          <span>PALLET▪LOCK</span>
+          <span class="wordmark-badge">V1.0</span>
+        </a>
+        <div class="depot-indicator" id="depot-status-indicator">
+          <span class="depot-pulse"></span>
+          <span id="nav-depot-label">DEPOT: WILSONIA (EAST LONDON)</span>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <button type="button" class="btn btn-sm" id="btn-depot-settings" title="Configure Depot Profile">
+          ⚙ DEPOT CONFIG
+        </button>
+        <button type="button" class="btn btn-sm" id="btn-export-csv" title="Download Ledger as CSV">
+          📤 EXPORT CSV
+        </button>
+        <button type="button" class="btn btn-sm" id="btn-backup-json" title="Export Ledger as JSON">
+          💾 BACKUP JSON
+        </button>
+        <button type="button" class="btn btn-sm" id="btn-import-json-trigger" title="Import Ledger from JSON">
+          📥 IMPORT JSON
+        </button>
+        <button type="button" class="btn btn-sm" id="btn-reset-demo" title="Restore Standard SA Freight Dataset">
+          🔄 RESET DEMO
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ─── HERO & PLATFORM DEPARTURE BOARD ─── -->
+  <header class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-meta">
+        <div>
+          <div class="hero-title-tag">
+            <span>● SOUTH AFRICAN ROAD FREIGHT POOL RECONCILER</span>
+          </div>
+          <h1>CHEP & LOSCAM PALLET EXCHANGE & LOSS LEDGER</h1>
+          <p class="hero-desc">
+            Industrial shrinkage auditor and equipment liability ledger for manufacturing dispatch bays and 3PL cross-dock depots (Wilsonia, Fort Jackson, Dimbaza, Gqeberha, City Deep). Prevents unrecovered R380–R450/unit pool replacement write-offs.
+          </p>
+        </div>
+        <div class="hero-tags">
+          <span class="tag-chip">CHEP Blue: R395/unit</span>
+          <span class="tag-chip">Loscam Wood: R360/unit</span>
+          <span class="tag-chip">White/Export: R140/unit</span>
+          <span class="tag-chip">Strict 1:1 Bay Exchange</span>
+        </div>
+      </div>
+
+      <!-- Departure Board High-Contrast Metric Plates -->
+      <div class="board-plates" id="departure-board">
+        <div class="plate plate--amber" id="plate-liability-box">
+          <span class="plate-label">Total Capital at Risk</span>
+          <span class="plate-value" id="kpi-total-liability">R 0.00</span>
+          <span class="plate-sub" id="kpi-sub-accounts">0 Active Receivers</span>
+        </div>
+        <div class="plate plate--cobalt" id="plate-unreturned-box">
+          <span class="plate-label">Unreturned Pallets</span>
+          <span class="plate-value" id="kpi-total-unreturned">0 UNITS</span>
+          <span class="plate-sub" id="kpi-sub-breakdown">CHEP / Loscam Deficit</span>
+        </div>
+        <div class="plate plate--red" id="plate-critical-box">
+          <span class="plate-label">Critical Risk (>14D)</span>
+          <span class="plate-value" id="kpi-critical-liability">R 0.00</span>
+          <span class="plate-sub" id="kpi-critical-count">0 Overdue Units</span>
+        </div>
+        <div class="plate plate--green" id="plate-recovery-box">
+          <span class="plate-label">Immediate Return %</span>
+          <span class="plate-value" id="kpi-recovery-rate">0.0%</span>
+          <span class="plate-sub" id="kpi-total-trips">0 Total Movements</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ─── SECONDARY AUDIT STRIP ─── -->
+  <div class="audit-strip">
+    <div class="wrap audit-strip-inner">
+      <div class="audit-stat-group">
+        <div class="audit-metric">
+          <span class="audit-metric-label">Total Delivered:</span>
+          <span class="audit-metric-val" id="strip-total-delivered">0 Units</span>
+        </div>
+        <div class="audit-metric">
+          <span class="audit-metric-label">Empties Returned:</span>
+          <span class="audit-metric-val" id="strip-total-returned">0 Units</span>
+        </div>
+        <div class="audit-metric">
+          <span class="audit-metric-label">Warning Pipeline (7-14D):</span>
+          <span class="audit-metric-val" id="strip-warning-liability">R 0.00 (0 Units)</span>
+        </div>
+      </div>
+      <div class="audit-stat-group">
+        <div class="audit-metric">
+          <span class="audit-metric-label">Top Debtor:</span>
+          <span class="audit-metric-val" id="strip-top-debtor">None</span>
+        </div>
+        <div class="audit-metric">
+          <span class="audit-metric-label">CHEP Pool Acct:</span>
+          <span class="audit-metric-val" id="strip-chep-account">CHEP-SA-904128</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── TABS NAVIGATION ─── -->
+  <div class="tabs-bar">
+    <div class="wrap">
+      <ul class="tabs-list" role="tablist">
+        <li>
+          <button type="button" class="tab-btn active" id="tab-btn-ledger" role="tab" aria-selected="true" aria-controls="tab-ledger">
+            <span>📋 MOVEMENT ENTRY & LEDGER</span>
+            <span class="tab-counter" id="tab-counter-ledger">0</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="tab-btn" id="tab-btn-accounts" role="tab" aria-selected="false" aria-controls="tab-accounts">
+            <span>🏢 DC ACCOUNT BALANCES & AGING</span>
+            <span class="tab-counter" id="tab-counter-accounts">0</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="tab-btn" id="tab-btn-demand" role="tab" aria-selected="false" aria-controls="tab-demand">
+            <span>⚖ RECOVERY DEMAND NOTICE (PRINT)</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="tab-btn" id="tab-btn-whatsapp" role="tab" aria-selected="false" aria-controls="tab-whatsapp">
+            <span>💬 WHATSAPP DISPATCH INTEL</span>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ─── PRIMARY WORKSPACE ─── -->
+  <main class="wrap workspace-section">
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- TAB 1: MOVEMENT ENTRY & LIVE LEDGER                                     -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="tab-pane active" id="tab-ledger" role="tabpanel">
+
+      <!-- PALLET MOVEMENT ENTRY PANEL -->
+      <section class="panel" id="entry-panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span>➕ LOG PALLET MOVEMENT / BAY DISPATCH</span>
+          </div>
+          <div class="presets-row-title">
+            <span class="form-label">SA DC PRESETS:</span>
+          </div>
+        </div>
+        <div class="panel-body">
+
+          <!-- Quick One-Click Preset Strip -->
+          <div class="presets-row" id="presets-strip">
+            <button type="button" class="preset-chip" id="preset-shoprite">Shoprite DC (34 CHEP)</button>
+            <button type="button" class="preset-chip" id="preset-spar">Spar Distribution (28 CHEP)</button>
+            <button type="button" class="preset-chip" id="preset-idz">IDZ Auto Plant (40 Loscam)</button>
+            <button type="button" class="preset-chip" id="preset-distell">Distell Greenbushes (24 CHEP)</button>
+            <button type="button" class="preset-chip" id="preset-massmart">Massmart DC (32 CHEP)</button>
+            <button type="button" class="preset-chip" id="preset-pnp">Pick n Pay DC (26 Export)</button>
+          </div>
+
+          <!-- Movement Entry Form -->
+          <form id="pallet-entry-form" autocomplete="off">
+            <input type="hidden" id="entry-edit-id" value="">
+
+            <div class="form-grid">
+
+              <!-- Account / Customer Name -->
+              <div class="form-group col-span-2">
+                <label class="form-label" for="entry-account">Account / DC Customer Name *</label>
+                <input type="text" class="form-input" id="entry-account" list="account-suggestions" placeholder="e.g. Shoprite DC Wells Estate" required>
+                <datalist id="account-suggestions">
+                  <option value="Shoprite DC Wells Estate">
+                  <option value="Spar Distribution PE / Gqeberha">
+                  <option value="IDZ Auto Plant East London">
+                  <option value="Distell Greenbushes PE">
+                  <option value="Massmart Distribution City Deep">
+                  <option value="Pick n Pay DC Gqeberha">
+                  <option value="Clover Dairies Fort Jackson">
+                  <option value="Aspen Pharmacare Gqeberha">
+                  <option value="Mercedes-Benz SA Logistics Park">
+                </datalist>
+              </div>
+
+              <!-- Equipment Type -->
+              <div class="form-group">
+                <label class="form-label" for="entry-equipment">Equipment Pool Type *</label>
+                <select class="form-select" id="entry-equipment" required>
+                  <option value="CHEP_BLUE" selected>CHEP Blue Pallet (R395)</option>
+                  <option value="LOSCAM_WOOD">Loscam Wooden Pallet (R360)</option>
+                  <option value="PLAIN_WHITE">Plain White / Export (R140)</option>
+                </select>
+              </div>
+
+              <!-- Delivery Note / Waybill Ref -->
+              <div class="form-group">
+                <label class="form-label" for="entry-waybill">Delivery Note / Waybill # *</label>
+                <input type="text" class="form-input" id="entry-waybill" placeholder="e.g. WB-89410" required>
+              </div>
+
+              <!-- Movement Date -->
+              <div class="form-group">
+                <label class="form-label" for="entry-date">Movement Date *</label>
+                <input type="date" class="form-input" id="entry-date" required>
+              </div>
+
+              <!-- Vehicle Reg / Fleet ID -->
+              <div class="form-group">
+                <label class="form-label" for="entry-vehicle">Fleet ID / Vehicle Reg</label>
+                <input type="text" class="form-input" id="entry-vehicle" placeholder="e.g. CA 492-104">
+              </div>
+
+              <!-- Driver Name -->
+              <div class="form-group">
+                <label class="form-label" for="entry-driver">Driver Name</label>
+                <input type="text" class="form-input" id="entry-driver" placeholder="e.g. Sipho Ndlovu">
+              </div>
+
+              <!-- Shift / Route Corridor -->
+              <div class="form-group">
+                <label class="form-label" for="entry-shift">Shift / Corridor</label>
+                <select class="form-select" id="entry-shift">
+                  <option value="Day Shift Dispatch">Day Shift Dispatch</option>
+                  <option value="Night Linehaul">Night Linehaul</option>
+                  <option value="N2 Coastal Trunk (EL-PE)">N2 Coastal Trunk (EL-PE)</option>
+                  <option value="N6 Inland Trunk (EL-JHB)">N6 Inland Trunk (EL-JHB)</option>
+                  <option value="Local Cross-Dock">Local Cross-Dock</option>
+                </select>
+              </div>
+
+              <!-- Pallets Delivered -->
+              <div class="form-group">
+                <label class="form-label" for="entry-delivered">Pallets Delivered (Outward) *</label>
+                <input type="number" class="form-input" id="entry-delivered" min="0" step="1" value="30" required>
+              </div>
+
+              <!-- Pallets Returned -->
+              <div class="form-group">
+                <label class="form-label" for="entry-returned">Pallets Returned (Empties) *</label>
+                <input type="number" class="form-input" id="entry-returned" min="0" step="1" value="0" required>
+              </div>
+
+              <!-- Unit Replacement Cost -->
+              <div class="form-group">
+                <label class="form-label" for="entry-unit-cost">Unit Cost Override (ZAR)</label>
+                <input type="number" class="form-input" id="entry-unit-cost" min="0" step="1" value="395">
+              </div>
+
+              <!-- Reason Code for Unreturned -->
+              <div class="form-group">
+                <label class="form-label" for="entry-reason">Reason Code (If Unreturned) *</label>
+                <select class="form-select" id="entry-reason" required>
+                  <option value="DC Exchange Pending">DC Exchange Pending (No empties at bay)</option>
+                  <option value="IOU Voucher Issued">IOU Voucher Issued (Paper slip held)</option>
+                  <option value="Refused by Receiver">Refused by Receiver (Short stock claim)</option>
+                  <option value="Damaged/Scrapped">Damaged / Scrapped by DC (Disputed)</option>
+                  <option value="Bay Congestion - Short Returned">Bay Congestion - Short Returned</option>
+                  <option value="Driver Failed to Collect">Driver Failed to Collect (Driver error)</option>
+                  <option value="Full Exchange Balanced">Full Exchange Balanced (0 Variance)</option>
+                </select>
+              </div>
+
+              <!-- Receiver Ref / Slip / Bay Info -->
+              <div class="form-group col-span-2">
+                <label class="form-label" for="entry-receiver-ref">Receiver Slip / Voucher # / Bay Officer</label>
+                <input type="text" class="form-input" id="entry-receiver-ref" placeholder="e.g. Bay 14 - Supervisor Mokoena / IOU #V-4421">
+              </div>
+
+              <!-- Notes -->
+              <div class="form-group col-span-2">
+                <label class="form-label" for="entry-notes">Audit Notes & Observations</label>
+                <input type="text" class="form-input" id="entry-notes" placeholder="e.g. Driver noted DC bay floor was congested; security signed waybill with short stamp">
+              </div>
+
+            </div>
+
+            <!-- Live Entry Calculation Banner -->
+            <div class="calc-banner" id="entry-calc-banner">
+              <div class="calc-items">
+                <div class="calc-unit">
+                  <span class="calc-label">Trip Net Variance:</span>
+                  <span class="calc-val val-amber" id="calc-preview-variance">+30 Pallets</span>
+                </div>
+                <div class="calc-unit">
+                  <span class="calc-label">Immediate Trip Financial Risk:</span>
+                  <span class="calc-val val-red" id="calc-preview-liability">R 11,850.00</span>
+                </div>
+                <div class="calc-unit">
+                  <span class="calc-label">Equipment Category:</span>
+                  <span class="calc-val" id="calc-preview-equipment">CHEP Blue Pallet</span>
+                </div>
+              </div>
+              <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <button type="submit" class="btn btn-primary" id="btn-submit-entry">
+                  💾 LOG PALLET MOVEMENT
+                </button>
+                <button type="button" class="btn" id="btn-cancel-edit" style="display: none;">
+                  ✖ CANCEL EDIT
+                </button>
+                <button type="button" class="btn" id="btn-clear-form">
+                  RESET FORM
+                </button>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </section>
+
+      <!-- FILTER & SEARCH TOOLBAR -->
+      <div class="filter-toolbar" id="ledger-filter-toolbar">
+        <div class="filter-inputs">
+          <input type="text" class="form-input search-field" id="filter-search" placeholder="🔍 Search Waybill, Account, Driver, Truck...">
+          
+          <select class="form-select" id="filter-account" style="width: auto;">
+            <option value="ALL">All DC Accounts</option>
+          </select>
+
+          <select class="form-select" id="filter-equipment" style="width: auto;">
+            <option value="ALL">All Equipment Types</option>
+            <option value="CHEP_BLUE">CHEP Blue Only</option>
+            <option value="LOSCAM_WOOD">Loscam Wood Only</option>
+            <option value="PLAIN_WHITE">White / Export Only</option>
+          </select>
+
+          <select class="form-select" id="filter-risk" style="width: auto;">
+            <option value="ALL">All Risk Stages</option>
+            <option value="CRITICAL">🔴 Critical Risk (>14 Days)</option>
+            <option value="WARNING">🟡 Warning Period (7-14 Days)</option>
+            <option value="NORMAL">🟢 Normal Operational (<7 Days)</option>
+            <option value="BALANCED">⚪ Balanced / Reconciled (0)</option>
+          </select>
+        </div>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <span class="form-label" id="filter-count-label">Showing 0 / 0 Trips</span>
+          <button type="button" class="btn btn-sm" id="btn-clear-filters">CLEAR FILTERS</button>
+        </div>
+      </div>
+
+      <!-- MASTER MOVEMENT LEDGER TABLE -->
+      <div class="table-container" id="ledger-table-container">
+        <table class="ledger-table" id="master-ledger-table">
+          <thead>
+            <tr>
+              <th>Date / Shift</th>
+              <th>Waybill / DN</th>
+              <th>Customer / DC Receiver</th>
+              <th>Fleet / Driver</th>
+              <th>Equipment</th>
+              <th>Del / Ret / Owed</th>
+              <th>Reason & Receiver Ref</th>
+              <th>Aging & Risk</th>
+              <th>Liability (ZAR)</th>
+              <th style="text-align: right;">Action Controls</th>
+            </tr>
+          </thead>
+          <tbody id="ledger-tbody">
+            <!-- Dynamically Rendered Rows -->
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="5">FILTERED LEDGER TOTALS</td>
+              <td id="tfoot-totals-counts">0 Del / 0 Ret = 0 Owed</td>
+              <td>—</td>
+              <td id="tfoot-totals-aging">—</td>
+              <td id="tfoot-totals-liability">R 0.00</td>
+              <td style="text-align: right;">—</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- TAB 2: DC ACCOUNT BALANCES & AGING MATRIX                               -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="tab-pane" id="tab-accounts" role="tabpanel">
+
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span>🏢 RUNNING ACCOUNT LIABILITY & DC RECOVERY MATRIX</span>
+          </div>
+          <div>
+            <span class="form-label">AGGREGATED BY RECEIVING DESTINATION</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <p style="font-size: 0.8125rem; color: var(--ink-2); margin-bottom: 1rem;">
+            Continuous reconciliation balances for all delivery destinations. At R395/CHEP and R360/Loscam, accounts with unreturned equipment aged beyond 14 days represent immediate capital write-offs requiring formal commercial recovery demands.
+          </p>
+
+          <!-- Accounts Cards Grid -->
+          <div class="account-cards-grid" id="account-cards-container">
+            <!-- Dynamically populated -->
+          </div>
+
+          <!-- Accounts Summary Table -->
+          <div class="table-container" style="margin-top: 1rem;">
+            <table class="ledger-table" id="accounts-summary-table">
+              <thead>
+                <tr>
+                  <th>Customer / DC Account</th>
+                  <th>CHEP Owed</th>
+                  <th>Loscam Owed</th>
+                  <th>White Owed</th>
+                  <th>Total Pallets Owed</th>
+                  <th>Oldest Ticket</th>
+                  <th>Risk Bracket</th>
+                  <th>Total Liability (ZAR)</th>
+                  <th style="text-align: right;">Recovery Actions</th>
+                </tr>
+              </thead>
+              <tbody id="accounts-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- TAB 3: EQUIPMENT RECOVERY DEMAND NOTICE (PRINT-READY)                   -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="tab-pane" id="tab-demand" role="tabpanel">
+
+      <div class="notice-wrapper">
+
+        <!-- Demand Notice Sidebar Controls -->
+        <div class="notice-controls" id="notice-controls-panel">
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title">⚖ DEMAND CONFIGURATION</span>
+            </div>
+            <div class="panel-body" style="display: flex; flex-direction: column; gap: 0.75rem;">
+
+              <div class="form-group">
+                <label class="form-label" for="demand-target-account">Target Customer / DC *</label>
+                <select class="form-select" id="demand-target-account">
+                  <!-- Populated from accounts with unreturned pallets -->
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="demand-ultimatum">Resolution Deadline</label>
+                <select class="form-select" id="demand-ultimatum">
+                  <option value="72 Hours (Standard Notice)">72 Hours (Standard Notice)</option>
+                  <option value="48 Hours (Urgent Write-off Notice)">48 Hours (Urgent Write-off Notice)</option>
+                  <option value="5 Working Days (Final Formal Demand)">5 Working Days (Final Formal Demand)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="demand-signatory">Signing Operations Authority</label>
+                <input type="text" class="form-input" id="demand-signatory" value="Bongani Mthembu (Logistics & Fleet Operations Manager)">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="demand-ref-number">Notice Reference #</label>
+                <input type="text" class="form-input" id="demand-ref-number" value="REC-DEMAND-2026-092">
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem;">
+                <button type="button" class="btn btn-primary" id="btn-print-demand">
+                  🖨️ PRINT FORMAL DEMAND (A4 PDF)
+                </button>
+                <button type="button" class="btn" id="btn-copy-demand-text">
+                  📋 COPY LETTER TEXT
+                </button>
+              </div>
+
+              <p style="font-size: 0.6875rem; color: var(--muted); line-height: 1.4; margin-top: 0.5rem;">
+                This formal recovery notice conforms to South African road freight standard conditions of carriage and CHEP / Loscam pool equipment transfer agreements.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- The Printable Formal Commercial Letter (A4 Document) -->
+        <article class="notice-sheet" id="demand-letter-sheet">
+
+          <!-- Letterhead -->
+          <header class="sheet-letterhead">
+            <div>
+              <div class="sheet-depot-name" id="sheet-depot-title">WILSONIA LOGISTICS & DEPOT HUB</div>
+              <div style="font-size: 0.6875rem; color: #475569; margin-top: 0.2rem;" id="sheet-depot-address">
+                Peffer Street, Wilsonia Industrial, East London, 5200 | Eastern Cape, South Africa
+              </div>
+              <div style="font-size: 0.6875rem; color: #475569;">
+                Tel: +27 (0)43 745 1900 | E-mail: dispatch@wilsonialogistics.co.za
+              </div>
+            </div>
+            <div class="sheet-meta-block">
+              <div><strong>DATE:</strong> <span id="sheet-date-val">10 November 2026</span></div>
+              <div><strong>REF:</strong> <span id="sheet-ref-val">REC-DEMAND-2026-092</span></div>
+              <div><strong>CHEP POOL ACCT:</strong> <span id="sheet-chep-acct">CHEP-SA-904128</span></div>
+              <div><strong>LOSCAM ACCT:</strong> <span id="sheet-loscam-acct">LOS-SA-44109</span></div>
+            </div>
+          </header>
+
+          <!-- Addressee Block -->
+          <div style="margin-bottom: 1rem;">
+            <div><strong>TO:</strong> Operations & Receiving Bay Management</div>
+            <div><strong>CUSTOMER / DC:</strong> <span id="sheet-target-customer" style="font-weight: 800; font-size: 1rem;">Shoprite DC Wells Estate</span></div>
+            <div><strong>REGIONAL CORRIDOR:</strong> Eastern Cape Distribution Network</div>
+          </div>
+
+          <!-- Formal Subject Line -->
+          <div class="sheet-subject">
+            FORMAL COMMERCIAL DEMAND: IMMEDIATE RETURN OF POOL PALLET EQUIPMENT (CHEP / LOSCAM) OR AUTHORIZATION TO INVOICE FOR UNRETURNED ASSETS
+          </div>
+
+          <!-- Letter Body Paragraphs -->
+          <p style="margin-bottom: 0.75rem;">
+            Dear Receiving Bay & Operations Management,
+          </p>
+          <p style="margin-bottom: 0.75rem;">
+            According to our dispatch depot delivery manifests and verified waybills, our linehaul vehicles delivered palletized goods to your receiving bays under standard 1:1 equipment exchange agreements. As of the audit date recorded above, your receiving depot has accumulated an unreturned deficit of pool equipment detailed below:
+          </p>
+
+          <!-- Itemized Outstanding Deliveries Table -->
+          <table class="sheet-table" id="sheet-items-table">
+            <thead>
+              <tr>
+                <th>Delivery Date</th>
+                <th>Waybill #</th>
+                <th>Vehicle / Driver</th>
+                <th>Equipment Type</th>
+                <th>Delivered</th>
+                <th>Returned</th>
+                <th>Unreturned</th>
+                <th>Unit Cost</th>
+                <th>Financial Indemnity</th>
+              </tr>
+            </thead>
+            <tbody id="sheet-table-tbody">
+              <!-- Dynamically populated -->
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="6" style="font-weight: 800; text-align: right;">TOTAL OUTSTANDING ASSET LIABILITY:</td>
+                <td id="sheet-total-pallets" style="font-weight: 800;">0 Units</td>
+                <td>—</td>
+                <td id="sheet-total-liability" style="font-weight: 800; font-size: 0.875rem;">R 0.00</td>
+              </tr>
+            </tfoot>
+          </table>
+
+          <!-- Legal & Commercial Ultimatum -->
+          <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 0.75rem; margin-block: 1rem; font-size: 0.75rem;">
+            <strong>MANDATORY RESOLUTION TIMEFRAME:</strong> Please be advised that you are granted <span id="sheet-ultimatum-text" style="font-weight: 800;">72 Hours</span> from date of receipt of this notice to satisfy this deficit via one of the following compliant procedures:
+            <ol style="margin-left: 1.25rem; margin-top: 0.35rem;">
+              <li>Release equivalent certified empty pool pallets (CHEP Blue Grade A / Loscam) to our designated recovery driver upon presentation of this notice.</li>
+              <li>Issue authorized, valid electronic CHEP / Loscam Pool Transfer Slips crediting our pooling account (<span id="sheet-chep-acct-inline">CHEP-SA-904128</span>).</li>
+              <li>Provide written authorization to invoice your corporate trade account directly at the replacement rates (R395 per CHEP / R360 per Loscam) totaling <strong><span id="sheet-total-liability-inline">R 0.00</span></strong>.</li>
+            </ol>
+            <p style="margin-top: 0.35rem; color: #b91c1c; font-weight: 700;">
+              Failure to resolve this deficit within the specified notice period will result in immediate invoicing with statutory interest and referral to the CHEP South Africa Equipment Audit & Recovery Division.
+            </p>
+          </div>
+
+          <!-- Signatures Block -->
+          <div class="sheet-signatures">
+            <div>
+              <div style="font-size: 0.75rem; color: #475569;">Issued on behalf of Dispatch & Fleet Operations:</div>
+              <div class="sig-line" id="sheet-signatory-name">
+                Bongani Mthembu · Logistics & Fleet Operations Manager
+              </div>
+              <div style="font-size: 0.6875rem; color: #64748b; margin-top: 0.2rem;">
+                Depot Stamp & Date: _____________________________
+              </div>
+            </div>
+            <div>
+              <div style="font-size: 0.75rem; color: #475569;">Received & Acknowledged by Customer / DC Bay:</div>
+              <div class="sig-line">
+                Customer Receiving Officer / Operations Manager Signature
+              </div>
+              <div style="font-size: 0.6875rem; color: #64748b; margin-top: 0.2rem;">
+                Full Name / Gate Pass Stamp: ______________________
+              </div>
+            </div>
+          </div>
+
+        </article>
+
+      </div>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- TAB 4: WHATSAPP DISPATCH INTEL SUMMARY                                  -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="tab-pane" id="tab-whatsapp" role="tabpanel">
+
+      <div class="panel" id="whatsapp-panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span>💬 1-CLICK WHATSAPP DISPATCH SUMMARY GENERATOR</span>
+          </div>
+          <div>
+            <span class="form-label">INSTANT LOGISTICS MANAGER INTELLIGENCE</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <p style="font-size: 0.8125rem; color: var(--ink-2); margin-bottom: 1rem;">
+            Dispatch controllers can instantly copy this structured operational alert into depot WhatsApp groups or send directly to linehaul transport managers and receiving bay supervisors.
+          </p>
+
+          <div class="whatsapp-box">
+            <pre class="whatsapp-terminal" id="whatsapp-formatted-text">Generating dispatch report...</pre>
+            
+            <div style="display: flex; gap: 0.75rem; margin-top: 1rem; flex-wrap: wrap;">
+              <button type="button" class="btn btn-primary" id="btn-copy-whatsapp">
+                📋 COPY TO WHATSAPP
+              </button>
+              <button type="button" class="btn btn-amber" id="btn-open-whatsapp-web">
+                📱 LAUNCH IN WHATSAPP WEB
+              </button>
+              <button type="button" class="btn" id="btn-refresh-whatsapp">
+                🔄 REFRESH REPORT
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ─── RECONCILE / SETTLE TRIP MODAL ─── -->
+  <div class="modal-backdrop" id="modal-reconcile" role="dialog" aria-modal="true" aria-labelledby="modal-reconcile-title">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <span class="modal-title" id="modal-reconcile-title">RECONCILE & SETTLE PALLET RETURN</span>
+        <button type="button" class="btn btn-sm" id="btn-close-reconcile" style="border: 1px solid #fff; color: #fff; background: transparent;">✕</button>
+      </div>
+      <form id="reconcile-form">
+        <div class="modal-body">
+          <input type="hidden" id="reconcile-trip-id" value="">
+          <div style="background: var(--paper-2); padding: 0.65rem; border: var(--hair) solid var(--ink); margin-bottom: 0.75rem;">
+            <div><strong>Waybill:</strong> <span id="rec-info-waybill">—</span></div>
+            <div><strong>Customer:</strong> <span id="rec-info-account">—</span></div>
+            <div><strong>Originally Delivered:</strong> <span id="rec-info-delivered">0</span> Pallets (<span id="rec-info-equipment">CHEP</span>)</div>
+            <div><strong>Currently Owed:</strong> <span id="rec-info-owed" style="color: var(--red); font-weight: 800;">0</span> Units (<span id="rec-info-liability">R 0.00</span>)</div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0.65rem;">
+            <label class="form-label" for="reconcile-additional-returned">Empties Brought Back Today *</label>
+            <input type="number" class="form-input" id="reconcile-additional-returned" min="1" step="1" value="1" required>
+            <span style="font-size: 0.6875rem; color: var(--muted); margin-top: 0.2rem;">
+              Enter the number of empty pallets the driver has now retrieved from this DC.
+            </span>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0.65rem;">
+            <label class="form-label" for="reconcile-slip-ref">Return Slip / Exchange Voucher Reference *</label>
+            <input type="text" class="form-input" id="reconcile-slip-ref" placeholder="e.g. Cleared via Voucher #CH-9921 / Security Gate Stamp" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="reconcile-status-choice">Settlement Action</label>
+            <select class="form-select" id="reconcile-status-choice">
+              <option value="PARTIAL_RETURN">Record Partial Recovery (Keep Balance Open)</option>
+              <option value="FULL_SETTLEMENT">Mark Fully Settled & Cleared (0 Variance)</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn" id="btn-cancel-reconcile">CANCEL</button>
+          <button type="submit" class="btn btn-primary" id="btn-confirm-reconcile">SAVE RECONCILIATION</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ─── DEPOT CONFIGURATION MODAL ─── -->
+  <div class="modal-backdrop" id="modal-settings" role="dialog" aria-modal="true" aria-labelledby="modal-settings-title">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <span class="modal-title" id="modal-settings-title">⚙ DEPOT PROFILE & REPLACEMENT TARIFFS</span>
+        <button type="button" class="btn btn-sm" id="btn-close-settings" style="border: 1px solid #fff; color: #fff; background: transparent;">✕</button>
+      </div>
+      <form id="depot-config-form">
+        <div class="modal-body">
+          <div class="form-group" style="margin-bottom: 0.5rem;">
+            <label class="form-label" for="cfg-depot-name">Depot Name *</label>
+            <input type="text" class="form-input" id="cfg-depot-name" value="Wilsonia Logistics & Depot Hub" required>
+          </div>
+          <div class="form-group" style="margin-bottom: 0.5rem;">
+            <label class="form-label" for="cfg-depot-address">Depot Physical Address</label>
+            <input type="text" class="form-input" id="cfg-depot-address" value="Peffer Street, Wilsonia Industrial, East London, 5200">
+          </div>
+          <div class="form-group" style="margin-bottom: 0.5rem;">
+            <label class="form-label" for="cfg-depot-phone">Depot Telephone / Dispatch Hotline</label>
+            <input type="text" class="form-input" id="cfg-depot-phone" value="+27 (0)43 745 1900">
+          </div>
+          <div class="form-group" style="margin-bottom: 0.5rem;">
+            <label class="form-label" for="cfg-depot-email">Depot E-mail Address</label>
+            <input type="email" class="form-input" id="cfg-depot-email" value="dispatch@wilsonialogistics.co.za">
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
+            <div class="form-group">
+              <label class="form-label" for="cfg-chep-account">CHEP Account #</label>
+              <input type="text" class="form-input" id="cfg-chep-account" value="CHEP-SA-904128">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cfg-loscam-account">Loscam Account #</label>
+              <input type="text" class="form-input" id="cfg-loscam-account" value="LOS-SA-44109">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
+            <div class="form-group">
+              <label class="form-label" for="cfg-cost-chep">CHEP Cost (ZAR)</label>
+              <input type="number" class="form-input" id="cfg-cost-chep" min="100" step="5" value="395">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cfg-cost-loscam">Loscam Cost (ZAR)</label>
+              <input type="number" class="form-input" id="cfg-cost-loscam" min="100" step="5" value="360">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cfg-cost-white">White Cost (ZAR)</label>
+              <input type="number" class="form-input" id="cfg-cost-white" min="50" step="5" value="140">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="cfg-manager-name">Operations Manager Signatory</label>
+            <input type="text" class="form-input" id="cfg-manager-name" value="Bongani Mthembu (Logistics & Fleet Operations Manager)">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn" id="btn-cancel-settings">CANCEL</button>
+          <button type="submit" class="btn btn-primary" id="btn-save-settings">SAVE CONFIGURATION</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ─── HIDDEN FILE INPUT FOR JSON IMPORT ─── -->
+  <input type="file" id="json-file-input" accept=".json,application/json" style="display: none;">
+
+  <!-- ─── TOAST NOTIFICATION ─── -->
+  <div id="toast-msg">ACTION COMPLETED</div>
+
+  <!-- ─── JAVASCRIPT STATE & CALCULATION ENGINE ─── -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* ─── CONSTANTS & DEFAULT STORAGE KEYS ─── */
+      const STORAGE_KEY_LEDGER = 'palletlock_v1_ledger_data';
+      const STORAGE_KEY_CONFIG = 'palletlock_v1_depot_config';
+
+      // Default Depot Configuration
+      const DEFAULT_CONFIG = {
+        depotName: 'Wilsonia Logistics & Depot Hub',
+        depotAddress: 'Peffer Street, Wilsonia Industrial, East London, 5200',
+        depotPhone: '+27 (0)43 745 1900',
+        depotEmail: 'dispatch@wilsonialogistics.co.za',
+        chepAccount: 'CHEP-SA-904128',
+        loscamAccount: 'LOS-SA-44109',
+        chepCost: 395,
+        loscamCost: 360,
+        whiteCost: 140,
+        managerName: 'Bongani Mthembu (Logistics & Fleet Operations Manager)'
+      };
+
+      // Helper to compute date offset in YYYY-MM-DD
+      function getDateOffset(daysAgo) {
+        const d = new Date();
+        d.setDate(d.getDate() - daysAgo);
+        return d.toISOString().split('T')[0];
+      }
+
+      // Certified Standard South African Freight Ledger Sample Dataset
+      function getInitialDemoLedger() {
+        return [
+          {
+            id: 'mov-1001',
+            date: getDateOffset(18),
+            shift: 'N2 Coastal Trunk (EL-PE)',
+            waybill: 'WB-88412',
+            account: 'Shoprite DC Wells Estate',
+            vehicle: 'CA 492-104',
+            driver: 'Sipho Ndlovu',
+            equipment: 'CHEP_BLUE',
+            unitCost: 395,
+            delivered: 36,
+            returned: 4,
+            reason: 'DC Exchange Pending',
+            receiverRef: 'Bay 14 - Supervisor Mokoena / Slip #V-8821',
+            notes: 'DC receiving bay congested; driver released truck without exchange empties.'
+          },
+          {
+            id: 'mov-1002',
+            date: getDateOffset(15),
+            shift: 'Local Cross-Dock',
+            waybill: 'WB-88490',
+            account: 'IDZ Auto Plant East London',
+            vehicle: 'EC 782-901',
+            driver: 'Themba Khumalo',
+            equipment: 'LOSCAM_WOOD',
+            unitCost: 360,
+            delivered: 40,
+            returned: 12,
+            reason: 'IOU Voucher Issued',
+            receiverRef: 'Gate 3 Receiving / IOU Slip #L-7740',
+            notes: 'Receiver had zero Loscam empties on hand; issued paper IOU voucher.'
+          },
+          {
+            id: 'mov-1003',
+            date: getDateOffset(11),
+            shift: 'N2 Coastal Trunk (EL-PE)',
+            waybill: 'WB-88730',
+            account: 'Spar Distribution PE / Gqeberha',
+            vehicle: 'CA 601-344',
+            driver: 'Johan van der Merwe',
+            equipment: 'CHEP_BLUE',
+            unitCost: 395,
+            delivered: 30,
+            returned: 6,
+            reason: 'Refused by Receiver',
+            receiverRef: 'Bay 8 Controller / Refusal Stamp #SP-0912',
+            notes: 'Receiver claimed pallet balance dispute; refused to load return empties.'
+          },
+          {
+            id: 'mov-1004',
+            date: getDateOffset(8),
+            shift: 'N2 Coastal Trunk (EL-PE)',
+            waybill: 'WB-88914',
+            account: 'Shoprite DC Wells Estate',
+            vehicle: 'CA 882-990',
+            driver: 'Loyiso Goniwe',
+            equipment: 'CHEP_BLUE',
+            unitCost: 395,
+            delivered: 32,
+            returned: 0,
+            reason: 'Bay Congestion - Short Returned',
+            receiverRef: 'Bay 11 - Slip #EXP-3310',
+            notes: 'Linehaul turnaround priority; driver left before empties bay opened.'
+          },
+          {
+            id: 'mov-1005',
+            date: getDateOffset(4),
+            shift: 'Day Shift Dispatch',
+            waybill: 'WB-89102',
+            account: 'Distell Greenbushes PE',
+            vehicle: 'EC 440-128',
+            driver: 'Mandla Zibi',
+            equipment: 'CHEP_BLUE',
+            unitCost: 395,
+            delivered: 26,
+            returned: 10,
+            reason: 'IOU Voucher Issued',
+            receiverRef: 'Bay 4 - Voucher #IOU-9941',
+            notes: 'Returned 10 empties; 16 held under pallet exchange slip.'
+          },
+          {
+            id: 'mov-1006',
+            date: getDateOffset(2),
+            shift: 'N6 Inland Trunk (EL-JHB)',
+            waybill: 'WB-89240',
+            account: 'Massmart Distribution City Deep',
+            vehicle: 'GP 221-889',
+            driver: 'Thabo Mokoena',
+            equipment: 'CHEP_BLUE',
+            unitCost: 395,
+            delivered: 34,
+            returned: 14,
+            reason: 'Bay Congestion - Short Returned',
+            receiverRef: 'Bay 22 - Inward Slip #MS-6612',
+            notes: 'Johannesburg cross-dock return; partial 14 pallets collected.'
+          },
+          {
+            id: 'mov-1007',
+            date: getDateOffset(1),
+            shift: 'Day Shift Dispatch',
+            waybill: 'WB-89380',
+            account: 'Pick n Pay DC Gqeberha',
+            vehicle: 'CA 110-442',
+            driver: 'David Botha',
+            equipment: 'PLAIN_WHITE',
+            unitCost: 140,
+            delivered: 24,
+            returned: 0,
+            reason: 'Refused by Receiver',
+            receiverRef: 'Bay 3 - Disputed Export Pallet #PNP-1102',
+            notes: 'DC claimed plain white timber quality unacceptable for bay exchange.'
+          },
+          {
+            id: 'mov-1008',
+            date: getDateOffset(0),
+            shift: 'Local Cross-Dock',
+            waybill: 'WB-89455',
+            account: 'Clover Dairies Fort Jackson',
+            vehicle: 'EC 990-231',
+            driver: 'Sipho Ndlovu',
+            equipment: 'CHEP_BLUE',
+            unitCost: 395,
+            delivered: 20,
+            returned: 20,
+            reason: 'Full Exchange Balanced',
+            receiverRef: 'Bay 1 - Clean Slip #EXC-8831',
+            notes: 'Full 1:1 physical exchange completed at Clover bay without dispute.'
+          }
+        ];
+      }
+
+      /* ─── APPLICATION STATE ─── */
+      let ledger = [];
+      let config = { ...DEFAULT_CONFIG };
+
+      // Filter State
+      let filterText = '';
+      let filterAccount = 'ALL';
+      let filterEquipment = 'ALL';
+      let filterRisk = 'ALL';
+
+      /* ─── LOCAL STORAGE MANAGEMENT ─── */
+      function loadState() {
+        try {
+          const storedConfig = localStorage.getItem(STORAGE_KEY_CONFIG);
+          if (storedConfig) {
+            config = { ...DEFAULT_CONFIG, ...JSON.parse(storedConfig) };
+          }
+        } catch (e) {
+          console.warn('Failed to parse config from localStorage', e);
+          config = { ...DEFAULT_CONFIG };
+        }
+
+        try {
+          const storedLedger = localStorage.getItem(STORAGE_KEY_LEDGER);
+          if (storedLedger) {
+            ledger = JSON.parse(storedLedger);
+          } else {
+            ledger = getInitialDemoLedger();
+            saveLedger();
+          }
+        } catch (e) {
+          console.warn('Failed to parse ledger from localStorage, restoring demo data', e);
+          ledger = getInitialDemoLedger();
+          saveLedger();
+        }
+      }
+
+      function saveLedger() {
+        try {
+          localStorage.setItem(STORAGE_KEY_LEDGER, JSON.stringify(ledger));
+        } catch (e) {
+          console.error('Failed to save ledger to localStorage', e);
+        }
+      }
+
+      function saveConfig() {
+        try {
+          localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(config));
+        } catch (e) {
+          console.error('Failed to save config to localStorage', e);
+        }
+      }
+
+      /* ─── FORMATTING & CALCULATION HELPERS ─── */
+      function formatZAR(val) {
+        const num = Number(val) || 0;
+        return 'R ' + num.toLocaleString('en-ZA', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
+      }
+
+      function escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function calculateDaysOld(dateStr) {
+        if (!dateStr) return 0;
+        const entryDate = new Date(dateStr);
+        const today = new Date();
+        const diffMs = today.getTime() - entryDate.getTime();
+        const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        return Math.max(0, diffDays);
+      }
+
+      function getEquipmentLabel(type) {
+        switch (type) {
+          case 'CHEP_BLUE': return 'CHEP Blue Pallet';
+          case 'LOSCAM_WOOD': return 'Loscam Wooden Pallet';
+          case 'PLAIN_WHITE': return 'Plain White / Export';
+          default: return type;
+        }
+      }
+
+      function getEquipmentBadgeClass(type) {
+        switch (type) {
+          case 'CHEP_BLUE': return 'badge-chep';
+          case 'LOSCAM_WOOD': return 'badge-loscam';
+          case 'PLAIN_WHITE': return 'badge-white';
+          default: return '';
+        }
+      }
+
+      function getRiskCategory(days, unreturnedCount) {
+        if (unreturnedCount <= 0) return 'BALANCED';
+        if (days > 14) return 'CRITICAL';
+        if (days >= 7) return 'WARNING';
+        return 'NORMAL';
+      }
+
+      function getRiskBadge(days, unreturnedCount) {
+        if (unreturnedCount <= 0) {
+          return '<span class="badge badge-balanced">BALANCED (0)</span>';
+        }
+        if (days > 14) {
+          return '<span class="badge badge-critical" title="Stuck over 14 days - formal demand required">CRITICAL: ' + days + 'D</span>';
+        }
+        if (days >= 7) {
+          return '<span class="badge badge-warning" title="Warning window 7-14 days">WARNING: ' + days + 'D</span>';
+        }
+        return '<span class="badge badge-normal" title="Normal operational turnaround <7 days">NORMAL: ' + days + 'D</span>';
+      }
+
+      function getDefaultCostForEquipment(eqType) {
+        if (eqType === 'CHEP_BLUE') return config.chepCost;
+        if (eqType === 'LOSCAM_WOOD') return config.loscamCost;
+        if (eqType === 'PLAIN_WHITE') return config.whiteCost;
+        return 395;
+      }
+
+      /* ─── UI TOAST ─── */
+      let toastTimer = null;
+      function showToast(msg) {
+        const el = document.getElementById('toast-msg');
+        if (!el) return;
+        el.textContent = msg;
+        el.style.display = 'block';
+        if (toastTimer) clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+          el.style.display = 'none';
+        }, 2800);
+      }
+
+      /* ─── RE-CALCULATE AGGREGATE KPIS & DEPARTURE BOARD ─── */
+      function updateKPIs() {
+        let totalDelivered = 0;
+        let totalReturned = 0;
+        let totalUnreturned = 0;
+        let totalLiability = 0;
+        let criticalLiability = 0;
+        let criticalCount = 0;
+        let warningLiability = 0;
+        let warningCount = 0;
+        const accountDeficits = {};
+
+        ledger.forEach(item => {
+          const del = Number(item.delivered) || 0;
+          const ret = Number(item.returned) || 0;
+          const unreturned = Math.max(0, del - ret);
+          const cost = Number(item.unitCost) || getDefaultCostForEquipment(item.equipment);
+          const itemLiability = unreturned * cost;
+          const days = calculateDaysOld(item.date);
+
+          totalDelivered += del;
+          totalReturned += ret;
+          totalUnreturned += unreturned;
+          totalLiability += itemLiability;
+
+          if (unreturned > 0) {
+            accountDeficits[item.account] = (accountDeficits[item.account] || 0) + itemLiability;
+            if (days > 14) {
+              criticalLiability += itemLiability;
+              criticalCount += unreturned;
+            } else if (days >= 7) {
+              warningLiability += itemLiability;
+              warningCount += unreturned;
+            }
+          }
+        });
+
+        const activeAccountsCount = Object.keys(accountDeficits).length;
+        const returnRate = totalDelivered > 0 ? ((totalReturned / totalDelivered) * 100).toFixed(1) : '0.0';
+
+        // Top Debtor
+        let topDebtorName = 'None';
+        let maxDebtorVal = 0;
+        Object.entries(accountDeficits).forEach(([acc, val]) => {
+          if (val > maxDebtorVal) {
+            maxDebtorVal = val;
+            topDebtorName = acc + ' (' + formatZAR(val) + ')';
+          }
+        });
+
+        // DOM elements update
+        const elTotalLiability = document.getElementById('kpi-total-liability');
+        const elSubAccounts = document.getElementById('kpi-sub-accounts');
+        const elTotalUnreturned = document.getElementById('kpi-total-unreturned');
+        const elCriticalLiability = document.getElementById('kpi-critical-liability');
+        const elCriticalCount = document.getElementById('kpi-critical-count');
+        const elRecoveryRate = document.getElementById('kpi-recovery-rate');
+        const elTotalTrips = document.getElementById('kpi-total-trips');
+
+        if (elTotalLiability) elTotalLiability.textContent = formatZAR(totalLiability);
+        if (elSubAccounts) elSubAccounts.textContent = activeAccountsCount + ' Accounts in Deficit';
+        if (elTotalUnreturned) elTotalUnreturned.textContent = totalUnreturned.toLocaleString() + ' UNITS';
+        if (elCriticalLiability) elCriticalLiability.textContent = formatZAR(criticalLiability);
+        if (elCriticalCount) elCriticalCount.textContent = criticalCount + ' Overdue Units';
+        if (elRecoveryRate) elRecoveryRate.textContent = returnRate + '%';
+        if (elTotalTrips) elTotalTrips.textContent = ledger.length + ' Total Movements';
+
+        // Strip metrics
+        const elStripDelivered = document.getElementById('strip-total-delivered');
+        const elStripReturned = document.getElementById('strip-total-returned');
+        const elStripWarning = document.getElementById('strip-warning-liability');
+        const elStripTopDebtor = document.getElementById('strip-top-debtor');
+        const elStripChepAccount = document.getElementById('strip-chep-account');
+
+        if (elStripDelivered) elStripDelivered.textContent = totalDelivered.toLocaleString() + ' Units';
+        if (elStripReturned) elStripReturned.textContent = totalReturned.toLocaleString() + ' Units';
+        if (elStripWarning) elStripWarning.textContent = formatZAR(warningLiability) + ' (' + warningCount + ' Units)';
+        if (elStripTopDebtor) elStripTopDebtor.textContent = topDebtorName;
+        if (elStripChepAccount) elStripChepAccount.textContent = config.chepAccount;
+
+        // Nav depot indicator
+        const elNavDepot = document.getElementById('nav-depot-label');
+        if (elNavDepot) elNavDepot.textContent = 'DEPOT: ' + config.depotName.toUpperCase();
+
+        // Tab badge counters
+        const elTabLedgerCount = document.getElementById('tab-counter-ledger');
+        const elTabAccountsCount = document.getElementById('tab-counter-accounts');
+        if (elTabLedgerCount) elTabLedgerCount.textContent = ledger.length;
+        if (elTabAccountsCount) elTabAccountsCount.textContent = activeAccountsCount;
+      }
+
+      /* ─── RENDER MASTER MOVEMENT LEDGER TABLE ─── */
+      function renderLedgerTable() {
+        const tbody = document.getElementById('ledger-tbody');
+        if (!tbody) return;
+
+        // Populate accounts filter dropdown options dynamically
+        const filterAccSelect = document.getElementById('filter-account');
+        if (filterAccSelect) {
+          const currentVal = filterAccSelect.value;
+          const accountsSet = new Set();
+          ledger.forEach(i => accountsSet.add(i.account));
+          const sortedAccounts = Array.from(accountsSet).sort();
+
+          let optionsHtml = '<option value="ALL">All DC Accounts</option>';
+          sortedAccounts.forEach(acc => {
+            optionsHtml += '<option value="' + escapeHtml(acc) + '">' + escapeHtml(acc) + '</option>';
+          });
+          filterAccSelect.innerHTML = optionsHtml;
+          filterAccSelect.value = sortedAccounts.includes(currentVal) ? currentVal : 'ALL';
+        }
+
+        // Apply filters
+        const q = filterText.trim().toLowerCase();
+        const filtered = ledger.filter(item => {
+          // Text search
+          if (q) {
+            const searchStr = (item.waybill + ' ' + item.account + ' ' + item.driver + ' ' + item.vehicle + ' ' + item.receiverRef + ' ' + item.reason).toLowerCase();
+            if (!searchStr.includes(q)) return false;
+          }
+          // Account filter
+          if (filterAccount !== 'ALL' && item.account !== filterAccount) return false;
+          // Equipment filter
+          if (filterEquipment !== 'ALL' && item.equipment !== filterEquipment) return false;
+          // Risk stage filter
+          if (filterRisk !== 'ALL') {
+            const del = Number(item.delivered) || 0;
+            const ret = Number(item.returned) || 0;
+            const unreturned = Math.max(0, del - ret);
+            const days = calculateDaysOld(item.date);
+            const cat = getRiskCategory(days, unreturned);
+            if (cat !== filterRisk) return false;
+          }
+          return true;
+        });
+
+        // Sort: newest first
+        filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        // Update count label
+        const countLabel = document.getElementById('filter-count-label');
+        if (countLabel) {
+          countLabel.textContent = 'Showing ' + filtered.length + ' / ' + ledger.length + ' Trips';
+        }
+
+        if (filtered.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="10" style="text-align:center; padding: 2.5rem; color: var(--muted);">' +
+            'No pallet movement records match the active filters.</td></tr>';
+          updateFooterTotals(0, 0, 0, 0);
+          return;
+        }
+
+        let html = '';
+        let sumDel = 0;
+        let sumRet = 0;
+        let sumOwed = 0;
+        let sumLiab = 0;
+
+        filtered.forEach(item => {
+          const del = Number(item.delivered) || 0;
+          const ret = Number(item.returned) || 0;
+          const unreturned = Math.max(0, del - ret);
+          const cost = Number(item.unitCost) || getDefaultCostForEquipment(item.equipment);
+          const liability = unreturned * cost;
+          const days = calculateDaysOld(item.date);
+          const isCritical = unreturned > 0 && days > 14;
+
+          sumDel += del;
+          sumRet += ret;
+          sumOwed += unreturned;
+          sumLiab += liability;
+
+          const rowClass = isCritical ? 'row-critical' : '';
+          const eqBadge = '<span class="badge ' + getEquipmentBadgeClass(item.equipment) + '">' + escapeHtml(getEquipmentLabel(item.equipment)) + '</span>';
+          const riskBadge = getRiskBadge(days, unreturned);
+
+          html += '<tr class="' + rowClass + '" data-id="' + escapeHtml(item.id) + '">' +
+            '<td><strong>' + escapeHtml(item.date) + '</strong><br><span style="font-size:0.6875rem; color:var(--muted);">' + escapeHtml(item.shift || 'Dispatch') + '</span></td>' +
+            '<td><strong style="color:var(--cobalt);">' + escapeHtml(item.waybill) + '</strong></td>' +
+            '<td><strong>' + escapeHtml(item.account) + '</strong></td>' +
+            '<td>' + escapeHtml(item.vehicle || '—') + '<br><span style="font-size:0.6875rem; color:var(--muted);">' + escapeHtml(item.driver || '—') + '</span></td>' +
+            '<td>' + eqBadge + '</td>' +
+            '<td><strong>' + del + '</strong> Del / ' + ret + ' Ret<br>' +
+              (unreturned > 0 ? '<strong style="color:var(--red);">+' + unreturned + ' Owed</strong>' : '<span style="color:var(--green); font-weight:700;">Balanced</span>') +
+            '</td>' +
+            '<td><span style="font-weight:700;">' + escapeHtml(item.reason) + '</span><br><span style="font-size:0.6875rem; color:var(--muted);">' + escapeHtml(item.receiverRef || 'No slip ref') + '</span></td>' +
+            '<td>' + riskBadge + '</td>' +
+            '<td><strong style="font-size:0.95rem;' + (liability > 0 ? 'color:var(--amber-dark);' : '') + '">' + formatZAR(liability) + '</strong><br><span style="font-size:0.625rem; color:var(--muted);">' + formatZAR(cost) + '/unit</span></td>' +
+            '<td style="text-align: right;">' +
+              '<div style="display: inline-flex; gap: 0.35rem;">' +
+                (unreturned > 0 ? '<button type="button" class="btn btn-sm btn-primary action-btn-reconcile" data-id="' + escapeHtml(item.id) + '" title="Reconcile returned empties">RECONCILE</button>' : '') +
+                '<button type="button" class="btn btn-sm action-btn-edit" data-id="' + escapeHtml(item.id) + '" title="Edit movement details">EDIT</button>' +
+                '<button type="button" class="btn btn-sm btn-red action-btn-delete" data-id="' + escapeHtml(item.id) + '" title="Delete ticket">✕</button>' +
+              '</div>' +
+            '</td>' +
+          '</tr>';
+        });
+
+        tbody.innerHTML = html;
+        updateFooterTotals(sumDel, sumRet, sumOwed, sumLiab);
+      }
+
+      function updateFooterTotals(del, ret, owed, liab) {
+        const elCounts = document.getElementById('tfoot-totals-counts');
+        const elLiability = document.getElementById('tfoot-totals-liability');
+        if (elCounts) elCounts.textContent = del + ' Del / ' + ret + ' Ret = ' + owed + ' Owed';
+        if (elLiability) elLiability.textContent = formatZAR(liab);
+      }
+
+      /* ─── RENDER ACCOUNTS LIABILITY MATRIX (TAB 2) ─── */
+      function renderAccountsMatrix() {
+        const cardsContainer = document.getElementById('account-cards-container');
+        const tbody = document.getElementById('accounts-tbody');
+        if (!cardsContainer || !tbody) return;
+
+        // Group ledger by account
+        const accMap = {};
+
+        ledger.forEach(item => {
+          if (!accMap[item.account]) {
+            accMap[item.account] = {
+              name: item.account,
+              tripsCount: 0,
+              chepOwed: 0,
+              loscamOwed: 0,
+              whiteOwed: 0,
+              totalOwed: 0,
+              totalLiability: 0,
+              oldestDays: 0,
+              normalCount: 0,
+              warningCount: 0,
+              criticalCount: 0
+            };
+          }
+
+          const acc = accMap[item.account];
+          acc.tripsCount++;
+
+          const del = Number(item.delivered) || 0;
+          const ret = Number(item.returned) || 0;
+          const unreturned = Math.max(0, del - ret);
+          const cost = Number(item.unitCost) || getDefaultCostForEquipment(item.equipment);
+          const liab = unreturned * cost;
+          const days = calculateDaysOld(item.date);
+
+          if (unreturned > 0) {
+            acc.totalOwed += unreturned;
+            acc.totalLiability += liab;
+            if (days > acc.oldestDays) acc.oldestDays = days;
+
+            if (item.equipment === 'CHEP_BLUE') acc.chepOwed += unreturned;
+            else if (item.equipment === 'LOSCAM_WOOD') acc.loscamOwed += unreturned;
+            else if (item.equipment === 'PLAIN_WHITE') acc.whiteOwed += unreturned;
+
+            if (days > 14) acc.criticalCount += unreturned;
+            else if (days >= 7) acc.warningCount += unreturned;
+            else acc.normalCount += unreturned;
+          }
+        });
+
+        const accountsList = Object.values(accMap);
+        // Sort highest liability first
+        accountsList.sort((a, b) => b.totalLiability - a.totalLiability);
+
+        if (accountsList.length === 0) {
+          cardsContainer.innerHTML = '<div style="color:var(--muted); padding:2rem;">No accounts on record.</div>';
+          tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding:2rem;">No accounts on record.</td></tr>';
+          return;
+        }
+
+        // Render Cards
+        let cardsHtml = '';
+        let tableHtml = '';
+
+        accountsList.forEach(acc => {
+          const riskCat = getRiskCategory(acc.oldestDays, acc.totalOwed);
+          let riskBadge = '';
+          if (acc.totalOwed === 0) riskBadge = '<span class="badge badge-balanced">BALANCED (0)</span>';
+          else if (riskCat === 'CRITICAL') riskBadge = '<span class="badge badge-critical">CRITICAL RISK (>14D)</span>';
+          else if (riskCat === 'WARNING') riskBadge = '<span class="badge badge-warning">WARNING (7-14D)</span>';
+          else riskBadge = '<span class="badge badge-normal">NORMAL (&lt;7D)</span>';
+
+          // Aging segment widths
+          const totalUnits = acc.totalOwed > 0 ? acc.totalOwed : 1;
+          const pctNorm = ((acc.normalCount / totalUnits) * 100).toFixed(1);
+          const pctWarn = ((acc.warningCount / totalUnits) * 100).toFixed(1);
+          const pctCrit = ((acc.criticalCount / totalUnits) * 100).toFixed(1);
+
+          cardsHtml += '<div class="account-card">' +
+            '<div>' +
+              '<div class="account-card-header">' +
+                '<div>' +
+                  '<div class="account-name">' + escapeHtml(acc.name) + '</div>' +
+                  '<div class="account-trips-count">' + acc.tripsCount + ' Dispatched Trips</div>' +
+                '</div>' +
+                '<div>' + riskBadge + '</div>' +
+              '</div>' +
+              '<div class="account-stat-matrix" style="margin-top:0.75rem;">' +
+                '<div class="account-metric-cell">' +
+                  '<div class="cell-label">CHEP Blue</div>' +
+                  '<div class="cell-val" style="color:var(--cobalt);">' + acc.chepOwed + '</div>' +
+                '</div>' +
+                '<div class="account-metric-cell">' +
+                  '<div class="cell-label">Loscam Wood</div>' +
+                  '<div class="cell-val" style="color:var(--loscam-wood);">' + acc.loscamOwed + '</div>' +
+                '</div>' +
+                '<div class="account-metric-cell">' +
+                  '<div class="cell-label">White / Exp</div>' +
+                  '<div class="cell-val">' + acc.whiteOwed + '</div>' +
+                '</div>' +
+              '</div>' +
+              '<div style="margin-top:0.6rem;">' +
+                '<div style="display:flex; justify-content:space-between; font-size:0.6875rem;">' +
+                  '<span style="font-weight:700;">Aging Exposure Profile</span>' +
+                  '<span style="color:var(--muted);">Oldest: ' + acc.oldestDays + ' Days</span>' +
+                '</div>' +
+                '<div class="aging-progress-bar">' +
+                  '<div class="aging-seg-normal" style="width:' + pctNorm + '%;" title="Normal: ' + acc.normalCount + '"></div>' +
+                  '<div class="aging-seg-warning" style="width:' + pctWarn + '%;" title="Warning: ' + acc.warningCount + '"></div>' +
+                  '<div class="aging-seg-critical" style="width:' + pctCrit + '%;" title="Critical: ' + acc.criticalCount + '"></div>' +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+            '<div>' +
+              '<div style="display:flex; justify-content:space-between; align-items:flex-end; border-top:var(--hair) solid var(--rule); padding-top:0.65rem; margin-top:0.65rem;">' +
+                '<div>' +
+                  '<div style="font-size:0.6875rem; color:var(--muted); font-weight:700;">TOTAL ASSET RISK:</div>' +
+                  '<div style="font-size:1.15rem; font-weight:800; color:var(--amber-dark);">' + formatZAR(acc.totalLiability) + '</div>' +
+                '</div>' +
+                '<button type="button" class="btn btn-sm btn-primary action-account-demand" data-account="' + escapeHtml(acc.name) + '">' +
+                  '⚖ DEMAND NOTICE' +
+                '</button>' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+
+          tableHtml += '<tr>' +
+            '<td><strong>' + escapeHtml(acc.name) + '</strong></td>' +
+            '<td><span style="color:var(--cobalt); font-weight:700;">' + acc.chepOwed + '</span></td>' +
+            '<td><span style="color:var(--loscam-wood); font-weight:700;">' + acc.loscamOwed + '</span></td>' +
+            '<td>' + acc.whiteOwed + '</td>' +
+            '<td><strong style="color:var(--red);">' + acc.totalOwed + '</strong></td>' +
+            '<td>' + acc.oldestDays + ' Days</td>' +
+            '<td>' + riskBadge + '</td>' +
+            '<td><strong style="color:var(--amber-dark);">' + formatZAR(acc.totalLiability) + '</strong></td>' +
+            '<td style="text-align: right;">' +
+              '<button type="button" class="btn btn-sm btn-primary action-account-demand" data-account="' + escapeHtml(acc.name) + '">GENERATE DEMAND</button>' +
+            '</td>' +
+          '</tr>';
+        });
+
+        cardsContainer.innerHTML = cardsHtml;
+        tbody.innerHTML = tableHtml;
+      }
+
+      /* ─── RENDER FORMAL DEMAND NOTICE (TAB 3) ─── */
+      function renderDemandNotice(selectedAccount) {
+        const selectEl = document.getElementById('demand-target-account');
+        if (!selectEl) return;
+
+        // Populate accounts list in select
+        const accountsWithDeficit = new Set();
+        ledger.forEach(i => {
+          const unreturned = Math.max(0, (Number(i.delivered) || 0) - (Number(i.returned) || 0));
+          if (unreturned > 0) accountsWithDeficit.add(i.account);
+        });
+
+        const sorted = Array.from(accountsWithDeficit).sort();
+        let selHtml = '';
+        sorted.forEach(acc => {
+          selHtml += '<option value="' + escapeHtml(acc) + '">' + escapeHtml(acc) + '</option>';
+        });
+        selectEl.innerHTML = selHtml;
+
+        if (sorted.length === 0) {
+          selectEl.innerHTML = '<option value="">No Accounts with Outstanding Pallets</option>';
+        }
+
+        const targetAccount = selectedAccount && sorted.includes(selectedAccount)
+          ? selectedAccount
+          : (sorted[0] || '');
+
+        selectEl.value = targetAccount;
+        updateDemandLetterContent(targetAccount);
+      }
+
+      function updateDemandLetterContent(targetAccount) {
+        const letterTbody = document.getElementById('sheet-table-tbody');
+        const letterDepotTitle = document.getElementById('sheet-depot-title');
+        const letterDepotAddress = document.getElementById('sheet-depot-address');
+        const letterChepAcct = document.getElementById('sheet-chep-acct');
+        const letterLoscamAcct = document.getElementById('sheet-loscam-acct');
+        const letterDateVal = document.getElementById('sheet-date-val');
+        const letterRefVal = document.getElementById('sheet-ref-val');
+        const letterTargetCustomer = document.getElementById('sheet-target-customer');
+        const letterTotalPallets = document.getElementById('sheet-total-pallets');
+        const letterTotalLiability = document.getElementById('sheet-total-liability');
+        const letterTotalLiabilityInline = document.getElementById('sheet-total-liability-inline');
+        const letterChepInline = document.getElementById('sheet-chep-acct-inline');
+        const letterUltimatum = document.getElementById('sheet-ultimatum-text');
+        const letterSignatory = document.getElementById('sheet-signatory-name');
+
+        if (!letterTbody) return;
+
+        // Apply config to sheet letterhead
+        if (letterDepotTitle) letterDepotTitle.textContent = config.depotName.toUpperCase();
+        if (letterDepotAddress) letterDepotAddress.textContent = config.depotAddress + ' | Tel: ' + config.depotPhone + ' | ' + config.depotEmail;
+        if (letterChepAcct) letterChepAcct.textContent = config.chepAccount;
+        if (letterLoscamAcct) letterLoscamAcct.textContent = config.loscamAccount;
+        if (letterChepInline) letterChepInline.textContent = config.chepAccount;
+
+        // Date and Reference
+        const todayStr = new Date().toLocaleDateString('en-ZA', { year: 'numeric', month: 'long', day: 'numeric' });
+        if (letterDateVal) letterDateVal.textContent = todayStr;
+        const refInput = document.getElementById('demand-ref-number');
+        if (letterRefVal && refInput) letterRefVal.textContent = refInput.value || 'REC-DEMAND-2026-092';
+
+        const ultimatumSelect = document.getElementById('demand-ultimatum');
+        if (letterUltimatum && ultimatumSelect) letterUltimatum.textContent = ultimatumSelect.value;
+
+        const signatoryInput = document.getElementById('demand-signatory');
+        if (letterSignatory && signatoryInput) letterSignatory.textContent = signatoryInput.value;
+
+        if (letterTargetCustomer) letterTargetCustomer.textContent = targetAccount || '—';
+
+        if (!targetAccount) {
+          letterTbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding:1.5rem;">Please select an account with outstanding equipment balance.</td></tr>';
+          if (letterTotalPallets) letterTotalPallets.textContent = '0 Units';
+          if (letterTotalLiability) letterTotalLiability.textContent = 'R 0.00';
+          if (letterTotalLiabilityInline) letterTotalLiabilityInline.textContent = 'R 0.00';
+          return;
+        }
+
+        // Filter tickets for this customer with unreturned count > 0
+        const items = ledger.filter(i => {
+          if (i.account !== targetAccount) return false;
+          const unreturned = Math.max(0, (Number(i.delivered) || 0) - (Number(i.returned) || 0));
+          return unreturned > 0;
+        });
+
+        items.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+        let rowsHtml = '';
+        let totUnreturned = 0;
+        let totLiability = 0;
+
+        items.forEach(item => {
+          const del = Number(item.delivered) || 0;
+          const ret = Number(item.returned) || 0;
+          const unreturned = del - ret;
+          const cost = Number(item.unitCost) || getDefaultCostForEquipment(item.equipment);
+          const liab = unreturned * cost;
+
+          totUnreturned += unreturned;
+          totLiability += liab;
+
+          rowsHtml += '<tr>' +
+            '<td>' + escapeHtml(item.date) + '</td>' +
+            '<td><strong>' + escapeHtml(item.waybill) + '</strong></td>' +
+            '<td>' + escapeHtml((item.vehicle || '') + ' (' + (item.driver || '') + ')') + '</td>' +
+            '<td>' + escapeHtml(getEquipmentLabel(item.equipment)) + '</td>' +
+            '<td>' + del + '</td>' +
+            '<td>' + ret + '</td>' +
+            '<td style="font-weight:800; color:#b91c1c;">+' + unreturned + '</td>' +
+            '<td>' + formatZAR(cost) + '</td>' +
+            '<td><strong>' + formatZAR(liab) + '</strong></td>' +
+          '</tr>';
+        });
+
+        letterTbody.innerHTML = rowsHtml;
+        if (letterTotalPallets) letterTotalPallets.textContent = totUnreturned.toLocaleString() + ' Units';
+        if (letterTotalLiability) letterTotalLiability.textContent = formatZAR(totLiability);
+        if (letterTotalLiabilityInline) letterTotalLiabilityInline.textContent = formatZAR(totLiability);
+      }
+
+      /* ─── RENDER WHATSAPP DISPATCH INTEL (TAB 4) ─── */
+      function renderWhatsAppSummary() {
+        const terminal = document.getElementById('whatsapp-formatted-text');
+        if (!terminal) return;
+
+        let totalDelivered = 0;
+        let totalReturned = 0;
+        let totalUnreturned = 0;
+        let totalLiability = 0;
+        let criticalLiability = 0;
+        let criticalUnits = 0;
+        const accountMap = {};
+
+        ledger.forEach(item => {
+          const del = Number(item.delivered) || 0;
+          const ret = Number(item.returned) || 0;
+          const unreturned = Math.max(0, del - ret);
+          const cost = Number(item.unitCost) || getDefaultCostForEquipment(item.equipment);
+          const liab = unreturned * cost;
+          const days = calculateDaysOld(item.date);
+
+          totalDelivered += del;
+          totalReturned += ret;
+          totalUnreturned += unreturned;
+          totalLiability += liab;
+
+          if (unreturned > 0) {
+            if (!accountMap[item.account]) {
+              accountMap[item.account] = {
+                name: item.account,
+                chep: 0,
+                loscam: 0,
+                white: 0,
+                total: 0,
+                liability: 0,
+                oldest: 0
+              };
+            }
+            const acc = accountMap[item.account];
+            acc.total += unreturned;
+            acc.liability += liab;
+            if (days > acc.oldest) acc.oldest = days;
+            if (item.equipment === 'CHEP_BLUE') acc.chep += unreturned;
+            else if (item.equipment === 'LOSCAM_WOOD') acc.loscam += unreturned;
+            else if (item.equipment === 'PLAIN_WHITE') acc.white += unreturned;
+
+            if (days > 14) {
+              criticalLiability += liab;
+              criticalUnits += unreturned;
+            }
+          }
+        });
+
+        const sortedAccounts = Object.values(accountMap).sort((a, b) => b.liability - a.liability);
+        const todayStr = new Date().toLocaleDateString('en-ZA', { year: 'numeric', month: 'short', day: 'numeric' });
+
+        let msg = '🚨 *PALLETLOCK DISPATCH AUDIT: UNRETURNED PALLET ALERT*\n';
+        msg += '📅 Date: ' + todayStr + ' | 🏢 Depot: ' + config.depotName + '\n';
+        msg += 'CHEP Pool Acct: ' + config.chepAccount + '\n';
+        msg += '--------------------------------------------------\n';
+        msg += '📊 *SUMMARY OVERVIEW*\n';
+        msg += '• Total Pallets Delivered: ' + totalDelivered.toLocaleString() + '\n';
+        msg += '• Empties Brought Back: ' + totalReturned.toLocaleString() + '\n';
+        msg += '• 🔴 *Net Deficit In Circulation:* ' + totalUnreturned.toLocaleString() + ' Pallets\n';
+        msg += '• 💰 *Total Capital Exposure:* ' + formatZAR(totalLiability) + '\n';
+        msg += '• ⚠️ *Critical Risk (>14 Days):* ' + criticalUnits + ' Units (' + formatZAR(criticalLiability) + ')\n';
+        msg += '--------------------------------------------------\n';
+        msg += '🏭 *TOP RECEIVING LIABILITIES BY DC:*\n';
+
+        if (sortedAccounts.length === 0) {
+          msg += '✅ Zero outstanding pallet deficit across all receivers!\n';
+        } else {
+          sortedAccounts.forEach((acc, idx) => {
+            let riskEmoji = '🟢';
+            if (acc.oldest > 14) riskEmoji = '🔴 CRITICAL';
+            else if (acc.oldest >= 7) riskEmoji = '🟡 WARNING';
+            else riskEmoji = '🟢 NORMAL';
+
+            msg += (idx + 1) + '. *' + acc.name + '*\n';
+            msg += '   • Total Owed: ' + acc.total + ' Pallets (' + formatZAR(acc.liability) + ')\n';
+            msg += '   • Breakdown: ' + acc.chep + ' CHEP | ' + acc.loscam + ' Loscam | ' + acc.white + ' White\n';
+            msg += '   • Oldest Ticket: ' + acc.oldest + ' Days [' + riskEmoji + ']\n';
+          });
+        }
+
+        msg += '--------------------------------------------------\n';
+        msg += '📋 *ACTION MANDATE FOR DISPATCH CONTROLLERS:*\n';
+        msg += '1. Drivers on linehaul routes MUST demand physical 1:1 return empties before offloading.\n';
+        msg += '2. Accounts over 14 days have formal Demand Notices triggered for immediate debit.\n';
+        msg += '3. Do not accept paper IOU vouchers without signed bay manager stamps.\n';
+        msg += '--------------------------------------------------\n';
+        msg += 'Generated by PALLETLOCK V1 · ZAInnovate Technologies';
+
+        terminal.textContent = msg;
+      }
+
+      /* ─── LIVE ENTRY FORM MATH PREVIEW ─── */
+      function updateEntryPreview() {
+        const delInput = document.getElementById('entry-delivered');
+        const retInput = document.getElementById('entry-returned');
+        const eqInput = document.getElementById('entry-equipment');
+        const costInput = document.getElementById('entry-unit-cost');
+
+        const previewVariance = document.getElementById('calc-preview-variance');
+        const previewLiability = document.getElementById('calc-preview-liability');
+        const previewEquipment = document.getElementById('calc-preview-equipment');
+
+        const del = Number(delInput ? delInput.value : 0) || 0;
+        const ret = Number(retInput ? retInput.value : 0) || 0;
+        const variance = Math.max(0, del - ret);
+
+        const eqType = eqInput ? eqInput.value : 'CHEP_BLUE';
+        const cost = Number(costInput ? costInput.value : 0) || getDefaultCostForEquipment(eqType);
+        const liab = variance * cost;
+
+        if (previewVariance) {
+          previewVariance.textContent = (del - ret >= 0 ? '+' : '') + (del - ret) + ' Pallets';
+          previewVariance.className = variance > 0 ? 'calc-val val-amber' : 'calc-val val-green';
+        }
+        if (previewLiability) {
+          previewLiability.textContent = formatZAR(liab);
+          previewLiability.className = liab > 0 ? 'calc-val val-red' : 'calc-val val-green';
+        }
+        if (previewEquipment) {
+          previewEquipment.textContent = getEquipmentLabel(eqType);
+        }
+      }
+
+      /* ─── EXPORT CSV ─── */
+      function exportCSV() {
+        if (ledger.length === 0) {
+          alert('No ledger records to export.');
+          return;
+        }
+
+        const headers = [
+          'MovementID',
+          'Date',
+          'Shift',
+          'Waybill',
+          'AccountName',
+          'VehicleReg',
+          'DriverName',
+          'EquipmentType',
+          'Delivered',
+          'Returned',
+          'UnreturnedOwed',
+          'UnitCostZAR',
+          'LiabilityZAR',
+          'ReasonCode',
+          'ReceiverSlipRef',
+          'DaysOutstanding',
+          'RiskBracket',
+          'Notes'
+        ];
+
+        const rows = [headers.join(',')];
+
+        ledger.forEach(item => {
+          const del = Number(item.delivered) || 0;
+          const ret = Number(item.returned) || 0;
+          const unreturned = Math.max(0, del - ret);
+          const cost = Number(item.unitCost) || getDefaultCostForEquipment(item.equipment);
+          const liab = unreturned * cost;
+          const days = calculateDaysOld(item.date);
+          const risk = getRiskCategory(days, unreturned);
+
+          const escapeCsv = (str) => '"' + String(str || '').replace(/"/g, '""') + '"';
+
+          const row = [
+            escapeCsv(item.id),
+            escapeCsv(item.date),
+            escapeCsv(item.shift),
+            escapeCsv(item.waybill),
+            escapeCsv(item.account),
+            escapeCsv(item.vehicle),
+            escapeCsv(item.driver),
+            escapeCsv(item.equipment),
+            del,
+            ret,
+            unreturned,
+            cost,
+            liab.toFixed(2),
+            escapeCsv(item.reason),
+            escapeCsv(item.receiverRef),
+            days,
+            escapeCsv(risk),
+            escapeCsv(item.notes)
+          ];
+          rows.push(row.join(','));
+        });
+
+        const csvContent = '\uFEFF' + rows.join('\r\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        const dateTag = new Date().toISOString().split('T')[0];
+        a.href = url;
+        a.download = 'PALLETLOCK_Ledger_Export_' + dateTag + '.csv';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('CSV EXPORT DOWNLOADED');
+      }
+
+      /* ─── BACKUP JSON ─── */
+      function backupJSON() {
+        const payload = {
+          version: '1.0.0',
+          exportedAt: new Date().toISOString(),
+          config: config,
+          ledger: ledger
+        };
+
+        const jsonStr = JSON.stringify(payload, null, 2);
+        const blob = new Blob([jsonStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        const dateTag = new Date().toISOString().split('T')[0];
+        a.href = url;
+        a.download = 'PALLETLOCK_Backup_' + dateTag + '.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('JSON BACKUP DOWNLOADED');
+      }
+
+      /* ─── IMPORT JSON ─── */
+      function handleJSONImport(file) {
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          try {
+            const data = JSON.parse(e.target.result);
+            if (Array.isArray(data)) {
+              ledger = data;
+            } else if (data.ledger && Array.isArray(data.ledger)) {
+              ledger = data.ledger;
+              if (data.config) config = { ...DEFAULT_CONFIG, ...data.config };
+            } else {
+              throw new Error('Unrecognized JSON ledger format');
+            }
+            saveLedger();
+            saveConfig();
+            refreshAllViews();
+            showToast('LEDGER RESTORED FROM JSON');
+          } catch (err) {
+            alert('Failed to import JSON file: ' + err.message);
+          }
+        };
+        reader.readAsText(file);
+      }
+
+      /* ─── TAB SWITCHING CONTROLLER ─── */
+      function switchTab(targetTabId) {
+        const buttons = [
+          { id: 'tab-btn-ledger', pane: 'tab-ledger' },
+          { id: 'tab-btn-accounts', pane: 'tab-accounts' },
+          { id: 'tab-btn-demand', pane: 'tab-demand' },
+          { id: 'tab-btn-whatsapp', pane: 'tab-whatsapp' }
+        ];
+
+        buttons.forEach(tab => {
+          const btn = document.getElementById(tab.id);
+          const pane = document.getElementById(tab.pane);
+          if (tab.pane === targetTabId) {
+            if (btn) {
+              btn.classList.add('active');
+              btn.setAttribute('aria-selected', 'true');
+            }
+            if (pane) {
+              pane.classList.add('active');
+            }
+          } else {
+            if (btn) {
+              btn.classList.remove('active');
+              btn.setAttribute('aria-selected', 'false');
+            }
+            if (pane) {
+              pane.classList.remove('active');
+            }
+          }
+        });
+
+        // Contextual refresh
+        if (targetTabId === 'tab-accounts') {
+          renderAccountsMatrix();
+        } else if (targetTabId === 'tab-demand') {
+          renderDemandNotice();
+        } else if (targetTabId === 'tab-whatsapp') {
+          renderWhatsAppSummary();
+        }
+      }
+
+      /* ─── REFRESH MASTER VIEWS ─── */
+      function refreshAllViews() {
+        updateKPIs();
+        renderLedgerTable();
+        renderAccountsMatrix();
+        renderDemandNotice();
+        renderWhatsAppSummary();
+      }
+
+      /* ─── EDIT RECORD FLOW ─── */
+      function startEdit(id) {
+        const item = ledger.find(i => i.id === id);
+        if (!item) return;
+
+        // Switch to ledger tab
+        switchTab('tab-ledger');
+
+        // Populate fields
+        document.getElementById('entry-edit-id').value = item.id;
+        document.getElementById('entry-account').value = item.account;
+        document.getElementById('entry-equipment').value = item.equipment;
+        document.getElementById('entry-waybill').value = item.waybill;
+        document.getElementById('entry-date').value = item.date;
+        document.getElementById('entry-vehicle').value = item.vehicle || '';
+        document.getElementById('entry-driver').value = item.driver || '';
+        document.getElementById('entry-shift').value = item.shift || 'Day Shift Dispatch';
+        document.getElementById('entry-delivered').value = item.delivered;
+        document.getElementById('entry-returned').value = item.returned;
+        document.getElementById('entry-unit-cost').value = item.unitCost || getDefaultCostForEquipment(item.equipment);
+        document.getElementById('entry-reason').value = item.reason;
+        document.getElementById('entry-receiver-ref').value = item.receiverRef || '';
+        document.getElementById('entry-notes').value = item.notes || '';
+
+        const submitBtn = document.getElementById('btn-submit-entry');
+        const cancelBtn = document.getElementById('btn-cancel-edit');
+        if (submitBtn) submitBtn.textContent = '💾 UPDATE PALLET RECORD';
+        if (cancelBtn) cancelBtn.style.display = 'inline-flex';
+
+        updateEntryPreview();
+        const entryPanel = document.getElementById('entry-panel');
+        if (entryPanel) entryPanel.scrollIntoView({ behavior: 'smooth' });
+        showToast('EDITING TRIP: ' + item.waybill);
+      }
+
+      function cancelEdit() {
+        document.getElementById('pallet-entry-form').reset();
+        document.getElementById('entry-edit-id').value = '';
+        document.getElementById('entry-date').value = new Date().toISOString().split('T')[0];
+        document.getElementById('entry-equipment').value = 'CHEP_BLUE';
+        document.getElementById('entry-unit-cost').value = config.chepCost;
+
+        const submitBtn = document.getElementById('btn-submit-entry');
+        const cancelBtn = document.getElementById('btn-cancel-edit');
+        if (submitBtn) submitBtn.textContent = '💾 LOG PALLET MOVEMENT';
+        if (cancelBtn) cancelBtn.style.display = 'none';
+
+        updateEntryPreview();
+      }
+
+      /* ─── DELETE RECORD FLOW ─── */
+      function deleteTicket(id) {
+        const item = ledger.find(i => i.id === id);
+        if (!item) return;
+
+        const confirmed = confirm('Are you sure you want to delete waybill entry ' + item.waybill + ' (' + item.account + ')?');
+        if (!confirmed) return;
+
+        ledger = ledger.filter(i => i.id !== id);
+        saveLedger();
+        refreshAllViews();
+        showToast('DELETED TICKET ' + item.waybill);
+      }
+
+      /* ─── RECONCILE MODAL FLOW ─── */
+      function openReconcileModal(id) {
+        const item = ledger.find(i => i.id === id);
+        if (!item) return;
+
+        const del = Number(item.delivered) || 0;
+        const ret = Number(item.returned) || 0;
+        const unreturned = Math.max(0, del - ret);
+        const cost = Number(item.unitCost) || getDefaultCostForEquipment(item.equipment);
+        const liab = unreturned * cost;
+
+        document.getElementById('reconcile-trip-id').value = item.id;
+        document.getElementById('rec-info-waybill').textContent = item.waybill;
+        document.getElementById('rec-info-account').textContent = item.account;
+        document.getElementById('rec-info-delivered').textContent = del;
+        document.getElementById('rec-info-equipment').textContent = getEquipmentLabel(item.equipment);
+        document.getElementById('rec-info-owed').textContent = unreturned;
+        document.getElementById('rec-info-liability').textContent = formatZAR(liab);
+
+        const addRetInput = document.getElementById('reconcile-additional-returned');
+        if (addRetInput) {
+          addRetInput.max = unreturned;
+          addRetInput.value = unreturned;
+        }
+
+        document.getElementById('reconcile-slip-ref').value = '';
+        document.getElementById('reconcile-status-choice').value = 'FULL_SETTLEMENT';
+
+        const modal = document.getElementById('modal-reconcile');
+        if (modal) modal.classList.add('open');
+      }
+
+      function closeReconcileModal() {
+        const modal = document.getElementById('modal-reconcile');
+        if (modal) modal.classList.remove('open');
+      }
+
+      /* ─── INITIALIZATION & EVENT LISTENERS ─── */
+      document.addEventListener('DOMContentLoaded', function () {
+        loadState();
+
+        // Set default date to today
+        const dateInput = document.getElementById('entry-date');
+        if (dateInput) dateInput.value = new Date().toISOString().split('T')[0];
+
+        // Equipment selection sync unit cost
+        const eqSelect = document.getElementById('entry-equipment');
+        const costInput = document.getElementById('entry-unit-cost');
+        if (eqSelect && costInput) {
+          eqSelect.addEventListener('change', function () {
+            costInput.value = getDefaultCostForEquipment(eqSelect.value);
+            updateEntryPreview();
+          });
+        }
+
+        // Live calculation inputs
+        const liveInputs = ['entry-delivered', 'entry-returned', 'entry-unit-cost'];
+        liveInputs.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.addEventListener('input', updateEntryPreview);
+        });
+
+        // Tabs event listeners
+        document.getElementById('tab-btn-ledger').addEventListener('click', () => switchTab('tab-ledger'));
+        document.getElementById('tab-btn-accounts').addEventListener('click', () => switchTab('tab-accounts'));
+        document.getElementById('tab-btn-demand').addEventListener('click', () => switchTab('tab-demand'));
+        document.getElementById('tab-btn-whatsapp').addEventListener('click', () => switchTab('tab-whatsapp'));
+
+        // Preset Chips
+        const presetConfigs = {
+          'preset-shoprite': { account: 'Shoprite DC Wells Estate', eq: 'CHEP_BLUE', del: 34, ret: 4, reason: 'DC Exchange Pending' },
+          'preset-spar': { account: 'Spar Distribution PE / Gqeberha', eq: 'CHEP_BLUE', del: 28, ret: 0, reason: 'Refused by Receiver' },
+          'preset-idz': { account: 'IDZ Auto Plant East London', eq: 'LOSCAM_WOOD', del: 40, ret: 10, reason: 'IOU Voucher Issued' },
+          'preset-distell': { account: 'Distell Greenbushes PE', eq: 'CHEP_BLUE', del: 24, ret: 8, reason: 'IOU Voucher Issued' },
+          'preset-massmart': { account: 'Massmart Distribution City Deep', eq: 'CHEP_BLUE', del: 32, ret: 12, reason: 'Bay Congestion - Short Returned' },
+          'preset-pnp': { account: 'Pick n Pay DC Gqeberha', eq: 'PLAIN_WHITE', del: 26, ret: 0, reason: 'Refused by Receiver' }
+        };
+
+        Object.entries(presetConfigs).forEach(([btnId, pData]) => {
+          const btn = document.getElementById(btnId);
+          if (btn) {
+            btn.addEventListener('click', function () {
+              document.getElementById('entry-account').value = pData.account;
+              document.getElementById('entry-equipment').value = pData.eq;
+              document.getElementById('entry-delivered').value = pData.del;
+              document.getElementById('entry-returned').value = pData.ret;
+              document.getElementById('entry-reason').value = pData.reason;
+              document.getElementById('entry-unit-cost').value = getDefaultCostForEquipment(pData.eq);
+              document.getElementById('entry-waybill').value = 'WB-' + Math.floor(10000 + Math.random() * 90000);
+              updateEntryPreview();
+              showToast('PRESET LOADED: ' + pData.account);
+            });
+          }
+        });
+
+        // Form Submit
+        const entryForm = document.getElementById('pallet-entry-form');
+        if (entryForm) {
+          entryForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const editId = document.getElementById('entry-edit-id').value;
+            const account = document.getElementById('entry-account').value.trim();
+            const equipment = document.getElementById('entry-equipment').value;
+            const waybill = document.getElementById('entry-waybill').value.trim();
+            const date = document.getElementById('entry-date').value;
+            const vehicle = document.getElementById('entry-vehicle').value.trim();
+            const driver = document.getElementById('entry-driver').value.trim();
+            const shift = document.getElementById('entry-shift').value;
+            const delivered = Number(document.getElementById('entry-delivered').value) || 0;
+            const returned = Number(document.getElementById('entry-returned').value) || 0;
+            const unitCost = Number(document.getElementById('entry-unit-cost').value) || getDefaultCostForEquipment(equipment);
+            const reason = document.getElementById('entry-reason').value;
+            const receiverRef = document.getElementById('entry-receiver-ref').value.trim();
+            const notes = document.getElementById('entry-notes').value.trim();
+
+            if (!account || !waybill || !date) {
+              alert('Please complete the required fields: Account, Waybill, and Date.');
+              return;
+            }
+
+            if (editId) {
+              // Update existing
+              const item = ledger.find(i => i.id === editId);
+              if (item) {
+                item.account = account;
+                item.equipment = equipment;
+                item.waybill = waybill;
+                item.date = date;
+                item.vehicle = vehicle;
+                item.driver = driver;
+                item.shift = shift;
+                item.delivered = delivered;
+                item.returned = returned;
+                item.unitCost = unitCost;
+                item.reason = reason;
+                item.receiverRef = receiverRef;
+                item.notes = notes;
+                showToast('UPDATED TICKET ' + waybill);
+              }
+            } else {
+              // Create new entry
+              const newEntry = {
+                id: 'mov-' + Date.now(),
+                date: date,
+                shift: shift,
+                waybill: waybill,
+                account: account,
+                vehicle: vehicle,
+                driver: driver,
+                equipment: equipment,
+                unitCost: unitCost,
+                delivered: delivered,
+                returned: returned,
+                reason: reason,
+                receiverRef: receiverRef,
+                notes: notes
+              };
+              ledger.unshift(newEntry);
+              showToast('LOGGED MOVEMENT: ' + waybill);
+            }
+
+            saveLedger();
+            cancelEdit();
+            refreshAllViews();
+          });
+        }
+
+        // Clear Form & Cancel Edit Buttons
+        document.getElementById('btn-clear-form').addEventListener('click', cancelEdit);
+        document.getElementById('btn-cancel-edit').addEventListener('click', cancelEdit);
+
+        // Filter Controls
+        const filterSearch = document.getElementById('filter-search');
+        if (filterSearch) {
+          filterSearch.addEventListener('input', function () {
+            filterText = filterSearch.value;
+            renderLedgerTable();
+          });
+        }
+
+        const filterAcc = document.getElementById('filter-account');
+        if (filterAcc) {
+          filterAcc.addEventListener('change', function () {
+            filterAccount = filterAcc.value;
+            renderLedgerTable();
+          });
+        }
+
+        const filterEq = document.getElementById('filter-equipment');
+        if (filterEq) {
+          filterEq.addEventListener('change', function () {
+            filterEquipment = filterEq.value;
+            renderLedgerTable();
+          });
+        }
+
+        const filterRk = document.getElementById('filter-risk');
+        if (filterRk) {
+          filterRk.addEventListener('change', function () {
+            filterRisk = filterRk.value;
+            renderLedgerTable();
+          });
+        }
+
+        document.getElementById('btn-clear-filters').addEventListener('click', function () {
+          filterText = '';
+          filterAccount = 'ALL';
+          filterEquipment = 'ALL';
+          filterRisk = 'ALL';
+          if (filterSearch) filterSearch.value = '';
+          if (filterAcc) filterAcc.value = 'ALL';
+          if (filterEq) filterEq.value = 'ALL';
+          if (filterRk) filterRk.value = 'ALL';
+          renderLedgerTable();
+          showToast('FILTERS CLEARED');
+        });
+
+        // Event delegation on Master Table Actions (RECONCILE, EDIT, DELETE)
+        const masterTable = document.getElementById('master-ledger-table');
+        if (masterTable) {
+          masterTable.addEventListener('click', function (e) {
+            const btnReconcile = e.target.closest('.action-btn-reconcile');
+            if (btnReconcile) {
+              const id = btnReconcile.getAttribute('data-id');
+              openReconcileModal(id);
+              return;
+            }
+
+            const btnEdit = e.target.closest('.action-btn-edit');
+            if (btnEdit) {
+              const id = btnEdit.getAttribute('data-id');
+              startEdit(id);
+              return;
+            }
+
+            const btnDelete = e.target.closest('.action-btn-delete');
+            if (btnDelete) {
+              const id = btnDelete.getAttribute('data-id');
+              deleteTicket(id);
+              return;
+            }
+          });
+        }
+
+        // Event delegation on Accounts Pane Action (GENERATE DEMAND)
+        const tabAccounts = document.getElementById('tab-accounts');
+        if (tabAccounts) {
+          tabAccounts.addEventListener('click', function (e) {
+            const btnDemand = e.target.closest('.action-account-demand');
+            if (btnDemand) {
+              const acc = btnDemand.getAttribute('data-account');
+              switchTab('tab-demand');
+              renderDemandNotice(acc);
+            }
+          });
+        }
+
+        // Reconcile Modal Form Submit
+        const recForm = document.getElementById('reconcile-form');
+        if (recForm) {
+          recForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const id = document.getElementById('reconcile-trip-id').value;
+            const additionalRet = Number(document.getElementById('reconcile-additional-returned').value) || 0;
+            const slipRef = document.getElementById('reconcile-slip-ref').value.trim();
+            const statusChoice = document.getElementById('reconcile-status-choice').value;
+
+            const item = ledger.find(i => i.id === id);
+            if (!item) return;
+
+            const originalRet = Number(item.returned) || 0;
+            const del = Number(item.delivered) || 0;
+
+            if (statusChoice === 'FULL_SETTLEMENT') {
+              item.returned = del;
+              item.reason = 'Full Exchange Balanced';
+            } else {
+              item.returned = Math.min(del, originalRet + additionalRet);
+            }
+
+            item.receiverRef = (item.receiverRef ? item.receiverRef + ' | ' : '') + slipRef;
+            saveLedger();
+            closeReconcileModal();
+            refreshAllViews();
+            showToast('RECONCILIATION SAVED FOR ' + item.waybill);
+          });
+        }
+
+        document.getElementById('btn-close-reconcile').addEventListener('click', closeReconcileModal);
+        document.getElementById('btn-cancel-reconcile').addEventListener('click', closeReconcileModal);
+
+        // Demand Notice Controls
+        const targetAccSelect = document.getElementById('demand-target-account');
+        if (targetAccSelect) {
+          targetAccSelect.addEventListener('change', function () {
+            updateDemandLetterContent(targetAccSelect.value);
+          });
+        }
+
+        const ultimatumSelect = document.getElementById('demand-ultimatum');
+        if (ultimatumSelect) {
+          ultimatumSelect.addEventListener('change', function () {
+            const target = targetAccSelect ? targetAccSelect.value : '';
+            updateDemandLetterContent(target);
+          });
+        }
+
+        const signatoryInput = document.getElementById('demand-signatory');
+        if (signatoryInput) {
+          signatoryInput.addEventListener('input', function () {
+            const target = targetAccSelect ? targetAccSelect.value : '';
+            updateDemandLetterContent(target);
+          });
+        }
+
+        const refNumberInput = document.getElementById('demand-ref-number');
+        if (refNumberInput) {
+          refNumberInput.addEventListener('input', function () {
+            const target = targetAccSelect ? targetAccSelect.value : '';
+            updateDemandLetterContent(target);
+          });
+        }
+
+        // Print Demand Notice
+        document.getElementById('btn-print-demand').addEventListener('click', function () {
+          window.print();
+        });
+
+        // Copy Demand Notice Text
+        document.getElementById('btn-copy-demand-text').addEventListener('click', function () {
+          const sheet = document.getElementById('demand-letter-sheet');
+          if (!sheet) return;
+          const text = sheet.innerText;
+          navigator.clipboard.writeText(text).then(() => {
+            showToast('FORMAL LETTER COPIED TO CLIPBOARD');
+          }).catch(() => {
+            showToast('PLEASE PRESS CTRL+C TO COPY');
+          });
+        });
+
+        // WhatsApp Panel Actions
+        document.getElementById('btn-copy-whatsapp').addEventListener('click', function () {
+          const terminal = document.getElementById('whatsapp-formatted-text');
+          if (!terminal) return;
+          const text = terminal.textContent;
+          navigator.clipboard.writeText(text).then(() => {
+            showToast('WHATSAPP INTEL COPIED TO CLIPBOARD');
+          }).catch(() => {
+            showToast('PLEASE PRESS CTRL+C TO COPY');
+          });
+        });
+
+        document.getElementById('btn-open-whatsapp-web').addEventListener('click', function () {
+          const terminal = document.getElementById('whatsapp-formatted-text');
+          if (!terminal) return;
+          const text = encodeURIComponent(terminal.textContent);
+          window.open('https://api.whatsapp.com/send?text=' + text, '_blank');
+        });
+
+        document.getElementById('btn-refresh-whatsapp').addEventListener('click', function () {
+          renderWhatsAppSummary();
+          showToast('WHATSAPP SUMMARY REFRESHED');
+        });
+
+        // Depot Config Modal
+        const modalSettings = document.getElementById('modal-settings');
+        document.getElementById('btn-depot-settings').addEventListener('click', function () {
+          document.getElementById('cfg-depot-name').value = config.depotName;
+          document.getElementById('cfg-depot-address').value = config.depotAddress;
+          document.getElementById('cfg-depot-phone').value = config.depotPhone;
+          document.getElementById('cfg-depot-email').value = config.depotEmail;
+          document.getElementById('cfg-chep-account').value = config.chepAccount;
+          document.getElementById('cfg-loscam-account').value = config.loscamAccount;
+          document.getElementById('cfg-cost-chep').value = config.chepCost;
+          document.getElementById('cfg-cost-loscam').value = config.loscamCost;
+          document.getElementById('cfg-cost-white').value = config.whiteCost;
+          document.getElementById('cfg-manager-name').value = config.managerName;
+          if (modalSettings) modalSettings.classList.add('open');
+        });
+
+        function closeSettingsModal() {
+          if (modalSettings) modalSettings.classList.remove('open');
+        }
+
+        document.getElementById('btn-close-settings').addEventListener('click', closeSettingsModal);
+        document.getElementById('btn-cancel-settings').addEventListener('click', closeSettingsModal);
+
+        document.getElementById('depot-config-form').addEventListener('submit', function (e) {
+          e.preventDefault();
+          config.depotName = document.getElementById('cfg-depot-name').value.trim();
+          config.depotAddress = document.getElementById('cfg-depot-address').value.trim();
+          config.depotPhone = document.getElementById('cfg-depot-phone').value.trim();
+          config.depotEmail = document.getElementById('cfg-depot-email').value.trim();
+          config.chepAccount = document.getElementById('cfg-chep-account').value.trim();
+          config.loscamAccount = document.getElementById('cfg-loscam-account').value.trim();
+          config.chepCost = Number(document.getElementById('cfg-cost-chep').value) || 395;
+          config.loscamCost = Number(document.getElementById('cfg-cost-loscam').value) || 360;
+          config.whiteCost = Number(document.getElementById('cfg-cost-white').value) || 140;
+          config.managerName = document.getElementById('cfg-manager-name').value.trim();
+
+          saveConfig();
+          closeSettingsModal();
+          refreshAllViews();
+          showToast('DEPOT CONFIGURATION SAVED');
+        });
+
+        // CSV & JSON Data Export
+        document.getElementById('btn-export-csv').addEventListener('click', exportCSV);
+        document.getElementById('btn-backup-json').addEventListener('click', backupJSON);
+
+        // JSON Import Trigger & Handler
+        const fileInput = document.getElementById('json-file-input');
+        document.getElementById('btn-import-json-trigger').addEventListener('click', function () {
+          if (fileInput) fileInput.click();
+        });
+
+        if (fileInput) {
+          fileInput.addEventListener('change', function (e) {
+            if (e.target.files && e.target.files[0]) {
+              handleJSONImport(e.target.files[0]);
+              fileInput.value = '';
+            }
+          });
+        }
+
+        // Reset Demo Data
+        document.getElementById('btn-reset-demo').addEventListener('click', function () {
+          const ok = confirm('Reset all records to the certified South African freight demo dataset? (This will overwrite current local ledger modifications)');
+          if (!ok) return;
+          ledger = getInitialDemoLedger();
+          config = { ...DEFAULT_CONFIG };
+          saveLedger();
+          saveConfig();
+          refreshAllViews();
+          showToast('RESTORED CERTIFIED SA FREIGHT DATASET');
+        });
+
+        // Initialize All Views
+        refreshAllViews();
+        updateEntryPreview();
+      });
+
+    })();
+  </script>
+</body>
+</html>

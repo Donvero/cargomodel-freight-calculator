@@ -1,10 +1,10 @@
 {
   "product": "CARGOMODEL V2",
   "standard": "ZAI-STD-ENG-001 v1.0",
-  "date": "2026-11-10T14:58:42.645Z",
+  "date": "2026-11-10T15:23:09.886Z",
   "verdict": "GO",
   "complianceScore": "100.0%",
-  "artifactSha256": "acef77d8fb68a4dbe4b94ec16fd5f6dd5149fcb29712e6687fce09c004106444",
+  "artifactSha256": "2030492edc195a4601f3064c3788466d49c5746ee3588048df46e049072997e2",
   "summary": {
     "totalChecks": 115,
     "passedChecks": 106,
@@ -551,7 +551,7 @@
           "id": "08.03",
           "desc": "Reproducible builds and verifiable SHA-256 hash",
           "status": "PASS",
-          "evidence": "SHA-256: acef77d8fb68a4dbe4b94ec16fd5f6dd5149fcb29712e6687fce09c004106444"
+          "evidence": "SHA-256: 2030492edc195a4601f3064c3788466d49c5746ee3588048df46e049072997e2"
         },
         {
           "id": "08.04",

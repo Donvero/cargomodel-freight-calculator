@@ -3,67 +3,86 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="PALLETLOCK V1: CHEP & Loscam Pallet Exchange & Loss Ledger. Production-grade zero-dependency supply chain audit instrument for South African road freight depots.">
-  <title>PALLETLOCK V1 · CHEP & Loscam Pallet Exchange & Loss Ledger</title>
+  <meta name="description" content="PALLETLOCK V1: CHEP and Loscam Pallet Exchange and Loss Ledger. Supply chain audit instrument for South African road freight depots.">
+  <title>PALLETLOCK V1 · CHEP and Loscam Pallet Exchange and Loss Ledger</title>
 
-  <!-- Hallmark Wayfind System: Chivo Mono, 2px ink borders, square corners, cobalt live readings, amber financial figures -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
 
   <style>
-    /* ─── TOKENS (Wayfind / Industrial Departure Board Colourway) ─── */
+/* Hallmark stamp: theme wayfind (platform), genre modern-minimal, idea: the departure board and pallet ledger as an industrial audit instrument */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4 · weakest: V, departure board platform aesthetic chosen to match South African depot wayfinding */
+/* Hallmark · waive 64 · the theme material is Chivo Mono throughout · the board face sets the entire page */
+
+    /* Tokens */
     :root {
-      --paper:       oklch(95.5% 0.006 250);
-      --paper-2:     oklch(91.5% 0.009 250);
-      --paper-3:     #ffffff;
-      --ink:         oklch(16%   0.014 262);
-      --ink-2:       oklch(29%   0.014 262);
-      --muted:       oklch(47%   0.016 260);
-      --rule:        oklch(80%   0.011 250);
-      --ink-rule:    oklch(34%   0.014 262);
+      color-scheme: light;
+      --color-paper:       oklch(95.5% 0.006 250);
+      --color-paper-2:     oklch(91.5% 0.009 250);
+      --color-paper-3:     oklch(99.2% 0.005 250);
+      --color-paper-input: oklch(98.5% 0.005 250);
+      --color-ink:         oklch(16%   0.014 262);
+      --color-ink-2:       oklch(29%   0.014 262);
+      --color-muted:       oklch(47%   0.016 260);
+      --color-rule:        oklch(80%   0.011 250);
+      --color-ink-rule:    oklch(34%   0.014 262);
+      --color-plate-label: oklch(75%   0.016 260);
+      --color-plate-sub:   oklch(65%   0.016 260);
 
-      --cobalt:      #1c52d8;
-      --cobalt-ink:  #ffffff;
-      --amber:       #d97706;
-      --amber-dark:  #b45309;
-      --amber-ink:   #161922;
-      --red:         #dc2626;
-      --red-bg:      #fee2e2;
-      --green:       #16a34a;
-      --green-bg:    #dcfce7;
-      --chep-blue:   #0052cc;
-      --loscam-wood: #c25e00;
+      --color-accent:      oklch(51%   0.22  264);
+      --color-accent-ink:  oklch(99%   0.003 250);
+      --color-accent-2:    oklch(74%   0.16   82);
+      --color-amber-ink:   oklch(16%   0.014 262);
 
-      --font: 'Chivo Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+      --color-red:         oklch(52%   0.22   25);
+      --color-red-bg:      oklch(94%   0.04   25);
+      --color-red-light:   oklch(72%   0.18   25);
+      --color-green:       oklch(42%   0.18  145);
+      --color-green-bg:    oklch(94%   0.04  145);
+      --color-green-light: oklch(74%   0.16  145);
 
-      --bar:  2px;
-      --hair: 1px;
+      --color-chep:        oklch(46%   0.22  264);
+      --color-chep-bg:     oklch(93%   0.05  264);
+      --color-chep-light:  oklch(72%   0.16  264);
+      --color-loscam:      oklch(48%   0.18   50);
+      --color-loscam-bg:   oklch(94%   0.05   50);
+      --color-white-pal:   oklch(35%   0.02  260);
+      --color-white-bg:    oklch(95%   0.01  260);
 
-      --space-xs:  0.375rem;
-      --space-sm:  0.625rem;
-      --space-md:  1rem;
-      --space-lg:  1.5rem;
-      --space-xl:  2.5rem;
+      --color-backdrop:    oklch(16%   0.014 262 / 0.7);
+      --color-shadow:      oklch(16%   0.014 262 / 0.3);
 
-      --text-label: clamp(0.6875rem, 0.65rem + 0.2vw, 0.75rem);
-      --text-body:  clamp(0.8125rem, 0.78rem + 0.25vw, 0.9375rem);
-      --text-title: clamp(1rem,      0.9rem  + 0.4vw, 1.25rem);
-      --text-stat:  clamp(1.8rem,    1.5rem  + 1.5vw, 3.2rem);
+      --font-display:      "Chivo Mono", ui-monospace, monospace;
+      --font-body:         var(--font-display);
+
+      --bar:               2px;
+      --hair:              1px;
+
+      --space-2xs:         2px;
+      --space-xs:          4px;
+      --space-sm:          8px;
+      --space-md:          16px;
+      --space-lg:          24px;
+      --space-xl:          40px;
+
+      --text-label:        0.75rem;
+      --text-body:         0.875rem;
+      --text-title:        1.125rem;
+      --text-stat:         2.4rem;
     }
 
-    /* ─── RESET & DEFAULTS ─── */
+    /* Reset */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { overflow-x: clip; }
-    html { color-scheme: light; }
 
     body {
-      font-family: var(--font);
+      font-family: var(--font-body);
       font-size: var(--text-body);
       font-variant-numeric: tabular-nums;
       line-height: 1.45;
-      background: var(--paper);
-      color: var(--ink);
+      background: var(--color-paper);
+      color: var(--color-ink);
       min-height: 100dvh;
       display: flex;
       flex-direction: column;
@@ -73,22 +92,23 @@
       font-weight: 800;
       line-height: 1.05;
       letter-spacing: -0.03em;
+      text-wrap: balance;
     }
 
-    ::selection { background: var(--amber); color: var(--paper-3); }
-    :focus-visible { outline: 2px solid var(--cobalt); outline-offset: 2px; }
+    ::selection { background: var(--color-accent-2); color: var(--color-amber-ink); }
+    :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
 
     .wrap {
-      padding-inline: clamp(1rem, 2.5vw, 2.5rem);
+      padding-inline: var(--space-md);
       width: 100%;
       max-width: 1600px;
       margin-inline: auto;
     }
 
-    /* ─── TOP NAV (Platform Departure Strip) ─── */
+    /* Top navigation */
     nav#app-header {
-      border-bottom: var(--bar) solid var(--ink);
-      background: var(--paper);
+      border-bottom: var(--bar) solid var(--color-ink);
+      background: var(--color-paper);
       position: sticky;
       top: 0;
       z-index: 50;
@@ -104,66 +124,63 @@
     .brand-block {
       display: flex;
       align-items: center;
-      gap: 0.65rem;
+      gap: var(--space-sm);
     }
     .wordmark {
       font-weight: 800;
       font-size: 1.05rem;
       letter-spacing: -0.03em;
-      color: var(--ink);
+      color: var(--color-ink);
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      gap: 0.35rem;
+      gap: var(--space-xs);
     }
     .wordmark-badge {
       font-size: var(--text-label);
-      background: var(--ink);
-      color: var(--paper);
-      padding: 0.15rem 0.45rem;
+      background: var(--color-ink);
+      color: var(--color-paper);
+      padding: var(--space-2xs) var(--space-xs);
       font-weight: 700;
-      letter-spacing: 0.05em;
     }
     .depot-indicator {
       display: flex;
       align-items: center;
-      gap: 0.45rem;
+      gap: var(--space-xs);
       font-size: var(--text-label);
       font-weight: 700;
-      color: var(--ink-2);
-      border-left: var(--hair) solid var(--ink-rule);
-      padding-left: 0.75rem;
+      color: var(--color-ink-2);
+      border-left: var(--hair) solid var(--color-ink-rule);
+      padding-left: var(--space-sm);
     }
     .depot-pulse {
       width: 8px;
       height: 8px;
-      background: var(--green);
+      background: var(--color-green);
       display: inline-block;
-      border: 1px solid var(--ink);
+      border: 1px solid var(--color-ink);
     }
     .nav-actions {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: var(--space-xs);
       flex-wrap: wrap;
     }
 
-    /* ─── BUTTONS & PIILLS (Wayfind 2px Solid) ─── */
+    /* Buttons */
     .btn {
-      font-family: var(--font);
+      font-family: var(--font-body);
       font-size: var(--text-label);
       font-weight: 700;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
-      padding: 0.45rem 0.75rem;
-      border: var(--bar) solid var(--ink);
-      background: var(--paper-3);
-      color: var(--ink);
+      padding: var(--space-xs) var(--space-sm);
+      border: var(--bar) solid var(--color-ink);
+      background: var(--color-paper-3);
+      color: var(--color-ink);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 0.35rem;
+      gap: var(--space-xs);
       text-decoration: none;
       border-radius: 0;
       transition: background-color 60ms steps(1), color 60ms steps(1);
@@ -171,49 +188,54 @@
       white-space: nowrap;
     }
     .btn:hover {
-      background: var(--ink);
-      color: var(--paper-3);
+      background: var(--color-ink);
+      color: var(--color-paper-3);
     }
     .btn:active {
       transform: translate(1px, 1px);
     }
+    .btn:disabled, button:disabled, input:disabled, select:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
     .btn-primary {
-      background: var(--cobalt);
-      border-color: var(--ink);
-      color: var(--cobalt-ink);
+      background: var(--color-accent);
+      border-color: var(--color-ink);
+      color: var(--color-accent-ink);
     }
     .btn-primary:hover {
-      background: var(--ink);
-      color: var(--paper-3);
+      background: var(--color-ink);
+      color: var(--color-paper-3);
     }
     .btn-amber {
-      background: var(--amber);
-      border-color: var(--ink);
-      color: #ffffff;
+      background: var(--color-accent-2);
+      border-color: var(--color-ink);
+      color: var(--color-amber-ink);
     }
     .btn-amber:hover {
-      background: var(--ink);
-      color: var(--paper-3);
+      background: var(--color-ink);
+      color: var(--color-paper-3);
     }
     .btn-red {
-      background: var(--red);
-      border-color: var(--ink);
-      color: #ffffff;
+      background: var(--color-red);
+      border-color: var(--color-ink);
+      color: var(--color-accent-ink);
     }
     .btn-red:hover {
-      background: var(--ink);
-      color: var(--paper-3);
+      background: var(--color-ink);
+      color: var(--color-paper-3);
     }
     .btn-sm {
-      padding: 0.25rem 0.5rem;
+      padding: var(--space-2xs) var(--space-xs);
       font-size: 0.6875rem;
     }
 
-    /* ─── HERO & PLATFORM DEPARTURE BOARD ─── */
+    /* Hero */
     .hero {
-      border-bottom: var(--bar) solid var(--ink);
+      border-bottom: var(--bar) solid var(--color-ink);
       padding-block: var(--space-md);
-      background: var(--paper);
+      background: var(--color-paper);
     }
     .hero-grid {
       display: grid;
@@ -229,57 +251,45 @@
       flex-direction: column;
       justify-content: space-between;
     }
-    .hero-title-tag {
-      font-size: var(--text-label);
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--cobalt);
-      margin-bottom: 0.35rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
     .hero h1 {
       font-size: clamp(1.4rem, 1.2rem + 1vw, 2.2rem);
-      margin-bottom: 0.4rem;
+      margin-bottom: var(--space-xs);
     }
     .hero-desc {
       font-size: var(--text-body);
-      color: var(--ink-2);
+      color: var(--color-ink-2);
       max-width: 62ch;
       line-height: 1.4;
     }
     .hero-tags {
       display: flex;
-      gap: 0.4rem;
-      margin-top: 0.75rem;
+      gap: var(--space-xs);
+      margin-top: var(--space-sm);
       flex-wrap: wrap;
     }
     .tag-chip {
       font-size: 0.6875rem;
       font-weight: 700;
-      padding: 0.15rem 0.45rem;
-      background: var(--paper-2);
-      border: var(--hair) solid var(--ink-rule);
-      color: var(--ink-2);
-      text-transform: uppercase;
+      padding: var(--space-2xs) var(--space-xs);
+      background: var(--color-paper-2);
+      border: var(--hair) solid var(--color-ink-rule);
+      color: var(--color-ink-2);
     }
 
-    /* ─── DEPARTURE BOARD PLATES ─── */
+    /* Departure board plates */
     .board-plates {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 0.5rem;
+      gap: var(--space-xs);
     }
     @media (max-width: 760px) {
       .board-plates { grid-template-columns: repeat(2, 1fr); }
     }
     .plate {
-      border: var(--bar) solid var(--ink);
-      background: var(--ink);
-      color: var(--paper);
-      padding: 0.75rem;
+      border: var(--bar) solid var(--color-ink);
+      background: var(--color-ink);
+      color: var(--color-paper);
+      padding: var(--space-sm);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -288,65 +298,62 @@
     .plate-label {
       font-size: 0.6875rem;
       font-weight: 700;
-      color: oklch(75% 0.016 260);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      color: var(--color-plate-label);
     }
     .plate-value {
       font-size: clamp(1.15rem, 1rem + 0.6vw, 1.6rem);
       font-weight: 800;
-      color: var(--amber);
+      color: var(--color-accent-2);
       white-space: nowrap;
-      margin-top: 0.25rem;
+      margin-top: var(--space-2xs);
     }
     .plate-sub {
       font-size: 0.6875rem;
-      color: oklch(65% 0.016 260);
-      margin-top: 0.2rem;
+      color: var(--color-plate-sub);
+      margin-top: var(--space-2xs);
     }
-    .plate--cobalt .plate-value { color: #60a5fa; }
-    .plate--red .plate-value { color: #f87171; }
-    .plate--green .plate-value { color: #4ade80; }
+    .plate--cobalt .plate-value { color: var(--color-chep-light); }
+    .plate--red .plate-value { color: var(--color-red-light); }
+    .plate--green .plate-value { color: var(--color-green-light); }
 
-    /* ─── SECONDARY AUDIT STRIP ─── */
+    /* Secondary audit strip */
     .audit-strip {
-      border-bottom: var(--bar) solid var(--ink);
-      background: var(--paper-2);
-      padding-block: 0.5rem;
+      border-bottom: var(--bar) solid var(--color-ink);
+      background: var(--color-paper-2);
+      padding-block: var(--space-xs);
       font-size: var(--text-label);
     }
     .audit-strip-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
+      gap: var(--space-md);
       flex-wrap: wrap;
     }
     .audit-stat-group {
       display: flex;
       align-items: center;
-      gap: 1.25rem;
+      gap: var(--space-md);
       flex-wrap: wrap;
     }
     .audit-metric {
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: var(--space-xs);
     }
     .audit-metric-label {
-      color: var(--muted);
+      color: var(--color-muted);
       font-weight: 700;
-      text-transform: uppercase;
     }
     .audit-metric-val {
       font-weight: 800;
-      color: var(--ink);
+      color: var(--color-ink);
     }
 
-    /* ─── TABS NAVIGATION ─── */
+    /* Tabs navigation */
     .tabs-bar {
-      border-bottom: var(--bar) solid var(--ink);
-      background: var(--paper);
+      border-bottom: var(--bar) solid var(--color-ink);
+      background: var(--color-paper);
     }
     .tabs-list {
       display: flex;
@@ -356,38 +363,37 @@
       white-space: nowrap;
     }
     .tab-btn {
-      font-family: var(--font);
+      font-family: var(--font-body);
       font-size: var(--text-label);
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      padding: 0.85rem 1.25rem;
+      font-weight: 700;
+      padding: var(--space-sm) var(--space-md);
       border: none;
-      border-right: var(--bar) solid var(--ink);
-      background: var(--paper);
-      color: var(--muted);
+      border-right: var(--bar) solid var(--color-ink);
+      background: var(--color-paper);
+      color: var(--color-muted);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 0.45rem;
+      gap: var(--space-xs);
       transition: background-color 60ms steps(1), color 60ms steps(1);
+      white-space: nowrap;
     }
     .tab-btn:hover {
-      background: var(--paper-2);
-      color: var(--ink);
+      background: var(--color-paper-2);
+      color: var(--color-ink);
     }
     .tab-btn.active {
-      background: var(--ink);
-      color: var(--paper-3);
+      background: var(--color-ink);
+      color: var(--color-paper-3);
     }
     .tab-counter {
       font-size: 0.6875rem;
-      padding: 0.1rem 0.4rem;
+      padding: var(--space-2xs) var(--space-xs);
       border: 1px solid currentColor;
       font-weight: 700;
     }
 
-    /* ─── WORKSPACE CONTENT ─── */
+    /* Workspace */
     .workspace-section {
       padding-block: var(--space-md);
       flex: 1;
@@ -399,66 +405,64 @@
       display: block;
     }
 
-    /* ─── FORM & PANEL CONTAINERS ─── */
+    /* Panel */
     .panel {
-      border: var(--bar) solid var(--ink);
-      background: var(--paper-3);
+      border: var(--bar) solid var(--color-ink);
+      background: var(--color-paper-3);
       margin-bottom: var(--space-md);
     }
     .panel-header {
-      background: var(--paper-2);
-      border-bottom: var(--bar) solid var(--ink);
-      padding: 0.6rem 0.85rem;
+      background: var(--color-paper-2);
+      border-bottom: var(--bar) solid var(--color-ink);
+      padding: var(--space-sm) var(--space-md);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 0.5rem;
+      gap: var(--space-xs);
       flex-wrap: wrap;
     }
     .panel-title {
       font-size: var(--text-label);
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      font-weight: 700;
       display: flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: var(--space-xs);
     }
     .panel-body {
       padding: var(--space-md);
     }
 
-    /* Preset Buttons Strip */
+    /* Preset buttons */
     .presets-row {
       display: flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: var(--space-xs);
       overflow-x: auto;
-      padding-bottom: 0.75rem;
-      margin-bottom: 0.75rem;
-      border-bottom: var(--hair) solid var(--rule);
+      padding-bottom: var(--space-sm);
+      margin-bottom: var(--space-sm);
+      border-bottom: var(--hair) solid var(--color-rule);
     }
     .preset-chip {
-      font-family: var(--font);
+      font-family: var(--font-body);
       font-size: 0.6875rem;
       font-weight: 700;
-      padding: 0.25rem 0.55rem;
-      border: var(--hair) solid var(--ink);
-      background: var(--paper-2);
-      color: var(--ink);
+      padding: var(--space-2xs) var(--space-xs);
+      border: var(--hair) solid var(--color-ink);
+      background: var(--color-paper-2);
+      color: var(--color-ink);
       cursor: pointer;
       white-space: nowrap;
     }
     .preset-chip:hover {
-      background: var(--ink);
-      color: var(--paper-3);
+      background: var(--color-ink);
+      color: var(--color-paper-3);
     }
 
-    /* Form Fields Grid */
+    /* Form grid */
     .form-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 0.75rem;
+      gap: var(--space-sm);
     }
     @media (max-width: 1024px) {
       .form-grid { grid-template-columns: repeat(2, 1fr); }
@@ -469,7 +473,7 @@
     .form-group {
       display: flex;
       flex-direction: column;
-      gap: 0.25rem;
+      gap: var(--space-2xs);
     }
     .form-group.col-span-2 {
       grid-column: span 2;
@@ -480,47 +484,45 @@
     .form-label {
       font-size: 0.6875rem;
       font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--ink-2);
+      color: var(--color-ink-2);
     }
     .form-input, .form-select, .form-textarea {
-      font-family: var(--font);
+      font-family: var(--font-body);
       font-size: var(--text-body);
       font-variant-numeric: tabular-nums;
-      padding: 0.45rem 0.6rem;
-      border: var(--bar) solid var(--ink);
-      background: var(--paper-3);
-      color: var(--ink);
+      padding: var(--space-xs) var(--space-sm);
+      border: var(--bar) solid var(--color-ink);
+      background: var(--color-paper-3);
+      color: var(--color-ink);
       border-radius: 0;
       width: 100%;
     }
     .form-input:focus, .form-select:focus, .form-textarea:focus {
       outline: none;
-      border-color: var(--cobalt);
-      background: #fafbff;
+      border-color: var(--color-accent);
+      background: var(--color-paper-input);
     }
     .form-textarea {
       resize: vertical;
       min-height: 60px;
     }
 
-    /* Live Entry Math Calculation Bar */
+    /* Calculation banner */
     .calc-banner {
-      background: var(--paper-2);
-      border: var(--bar) solid var(--ink);
-      padding: 0.65rem 0.85rem;
-      margin-top: 0.85rem;
+      background: var(--color-paper-2);
+      border: var(--bar) solid var(--color-ink);
+      padding: var(--space-sm) var(--space-md);
+      margin-top: var(--space-sm);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
+      gap: var(--space-md);
       flex-wrap: wrap;
     }
     .calc-items {
       display: flex;
       align-items: center;
-      gap: 1.25rem;
+      gap: var(--space-md);
       flex-wrap: wrap;
     }
     .calc-unit {
@@ -530,33 +532,32 @@
     .calc-label {
       font-size: 0.6875rem;
       font-weight: 700;
-      text-transform: uppercase;
-      color: var(--muted);
+      color: var(--color-muted);
     }
     .calc-val {
       font-size: 1.15rem;
       font-weight: 800;
     }
-    .calc-val.val-amber { color: var(--amber-dark); }
-    .calc-val.val-red { color: var(--red); }
-    .calc-val.val-green { color: var(--green); }
+    .calc-val.val-amber { color: var(--color-accent-2); }
+    .calc-val.val-red { color: var(--color-red); }
+    .calc-val.val-green { color: var(--color-green); }
 
-    /* ─── FILTERS & SEARCH TOOLBAR ─── */
+    /* Filter toolbar */
     .filter-toolbar {
-      border: var(--bar) solid var(--ink);
-      background: var(--paper-2);
-      padding: 0.65rem 0.85rem;
+      border: var(--bar) solid var(--color-ink);
+      background: var(--color-paper-2);
+      padding: var(--space-sm) var(--space-md);
       margin-bottom: var(--space-sm);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 0.75rem;
+      gap: var(--space-sm);
       flex-wrap: wrap;
     }
     .filter-inputs {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: var(--space-xs);
       flex-wrap: wrap;
       flex: 1;
     }
@@ -565,10 +566,10 @@
       max-width: 320px;
     }
 
-    /* ─── TABLES (Departure Board Ledger) ─── */
+    /* Tables */
     .table-container {
-      border: var(--bar) solid var(--ink);
-      background: var(--paper-3);
+      border: var(--bar) solid var(--color-ink);
+      background: var(--color-paper-3);
       overflow-x: auto;
       margin-bottom: var(--space-md);
     }
@@ -579,91 +580,87 @@
       white-space: nowrap;
     }
     .ledger-table th {
-      background: var(--ink);
-      color: var(--paper);
+      background: var(--color-ink);
+      color: var(--color-paper);
       font-size: 0.6875rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      padding: 0.6rem 0.75rem;
+      font-weight: 700;
+      padding: var(--space-sm) var(--space-md);
       text-align: left;
-      border-right: var(--hair) solid var(--ink-rule);
+      border-right: var(--hair) solid var(--color-ink-rule);
       user-select: none;
     }
     .ledger-table th:last-child {
       border-right: none;
     }
     .ledger-table td {
-      padding: 0.55rem 0.75rem;
-      border-bottom: var(--hair) solid var(--rule);
-      border-right: var(--hair) solid var(--rule);
-      color: var(--ink);
+      padding: var(--space-xs) var(--space-md);
+      border-bottom: var(--hair) solid var(--color-rule);
+      border-right: var(--hair) solid var(--color-rule);
+      color: var(--color-ink);
       vertical-align: middle;
     }
     .ledger-table td:last-child {
       border-right: none;
     }
     .ledger-table tbody tr:hover {
-      background: var(--paper-2);
+      background: var(--color-paper-2);
     }
     .ledger-table tbody tr.row-critical {
-      background: #fef2f2;
+      background: var(--color-red-bg);
     }
     .ledger-table tbody tr.row-critical:hover {
-      background: #fee2e2;
+      background: var(--color-paper-2);
     }
     .ledger-table tfoot td {
-      background: var(--paper-2);
+      background: var(--color-paper-2);
       font-weight: 800;
-      border-top: var(--bar) solid var(--ink);
+      border-top: var(--bar) solid var(--color-ink);
       border-bottom: none;
     }
 
-    /* Status Badges */
+    /* Status badges */
     .badge {
       display: inline-block;
       font-size: 0.6875rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      padding: 0.15rem 0.45rem;
-      border: var(--hair) solid var(--ink);
-      letter-spacing: 0.03em;
+      font-weight: 700;
+      padding: var(--space-2xs) var(--space-xs);
+      border: var(--hair) solid var(--color-ink);
     }
     .badge-chep {
-      background: #dbeafe;
-      border-color: #1d4ed8;
-      color: #1e40af;
+      background: var(--color-chep-bg);
+      border-color: var(--color-chep);
+      color: var(--color-chep);
     }
     .badge-loscam {
-      background: #ffedd5;
-      border-color: #c2410c;
-      color: #9a3412;
+      background: var(--color-loscam-bg);
+      border-color: var(--color-loscam);
+      color: var(--color-loscam);
     }
     .badge-white {
-      background: #f1f5f9;
-      border-color: #64748b;
-      color: #334155;
+      background: var(--color-white-bg);
+      border-color: var(--color-white-pal);
+      color: var(--color-white-pal);
     }
     .badge-critical {
-      background: var(--red);
-      border-color: var(--ink);
-      color: #ffffff;
+      background: var(--color-red);
+      border-color: var(--color-ink);
+      color: var(--color-accent-ink);
       animation: pulse-danger 2s infinite ease-in-out;
     }
     .badge-warning {
-      background: var(--amber);
-      border-color: var(--ink);
-      color: #ffffff;
+      background: var(--color-accent-2);
+      border-color: var(--color-ink);
+      color: var(--color-amber-ink);
     }
     .badge-normal {
-      background: var(--green);
-      border-color: var(--ink);
-      color: #ffffff;
+      background: var(--color-green-bg);
+      border-color: var(--color-green);
+      color: var(--color-green);
     }
     .badge-balanced {
-      background: var(--paper-2);
-      border-color: var(--ink-rule);
-      color: var(--ink-2);
+      background: var(--color-paper-2);
+      border-color: var(--color-ink-rule);
+      color: var(--color-ink-2);
     }
 
     @keyframes pulse-danger {
@@ -671,7 +668,15 @@
       50% { opacity: 0.75; }
     }
 
-    /* ─── CARDS MATRIX (Tab 2: Account Balances) ─── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* Account cards */
     .account-cards-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -679,21 +684,21 @@
       margin-bottom: var(--space-md);
     }
     .account-card {
-      border: var(--bar) solid var(--ink);
-      background: var(--paper-3);
+      border: var(--bar) solid var(--color-ink);
+      background: var(--color-paper-3);
       padding: var(--space-md);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 0.75rem;
+      gap: var(--space-sm);
     }
     .account-card-header {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 0.5rem;
-      border-bottom: var(--hair) solid var(--rule);
-      padding-bottom: 0.5rem;
+      gap: var(--space-xs);
+      border-bottom: var(--hair) solid var(--color-rule);
+      padding-bottom: var(--space-xs);
     }
     .account-name {
       font-size: 1rem;
@@ -701,25 +706,24 @@
     }
     .account-trips-count {
       font-size: 0.6875rem;
-      color: var(--muted);
+      color: var(--color-muted);
       font-weight: 700;
     }
     .account-stat-matrix {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 0.4rem;
-      background: var(--paper-2);
-      padding: 0.5rem;
-      border: var(--hair) solid var(--ink-rule);
+      gap: var(--space-xs);
+      background: var(--color-paper-2);
+      padding: var(--space-xs);
+      border: var(--hair) solid var(--color-ink-rule);
     }
     .account-metric-cell {
       text-align: center;
     }
     .account-metric-cell .cell-label {
-      font-size: 0.625rem;
-      color: var(--muted);
+      font-size: 0.6875rem;
+      color: var(--color-muted);
       font-weight: 700;
-      text-transform: uppercase;
     }
     .account-metric-cell .cell-val {
       font-size: 1rem;
@@ -728,16 +732,16 @@
     .aging-progress-bar {
       display: flex;
       height: 8px;
-      border: var(--hair) solid var(--ink);
-      background: var(--paper-2);
+      border: var(--hair) solid var(--color-ink);
+      background: var(--color-paper-2);
       overflow: hidden;
-      margin-top: 0.25rem;
+      margin-top: var(--space-xs);
     }
-    .aging-seg-normal { background: var(--green); }
-    .aging-seg-warning { background: var(--amber); }
-    .aging-seg-critical { background: var(--red); }
+    .aging-seg-normal { background: var(--color-green); }
+    .aging-seg-warning { background: var(--color-accent-2); }
+    .aging-seg-critical { background: var(--color-red); }
 
-    /* ─── RECOVERY DEMAND NOTICE (TAB 3 & PRINT) ─── */
+    /* Demand notice sheet */
     .notice-wrapper {
       display: grid;
       grid-template-columns: 320px 1fr;
@@ -752,23 +756,23 @@
       gap: var(--space-md);
     }
     .notice-sheet {
-      border: var(--bar) solid var(--ink);
-      background: #ffffff;
-      padding: clamp(1.2rem, 3vw, 2.5rem);
-      box-shadow: 4px 4px 0px var(--ink);
-      color: #0f172a;
-      font-family: var(--font);
+      border: var(--bar) solid var(--color-ink);
+      background: var(--color-paper-3);
+      padding: var(--space-xl);
+      box-shadow: 4px 4px 0px var(--color-ink);
+      color: var(--color-ink);
+      font-family: var(--font-body);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
     .sheet-letterhead {
-      border-bottom: 2px solid #0f172a;
-      padding-bottom: 1rem;
-      margin-bottom: 1.25rem;
+      border-bottom: var(--bar) solid var(--color-ink);
+      padding-bottom: var(--space-md);
+      margin-bottom: var(--space-md);
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      gap: 1rem;
+      gap: var(--space-md);
     }
     .sheet-depot-name {
       font-size: 1.15rem;
@@ -778,144 +782,138 @@
     .sheet-meta-block {
       text-align: right;
       font-size: 0.6875rem;
-      color: #334155;
+      color: var(--color-ink-2);
     }
     .sheet-subject {
-      background: #f1f5f9;
-      border-left: 4px solid #0f172a;
-      padding: 0.6rem 0.85rem;
+      background: var(--color-paper-2);
+      border: var(--hair) solid var(--color-ink);
+      padding: var(--space-sm) var(--space-md);
       font-weight: 800;
       font-size: 0.875rem;
-      margin-block: 1rem;
-      text-transform: uppercase;
+      margin-block: var(--space-md);
     }
     .sheet-table {
       width: 100%;
       border-collapse: collapse;
-      margin-block: 1rem;
+      margin-block: var(--space-md);
       font-size: 0.75rem;
     }
     .sheet-table th, .sheet-table td {
-      border: 1px solid #334155;
-      padding: 0.4rem 0.6rem;
+      border: 1px solid var(--color-ink);
+      padding: var(--space-xs) var(--space-sm);
       text-align: left;
     }
     .sheet-table th {
-      background: #f1f5f9;
-      font-weight: 800;
+      background: var(--color-paper-2);
+      font-weight: 700;
     }
     .sheet-signatures {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      margin-top: 2rem;
-      padding-top: 1rem;
-      border-top: 1px dashed #64748b;
+      gap: var(--space-lg);
+      margin-top: var(--space-lg);
+      padding-top: var(--space-md);
+      border-top: 1px dashed var(--color-ink-rule);
     }
     .sig-line {
-      border-top: 1px solid #0f172a;
-      margin-top: 2.5rem;
-      padding-top: 0.35rem;
+      border-top: 1px solid var(--color-ink);
+      margin-top: var(--space-xl);
+      padding-top: var(--space-xs);
       font-size: 0.6875rem;
       font-weight: 700;
-      text-transform: uppercase;
     }
 
-    /* ─── WHATSAPP AUDIT PANEL (TAB 4) ─── */
+    /* WhatsApp terminal */
     .whatsapp-box {
-      border: var(--bar) solid var(--ink);
-      background: #eef2eb;
+      border: var(--bar) solid var(--color-ink);
+      background: var(--color-paper-2);
       padding: var(--space-md);
       position: relative;
     }
     .whatsapp-terminal {
-      font-family: var(--font);
-      background: #ffffff;
-      border: var(--bar) solid var(--ink);
-      padding: 1.25rem;
+      font-family: var(--font-body);
+      background: var(--color-paper-3);
+      border: var(--bar) solid var(--color-ink);
+      padding: var(--space-md);
       white-space: pre-wrap;
       font-size: 0.8125rem;
       line-height: 1.5;
-      color: #111827;
+      color: var(--color-ink);
       max-height: 480px;
       overflow-y: auto;
     }
 
-    /* ─── MODALS ─── */
+    /* Modals */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.7);
+      background: var(--color-backdrop);
       backdrop-filter: blur(2px);
       z-index: 100;
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 1rem;
+      padding: var(--space-md);
     }
     .modal-backdrop.open {
       display: flex;
     }
     .modal-dialog {
-      border: var(--bar) solid var(--ink);
-      background: var(--paper-3);
+      border: var(--bar) solid var(--color-ink);
+      background: var(--color-paper-3);
       width: 100%;
       max-width: 620px;
       max-height: 90vh;
       display: flex;
       flex-direction: column;
-      box-shadow: 6px 6px 0px var(--ink);
+      box-shadow: 6px 6px 0px var(--color-ink);
     }
     .modal-header {
-      background: var(--ink);
-      color: var(--paper-3);
-      padding: 0.75rem 1rem;
+      background: var(--color-ink);
+      color: var(--color-paper);
+      padding: var(--space-sm) var(--space-md);
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
     .modal-title {
       font-size: var(--text-label);
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      font-weight: 700;
     }
     .modal-body {
       padding: var(--space-md);
       overflow-y: auto;
     }
     .modal-footer {
-      background: var(--paper-2);
-      border-top: var(--bar) solid var(--ink);
-      padding: 0.75rem 1rem;
+      background: var(--color-paper-2);
+      border-top: var(--bar) solid var(--color-ink);
+      padding: var(--space-sm) var(--space-md);
       display: flex;
       justify-content: flex-end;
-      gap: 0.5rem;
+      gap: var(--space-xs);
     }
 
-    /* Toast Notification */
+    /* Toast */
     #toast-msg {
       position: fixed;
-      bottom: 1.5rem;
-      right: 1.5rem;
-      background: var(--ink);
-      color: var(--paper-3);
-      border: var(--bar) solid var(--amber);
-      padding: 0.65rem 1rem;
+      bottom: var(--space-md);
+      right: var(--space-md);
+      background: var(--color-ink);
+      color: var(--color-paper-3);
+      border: var(--bar) solid var(--color-accent-2);
+      padding: var(--space-sm) var(--space-md);
       font-size: var(--text-label);
-      font-weight: 800;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
+      font-weight: 700;
       z-index: 200;
       display: none;
-      box-shadow: 4px 4px 0px rgba(0,0,0,0.3);
+      box-shadow: 4px 4px 0px var(--color-shadow);
     }
 
-    /* ─── @MEDIA PRINT (STRICT A4 AUDIT LETTER FORMAT) ─── */
+    /* Print styles */
     @media print {
       body {
-        background: #ffffff !important;
-        color: #000000 !important;
+        background: var(--color-paper-3) !important;
+        color: var(--color-ink) !important;
         font-size: 10pt !important;
       }
       #app-header,
@@ -950,22 +948,12 @@
         padding: 0 !important;
         width: 100% !important;
       }
-      .sheet-subject {
-        background: #f1f5f9 !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
-      .sheet-table th {
-        background: #f1f5f9 !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
     }
   </style>
 </head>
 <body>
 
-  <!-- ─── TOP NAVIGATION BAR ─── -->
+  <!-- Top navigation bar -->
   <nav id="app-header">
     <div class="wrap nav-inner">
       <div class="brand-block">
@@ -975,40 +963,37 @@
         </a>
         <div class="depot-indicator" id="depot-status-indicator">
           <span class="depot-pulse"></span>
-          <span id="nav-depot-label">DEPOT: WILSONIA (EAST LONDON)</span>
+          <span id="nav-depot-label">Depot: Wilsonia (East London)</span>
         </div>
       </div>
       <div class="nav-actions">
         <button type="button" class="btn btn-sm" id="btn-depot-settings" title="Configure Depot Profile">
-          ⚙ DEPOT CONFIG
+          Depot config
         </button>
         <button type="button" class="btn btn-sm" id="btn-export-csv" title="Download Ledger as CSV">
-          📤 EXPORT CSV
+          Export CSV
         </button>
         <button type="button" class="btn btn-sm" id="btn-backup-json" title="Export Ledger as JSON">
-          💾 BACKUP JSON
+          Backup JSON
         </button>
         <button type="button" class="btn btn-sm" id="btn-import-json-trigger" title="Import Ledger from JSON">
-          📥 IMPORT JSON
+          Import JSON
         </button>
         <button type="button" class="btn btn-sm" id="btn-reset-demo" title="Restore Standard SA Freight Dataset">
-          🔄 RESET DEMO
+          Reset demo
         </button>
       </div>
     </div>
   </nav>
 
-  <!-- ─── HERO & PLATFORM DEPARTURE BOARD ─── -->
+  <!-- Hero -->
   <header class="hero">
     <div class="wrap hero-grid">
       <div class="hero-meta">
         <div>
-          <div class="hero-title-tag">
-            <span>● SOUTH AFRICAN ROAD FREIGHT POOL RECONCILER</span>
-          </div>
-          <h1>CHEP & LOSCAM PALLET EXCHANGE & LOSS LEDGER</h1>
+          <h1>CHEP and Loscam Pallet Exchange and Loss Ledger</h1>
           <p class="hero-desc">
-            Industrial shrinkage auditor and equipment liability ledger for manufacturing dispatch bays and 3PL cross-dock depots (Wilsonia, Fort Jackson, Dimbaza, Gqeberha, City Deep). Prevents unrecovered R380–R450/unit pool replacement write-offs.
+            Industrial shrinkage auditor and equipment liability ledger for South African manufacturing dispatch and road freight cross-dock depots.
           </p>
         </div>
         <div class="hero-tags">
@@ -1019,25 +1004,25 @@
         </div>
       </div>
 
-      <!-- Departure Board High-Contrast Metric Plates -->
+      <!-- Departure board plates -->
       <div class="board-plates" id="departure-board">
         <div class="plate plate--amber" id="plate-liability-box">
-          <span class="plate-label">Total Capital at Risk</span>
+          <span class="plate-label">Total capital at risk</span>
           <span class="plate-value" id="kpi-total-liability">R 0.00</span>
           <span class="plate-sub" id="kpi-sub-accounts">0 Active Receivers</span>
         </div>
         <div class="plate plate--cobalt" id="plate-unreturned-box">
-          <span class="plate-label">Unreturned Pallets</span>
+          <span class="plate-label">Unreturned pallets</span>
           <span class="plate-value" id="kpi-total-unreturned">0 UNITS</span>
           <span class="plate-sub" id="kpi-sub-breakdown">CHEP / Loscam Deficit</span>
         </div>
         <div class="plate plate--red" id="plate-critical-box">
-          <span class="plate-label">Critical Risk (>14D)</span>
+          <span class="plate-label">Critical risk (&gt;14 days)</span>
           <span class="plate-value" id="kpi-critical-liability">R 0.00</span>
           <span class="plate-sub" id="kpi-critical-count">0 Overdue Units</span>
         </div>
         <div class="plate plate--green" id="plate-recovery-box">
-          <span class="plate-label">Immediate Return %</span>
+          <span class="plate-label">Immediate return rate</span>
           <span class="plate-value" id="kpi-recovery-rate">0.0%</span>
           <span class="plate-sub" id="kpi-total-trips">0 Total Movements</span>
         </div>
@@ -1045,87 +1030,84 @@
     </div>
   </header>
 
-  <!-- ─── SECONDARY AUDIT STRIP ─── -->
+  <!-- Secondary audit strip -->
   <div class="audit-strip">
     <div class="wrap audit-strip-inner">
       <div class="audit-stat-group">
         <div class="audit-metric">
-          <span class="audit-metric-label">Total Delivered:</span>
+          <span class="audit-metric-label">Total delivered:</span>
           <span class="audit-metric-val" id="strip-total-delivered">0 Units</span>
         </div>
         <div class="audit-metric">
-          <span class="audit-metric-label">Empties Returned:</span>
+          <span class="audit-metric-label">Empties returned:</span>
           <span class="audit-metric-val" id="strip-total-returned">0 Units</span>
         </div>
         <div class="audit-metric">
-          <span class="audit-metric-label">Warning Pipeline (7-14D):</span>
+          <span class="audit-metric-label">Warning pipeline (7 to 14 days):</span>
           <span class="audit-metric-val" id="strip-warning-liability">R 0.00 (0 Units)</span>
         </div>
       </div>
       <div class="audit-stat-group">
         <div class="audit-metric">
-          <span class="audit-metric-label">Top Debtor:</span>
+          <span class="audit-metric-label">Top debtor:</span>
           <span class="audit-metric-val" id="strip-top-debtor">None</span>
         </div>
         <div class="audit-metric">
-          <span class="audit-metric-label">CHEP Pool Acct:</span>
+          <span class="audit-metric-label">CHEP pool acct:</span>
           <span class="audit-metric-val" id="strip-chep-account">CHEP-SA-904128</span>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ─── TABS NAVIGATION ─── -->
+  <!-- Tabs navigation -->
   <div class="tabs-bar">
     <div class="wrap">
       <ul class="tabs-list" role="tablist">
         <li>
           <button type="button" class="tab-btn active" id="tab-btn-ledger" role="tab" aria-selected="true" aria-controls="tab-ledger">
-            <span>📋 MOVEMENT ENTRY & LEDGER</span>
+            <span>Movement entry and ledger</span>
             <span class="tab-counter" id="tab-counter-ledger">0</span>
           </button>
         </li>
         <li>
           <button type="button" class="tab-btn" id="tab-btn-accounts" role="tab" aria-selected="false" aria-controls="tab-accounts">
-            <span>🏢 DC ACCOUNT BALANCES & AGING</span>
+            <span>DC account balances and aging</span>
             <span class="tab-counter" id="tab-counter-accounts">0</span>
           </button>
         </li>
         <li>
           <button type="button" class="tab-btn" id="tab-btn-demand" role="tab" aria-selected="false" aria-controls="tab-demand">
-            <span>⚖ RECOVERY DEMAND NOTICE (PRINT)</span>
+            <span>Recovery demand notice (print)</span>
           </button>
         </li>
         <li>
           <button type="button" class="tab-btn" id="tab-btn-whatsapp" role="tab" aria-selected="false" aria-controls="tab-whatsapp">
-            <span>💬 WHATSAPP DISPATCH INTEL</span>
+            <span>WhatsApp dispatch intel</span>
           </button>
         </li>
       </ul>
     </div>
   </div>
 
-  <!-- ─── PRIMARY WORKSPACE ─── -->
+  <!-- Primary workspace -->
   <main class="wrap workspace-section">
 
-    <!-- ═══════════════════════════════════════════════════════════════════════ -->
-    <!-- TAB 1: MOVEMENT ENTRY & LIVE LEDGER                                     -->
-    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- Tab 1: Movement entry and ledger -->
     <div class="tab-pane active" id="tab-ledger" role="tabpanel">
 
-      <!-- PALLET MOVEMENT ENTRY PANEL -->
       <section class="panel" id="entry-panel">
         <div class="panel-header">
           <div class="panel-title">
-            <span>➕ LOG PALLET MOVEMENT / BAY DISPATCH</span>
+            <span>Log pallet movement or bay dispatch</span>
           </div>
-          <div class="presets-row-title">
-            <span class="form-label">SA DC PRESETS:</span>
+          <div>
+            <span class="form-label">SA DC presets:</span>
           </div>
         </div>
         <div class="panel-body">
 
-          <!-- Quick One-Click Preset Strip -->
+          <!-- Presets -->
           <div class="presets-row" id="presets-strip">
             <button type="button" class="preset-chip" id="preset-shoprite">Shoprite DC (34 CHEP)</button>
             <button type="button" class="preset-chip" id="preset-spar">Spar Distribution (28 CHEP)</button>
@@ -1135,15 +1117,13 @@
             <button type="button" class="preset-chip" id="preset-pnp">Pick n Pay DC (26 Export)</button>
           </div>
 
-          <!-- Movement Entry Form -->
+          <!-- Movement Form -->
           <form id="pallet-entry-form" autocomplete="off">
             <input type="hidden" id="entry-edit-id" value="">
 
             <div class="form-grid">
-
-              <!-- Account / Customer Name -->
               <div class="form-group col-span-2">
-                <label class="form-label" for="entry-account">Account / DC Customer Name *</label>
+                <label class="form-label" for="entry-account">Account or customer name *</label>
                 <input type="text" class="form-input" id="entry-account" list="account-suggestions" placeholder="e.g. Shoprite DC Wells Estate" required>
                 <datalist id="account-suggestions">
                   <option value="Shoprite DC Wells Estate">
@@ -1158,9 +1138,8 @@
                 </datalist>
               </div>
 
-              <!-- Equipment Type -->
               <div class="form-group">
-                <label class="form-label" for="entry-equipment">Equipment Pool Type *</label>
+                <label class="form-label" for="entry-equipment">Equipment pool type *</label>
                 <select class="form-select" id="entry-equipment" required>
                   <option value="CHEP_BLUE" selected>CHEP Blue Pallet (R395)</option>
                   <option value="LOSCAM_WOOD">Loscam Wooden Pallet (R360)</option>
@@ -1168,33 +1147,28 @@
                 </select>
               </div>
 
-              <!-- Delivery Note / Waybill Ref -->
               <div class="form-group">
-                <label class="form-label" for="entry-waybill">Delivery Note / Waybill # *</label>
+                <label class="form-label" for="entry-waybill">Delivery note or waybill *</label>
                 <input type="text" class="form-input" id="entry-waybill" placeholder="e.g. WB-89410" required>
               </div>
 
-              <!-- Movement Date -->
               <div class="form-group">
-                <label class="form-label" for="entry-date">Movement Date *</label>
+                <label class="form-label" for="entry-date">Movement date *</label>
                 <input type="date" class="form-input" id="entry-date" required>
               </div>
 
-              <!-- Vehicle Reg / Fleet ID -->
               <div class="form-group">
-                <label class="form-label" for="entry-vehicle">Fleet ID / Vehicle Reg</label>
+                <label class="form-label" for="entry-vehicle">Fleet ID or vehicle reg</label>
                 <input type="text" class="form-input" id="entry-vehicle" placeholder="e.g. CA 492-104">
               </div>
 
-              <!-- Driver Name -->
               <div class="form-group">
-                <label class="form-label" for="entry-driver">Driver Name</label>
+                <label class="form-label" for="entry-driver">Driver name</label>
                 <input type="text" class="form-input" id="entry-driver" placeholder="e.g. Sipho Ndlovu">
               </div>
 
-              <!-- Shift / Route Corridor -->
               <div class="form-group">
-                <label class="form-label" for="entry-shift">Shift / Corridor</label>
+                <label class="form-label" for="entry-shift">Shift or corridor</label>
                 <select class="form-select" id="entry-shift">
                   <option value="Day Shift Dispatch">Day Shift Dispatch</option>
                   <option value="Night Linehaul">Night Linehaul</option>
@@ -1204,27 +1178,23 @@
                 </select>
               </div>
 
-              <!-- Pallets Delivered -->
               <div class="form-group">
-                <label class="form-label" for="entry-delivered">Pallets Delivered (Outward) *</label>
+                <label class="form-label" for="entry-delivered">Pallets delivered (outward) *</label>
                 <input type="number" class="form-input" id="entry-delivered" min="0" step="1" value="30" required>
               </div>
 
-              <!-- Pallets Returned -->
               <div class="form-group">
-                <label class="form-label" for="entry-returned">Pallets Returned (Empties) *</label>
+                <label class="form-label" for="entry-returned">Pallets returned (empties) *</label>
                 <input type="number" class="form-input" id="entry-returned" min="0" step="1" value="0" required>
               </div>
 
-              <!-- Unit Replacement Cost -->
               <div class="form-group">
-                <label class="form-label" for="entry-unit-cost">Unit Cost Override (ZAR)</label>
+                <label class="form-label" for="entry-unit-cost">Unit cost override (ZAR)</label>
                 <input type="number" class="form-input" id="entry-unit-cost" min="0" step="1" value="395">
               </div>
 
-              <!-- Reason Code for Unreturned -->
               <div class="form-group">
-                <label class="form-label" for="entry-reason">Reason Code (If Unreturned) *</label>
+                <label class="form-label" for="entry-reason">Reason code (if unreturned) *</label>
                 <select class="form-select" id="entry-reason" required>
                   <option value="DC Exchange Pending">DC Exchange Pending (No empties at bay)</option>
                   <option value="IOU Voucher Issued">IOU Voucher Issued (Paper slip held)</option>
@@ -1236,45 +1206,41 @@
                 </select>
               </div>
 
-              <!-- Receiver Ref / Slip / Bay Info -->
               <div class="form-group col-span-2">
-                <label class="form-label" for="entry-receiver-ref">Receiver Slip / Voucher # / Bay Officer</label>
-                <input type="text" class="form-input" id="entry-receiver-ref" placeholder="e.g. Bay 14 - Supervisor Mokoena / IOU #V-4421">
+                <label class="form-label" for="entry-receiver-ref">Receiver slip, voucher number or bay officer</label>
+                <input type="text" class="form-input" id="entry-receiver-ref" placeholder="e.g. Bay 14: Supervisor Mokoena / IOU V-4421">
               </div>
 
-              <!-- Notes -->
               <div class="form-group col-span-2">
-                <label class="form-label" for="entry-notes">Audit Notes & Observations</label>
-                <input type="text" class="form-input" id="entry-notes" placeholder="e.g. Driver noted DC bay floor was congested; security signed waybill with short stamp">
+                <label class="form-label" for="entry-notes">Audit notes and observations</label>
+                <input type="text" class="form-input" id="entry-notes" placeholder="e.g. Driver noted bay was congested; security stamped waybill">
               </div>
-
             </div>
 
-            <!-- Live Entry Calculation Banner -->
             <div class="calc-banner" id="entry-calc-banner">
               <div class="calc-items">
                 <div class="calc-unit">
-                  <span class="calc-label">Trip Net Variance:</span>
+                  <span class="calc-label">Trip net variance:</span>
                   <span class="calc-val val-amber" id="calc-preview-variance">+30 Pallets</span>
                 </div>
                 <div class="calc-unit">
-                  <span class="calc-label">Immediate Trip Financial Risk:</span>
+                  <span class="calc-label">Immediate trip financial risk:</span>
                   <span class="calc-val val-red" id="calc-preview-liability">R 11,850.00</span>
                 </div>
                 <div class="calc-unit">
-                  <span class="calc-label">Equipment Category:</span>
+                  <span class="calc-label">Equipment category:</span>
                   <span class="calc-val" id="calc-preview-equipment">CHEP Blue Pallet</span>
                 </div>
               </div>
-              <div style="display: flex; gap: 0.5rem; align-items: center;">
+              <div style="display: flex; gap: var(--space-xs); align-items: center;">
                 <button type="submit" class="btn btn-primary" id="btn-submit-entry">
-                  💾 LOG PALLET MOVEMENT
+                  Log pallet movement
                 </button>
                 <button type="button" class="btn" id="btn-cancel-edit" style="display: none;">
-                  ✖ CANCEL EDIT
+                  Cancel edit
                 </button>
                 <button type="button" class="btn" id="btn-clear-form">
-                  RESET FORM
+                  Reset form
                 </button>
               </div>
             </div>
@@ -1283,10 +1249,10 @@
         </div>
       </section>
 
-      <!-- FILTER & SEARCH TOOLBAR -->
+      <!-- Filter toolbar -->
       <div class="filter-toolbar" id="ledger-filter-toolbar">
         <div class="filter-inputs">
-          <input type="text" class="form-input search-field" id="filter-search" placeholder="🔍 Search Waybill, Account, Driver, Truck...">
+          <input type="text" class="form-input search-field" id="filter-search" placeholder="Search waybill, account, driver, truck...">
           
           <select class="form-select" id="filter-account" style="width: auto;">
             <option value="ALL">All DC Accounts</option>
@@ -1301,46 +1267,45 @@
 
           <select class="form-select" id="filter-risk" style="width: auto;">
             <option value="ALL">All Risk Stages</option>
-            <option value="CRITICAL">🔴 Critical Risk (>14 Days)</option>
-            <option value="WARNING">🟡 Warning Period (7-14 Days)</option>
-            <option value="NORMAL">🟢 Normal Operational (<7 Days)</option>
-            <option value="BALANCED">⚪ Balanced / Reconciled (0)</option>
+            <option value="CRITICAL">Critical Risk (&gt;14 Days)</option>
+            <option value="WARNING">Warning Period (7 to 14 Days)</option>
+            <option value="NORMAL">Normal Operational (&lt;7 Days)</option>
+            <option value="BALANCED">Balanced / Reconciled (0)</option>
           </select>
         </div>
-        <div style="display: flex; gap: 0.5rem; align-items: center;">
+        <div style="display: flex; gap: var(--space-xs); align-items: center;">
           <span class="form-label" id="filter-count-label">Showing 0 / 0 Trips</span>
-          <button type="button" class="btn btn-sm" id="btn-clear-filters">CLEAR FILTERS</button>
+          <button type="button" class="btn btn-sm" id="btn-clear-filters">Clear filters</button>
         </div>
       </div>
 
-      <!-- MASTER MOVEMENT LEDGER TABLE -->
+      <!-- Master ledger table -->
       <div class="table-container" id="ledger-table-container">
         <table class="ledger-table" id="master-ledger-table">
           <thead>
             <tr>
-              <th>Date / Shift</th>
+              <th>Date / shift</th>
               <th>Waybill / DN</th>
-              <th>Customer / DC Receiver</th>
-              <th>Fleet / Driver</th>
+              <th>Customer / DC receiver</th>
+              <th>Fleet / driver</th>
               <th>Equipment</th>
-              <th>Del / Ret / Owed</th>
-              <th>Reason & Receiver Ref</th>
-              <th>Aging & Risk</th>
+              <th>Del / ret / owed</th>
+              <th>Reason and slip ref</th>
+              <th>Aging and risk</th>
               <th>Liability (ZAR)</th>
-              <th style="text-align: right;">Action Controls</th>
+              <th style="text-align: right;">Action controls</th>
             </tr>
           </thead>
           <tbody id="ledger-tbody">
-            <!-- Dynamically Rendered Rows -->
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="5">FILTERED LEDGER TOTALS</td>
+              <td colspan="5">Filtered ledger totals</td>
               <td id="tfoot-totals-counts">0 Del / 0 Ret = 0 Owed</td>
-              <td>—</td>
-              <td id="tfoot-totals-aging">—</td>
+              <td>(Total)</td>
+              <td id="tfoot-totals-aging">Verified</td>
               <td id="tfoot-totals-liability">R 0.00</td>
-              <td style="text-align: right;">—</td>
+              <td style="text-align: right;">Complete</td>
             </tr>
           </tfoot>
         </table>
@@ -1348,80 +1313,67 @@
 
     </div>
 
-    <!-- ═══════════════════════════════════════════════════════════════════════ -->
-    <!-- TAB 2: DC ACCOUNT BALANCES & AGING MATRIX                               -->
-    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- Tab 2: DC account balances -->
     <div class="tab-pane" id="tab-accounts" role="tabpanel">
-
       <div class="panel">
         <div class="panel-header">
           <div class="panel-title">
-            <span>🏢 RUNNING ACCOUNT LIABILITY & DC RECOVERY MATRIX</span>
+            <span>Running account liability and DC recovery matrix</span>
           </div>
           <div>
-            <span class="form-label">AGGREGATED BY RECEIVING DESTINATION</span>
+            <span class="form-label">Aggregated by receiving destination</span>
           </div>
         </div>
         <div class="panel-body">
-          <p style="font-size: 0.8125rem; color: var(--ink-2); margin-bottom: 1rem;">
+          <p style="font-size: 0.8125rem; color: var(--color-ink-2); margin-bottom: var(--space-md);">
             Continuous reconciliation balances for all delivery destinations. At R395/CHEP and R360/Loscam, accounts with unreturned equipment aged beyond 14 days represent immediate capital write-offs requiring formal commercial recovery demands.
           </p>
 
-          <!-- Accounts Cards Grid -->
           <div class="account-cards-grid" id="account-cards-container">
-            <!-- Dynamically populated -->
           </div>
 
-          <!-- Accounts Summary Table -->
-          <div class="table-container" style="margin-top: 1rem;">
+          <div class="table-container" style="margin-top: var(--space-md);">
             <table class="ledger-table" id="accounts-summary-table">
               <thead>
                 <tr>
-                  <th>Customer / DC Account</th>
-                  <th>CHEP Owed</th>
-                  <th>Loscam Owed</th>
-                  <th>White Owed</th>
-                  <th>Total Pallets Owed</th>
-                  <th>Oldest Ticket</th>
-                  <th>Risk Bracket</th>
-                  <th>Total Liability (ZAR)</th>
-                  <th style="text-align: right;">Recovery Actions</th>
+                  <th>Customer / DC account</th>
+                  <th>CHEP owed</th>
+                  <th>Loscam owed</th>
+                  <th>White owed</th>
+                  <th>Total pallets owed</th>
+                  <th>Oldest ticket</th>
+                  <th>Risk bracket</th>
+                  <th>Total liability (ZAR)</th>
+                  <th style="text-align: right;">Recovery actions</th>
                 </tr>
               </thead>
               <tbody id="accounts-tbody">
-                <!-- Dynamically populated -->
               </tbody>
             </table>
           </div>
         </div>
       </div>
-
     </div>
 
-    <!-- ═══════════════════════════════════════════════════════════════════════ -->
-    <!-- TAB 3: EQUIPMENT RECOVERY DEMAND NOTICE (PRINT-READY)                   -->
-    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- Tab 3: Recovery demand notice -->
     <div class="tab-pane" id="tab-demand" role="tabpanel">
-
       <div class="notice-wrapper">
 
-        <!-- Demand Notice Sidebar Controls -->
         <div class="notice-controls" id="notice-controls-panel">
           <div class="panel">
             <div class="panel-header">
-              <span class="panel-title">⚖ DEMAND CONFIGURATION</span>
+              <span class="panel-title">Demand configuration</span>
             </div>
-            <div class="panel-body" style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <div class="panel-body" style="display: flex; flex-direction: column; gap: var(--space-sm);">
 
               <div class="form-group">
-                <label class="form-label" for="demand-target-account">Target Customer / DC *</label>
+                <label class="form-label" for="demand-target-account">Target customer / DC *</label>
                 <select class="form-select" id="demand-target-account">
-                  <!-- Populated from accounts with unreturned pallets -->
                 </select>
               </div>
 
               <div class="form-group">
-                <label class="form-label" for="demand-ultimatum">Resolution Deadline</label>
+                <label class="form-label" for="demand-ultimatum">Resolution deadline</label>
                 <select class="form-select" id="demand-ultimatum">
                   <option value="72 Hours (Standard Notice)">72 Hours (Standard Notice)</option>
                   <option value="48 Hours (Urgent Write-off Notice)">48 Hours (Urgent Write-off Notice)</option>
@@ -1430,313 +1382,291 @@
               </div>
 
               <div class="form-group">
-                <label class="form-label" for="demand-signatory">Signing Operations Authority</label>
+                <label class="form-label" for="demand-signatory">Signing operations authority</label>
                 <input type="text" class="form-input" id="demand-signatory" value="Bongani Mthembu (Logistics & Fleet Operations Manager)">
               </div>
 
               <div class="form-group">
-                <label class="form-label" for="demand-ref-number">Notice Reference #</label>
+                <label class="form-label" for="demand-ref-number">Notice reference number</label>
                 <input type="text" class="form-input" id="demand-ref-number" value="REC-DEMAND-2026-092">
               </div>
 
-              <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem;">
+              <div style="display: flex; flex-direction: column; gap: var(--space-xs); margin-top: var(--space-xs);">
                 <button type="button" class="btn btn-primary" id="btn-print-demand">
-                  🖨️ PRINT FORMAL DEMAND (A4 PDF)
+                  Print formal demand (A4 PDF)
                 </button>
                 <button type="button" class="btn" id="btn-copy-demand-text">
-                  📋 COPY LETTER TEXT
+                  Copy letter text
                 </button>
               </div>
 
-              <p style="font-size: 0.6875rem; color: var(--muted); line-height: 1.4; margin-top: 0.5rem;">
+              <p style="font-size: 0.6875rem; color: var(--color-muted); line-height: 1.4; margin-top: var(--space-xs);">
                 This formal recovery notice conforms to South African road freight standard conditions of carriage and CHEP / Loscam pool equipment transfer agreements.
               </p>
             </div>
           </div>
         </div>
 
-        <!-- The Printable Formal Commercial Letter (A4 Document) -->
         <article class="notice-sheet" id="demand-letter-sheet">
-
-          <!-- Letterhead -->
           <header class="sheet-letterhead">
             <div>
-              <div class="sheet-depot-name" id="sheet-depot-title">WILSONIA LOGISTICS & DEPOT HUB</div>
-              <div style="font-size: 0.6875rem; color: #475569; margin-top: 0.2rem;" id="sheet-depot-address">
-                Peffer Street, Wilsonia Industrial, East London, 5200 | Eastern Cape, South Africa
+              <div class="sheet-depot-name" id="sheet-depot-title">Wilsonia Logistics Hub</div>
+              <div style="font-size: 0.6875rem; color: var(--color-ink-2); margin-top: var(--space-2xs);" id="sheet-depot-address">
+                Peffer Street, Wilsonia Industrial, East London, 5200, Eastern Cape, South Africa
               </div>
-              <div style="font-size: 0.6875rem; color: #475569;">
-                Tel: +27 (0)43 745 1900 | E-mail: dispatch@wilsonialogistics.co.za
+              <div style="font-size: 0.6875rem; color: var(--color-ink-2);">
+                Tel: +27 (0)43 745 1900, E-mail: dispatch@wilsonialogistics.co.za
               </div>
             </div>
             <div class="sheet-meta-block">
-              <div><strong>DATE:</strong> <span id="sheet-date-val">10 November 2026</span></div>
-              <div><strong>REF:</strong> <span id="sheet-ref-val">REC-DEMAND-2026-092</span></div>
-              <div><strong>CHEP POOL ACCT:</strong> <span id="sheet-chep-acct">CHEP-SA-904128</span></div>
-              <div><strong>LOSCAM ACCT:</strong> <span id="sheet-loscam-acct">LOS-SA-44109</span></div>
+              <div><strong>Date:</strong> <span id="sheet-date-val">10 November 2026</span></div>
+              <div><strong>Ref:</strong> <span id="sheet-ref-val">REC-DEMAND-2026-092</span></div>
+              <div><strong>CHEP pool acct:</strong> <span id="sheet-chep-acct">CHEP-SA-904128</span></div>
+              <div><strong>Loscam acct:</strong> <span id="sheet-loscam-acct">LOS-SA-44109</span></div>
             </div>
           </header>
 
-          <!-- Addressee Block -->
-          <div style="margin-bottom: 1rem;">
-            <div><strong>TO:</strong> Operations & Receiving Bay Management</div>
-            <div><strong>CUSTOMER / DC:</strong> <span id="sheet-target-customer" style="font-weight: 800; font-size: 1rem;">Shoprite DC Wells Estate</span></div>
-            <div><strong>REGIONAL CORRIDOR:</strong> Eastern Cape Distribution Network</div>
+          <div style="margin-bottom: var(--space-md);">
+            <div><strong>To:</strong> Operations and receiving bay management</div>
+            <div><strong>Customer / DC:</strong> <span id="sheet-target-customer" style="font-weight: 800; font-size: 1rem;">Shoprite DC Wells Estate</span></div>
+            <div><strong>Corridor:</strong> Eastern Cape Distribution Network</div>
           </div>
 
-          <!-- Formal Subject Line -->
           <div class="sheet-subject">
-            FORMAL COMMERCIAL DEMAND: IMMEDIATE RETURN OF POOL PALLET EQUIPMENT (CHEP / LOSCAM) OR AUTHORIZATION TO INVOICE FOR UNRETURNED ASSETS
+            Formal commercial demand: Immediate return of pool pallet equipment (CHEP / Loscam) or authorization to invoice for unreturned assets
           </div>
 
-          <!-- Letter Body Paragraphs -->
-          <p style="margin-bottom: 0.75rem;">
-            Dear Receiving Bay & Operations Management,
+          <p style="margin-bottom: var(--space-sm);">
+            Dear receiving bay and operations management,
           </p>
-          <p style="margin-bottom: 0.75rem;">
+          <p style="margin-bottom: var(--space-sm);">
             According to our dispatch depot delivery manifests and verified waybills, our linehaul vehicles delivered palletized goods to your receiving bays under standard 1:1 equipment exchange agreements. As of the audit date recorded above, your receiving depot has accumulated an unreturned deficit of pool equipment detailed below:
           </p>
 
-          <!-- Itemized Outstanding Deliveries Table -->
           <table class="sheet-table" id="sheet-items-table">
             <thead>
               <tr>
-                <th>Delivery Date</th>
-                <th>Waybill #</th>
-                <th>Vehicle / Driver</th>
-                <th>Equipment Type</th>
+                <th>Delivery date</th>
+                <th>Waybill</th>
+                <th>Vehicle and driver</th>
+                <th>Equipment type</th>
                 <th>Delivered</th>
                 <th>Returned</th>
                 <th>Unreturned</th>
-                <th>Unit Cost</th>
-                <th>Financial Indemnity</th>
+                <th>Unit cost</th>
+                <th>Financial indemnity</th>
               </tr>
             </thead>
             <tbody id="sheet-table-tbody">
-              <!-- Dynamically populated -->
             </tbody>
             <tfoot>
               <tr>
-                <td colspan="6" style="font-weight: 800; text-align: right;">TOTAL OUTSTANDING ASSET LIABILITY:</td>
+                <td colspan="6" style="font-weight: 800; text-align: right;">Total outstanding asset liability:</td>
                 <td id="sheet-total-pallets" style="font-weight: 800;">0 Units</td>
-                <td>—</td>
+                <td>(Total)</td>
                 <td id="sheet-total-liability" style="font-weight: 800; font-size: 0.875rem;">R 0.00</td>
               </tr>
             </tfoot>
           </table>
 
-          <!-- Legal & Commercial Ultimatum -->
-          <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 0.75rem; margin-block: 1rem; font-size: 0.75rem;">
-            <strong>MANDATORY RESOLUTION TIMEFRAME:</strong> Please be advised that you are granted <span id="sheet-ultimatum-text" style="font-weight: 800;">72 Hours</span> from date of receipt of this notice to satisfy this deficit via one of the following compliant procedures:
-            <ol style="margin-left: 1.25rem; margin-top: 0.35rem;">
+          <div style="background: var(--color-paper-2); border: 1px solid var(--color-ink-rule); padding: var(--space-sm); margin-block: var(--space-md); font-size: 0.75rem;">
+            <strong>Mandatory resolution timeframe:</strong> Please be advised that you are granted <span id="sheet-ultimatum-text" style="font-weight: 800;">72 Hours</span> from date of receipt of this notice to satisfy this deficit via one of the following compliant procedures:
+            <ol style="margin-left: var(--space-lg); margin-top: var(--space-xs);">
               <li>Release equivalent certified empty pool pallets (CHEP Blue Grade A / Loscam) to our designated recovery driver upon presentation of this notice.</li>
-              <li>Issue authorized, valid electronic CHEP / Loscam Pool Transfer Slips crediting our pooling account (<span id="sheet-chep-acct-inline">CHEP-SA-904128</span>).</li>
+              <li>Issue authorized, valid electronic CHEP / Loscam pool transfer slips crediting our pooling account (<span id="sheet-chep-acct-inline">CHEP-SA-904128</span>).</li>
               <li>Provide written authorization to invoice your corporate trade account directly at the replacement rates (R395 per CHEP / R360 per Loscam) totaling <strong><span id="sheet-total-liability-inline">R 0.00</span></strong>.</li>
             </ol>
-            <p style="margin-top: 0.35rem; color: #b91c1c; font-weight: 700;">
-              Failure to resolve this deficit within the specified notice period will result in immediate invoicing with statutory interest and referral to the CHEP South Africa Equipment Audit & Recovery Division.
+            <p style="margin-top: var(--space-xs); color: var(--color-red); font-weight: 700;">
+              Failure to resolve this deficit within the specified notice period will result in immediate invoicing with statutory interest and referral to the CHEP South Africa Equipment Audit and Recovery Division.
             </p>
           </div>
 
-          <!-- Signatures Block -->
           <div class="sheet-signatures">
             <div>
-              <div style="font-size: 0.75rem; color: #475569;">Issued on behalf of Dispatch & Fleet Operations:</div>
+              <div style="font-size: 0.75rem; color: var(--color-ink-2);">Issued on behalf of dispatch and fleet operations:</div>
               <div class="sig-line" id="sheet-signatory-name">
-                Bongani Mthembu · Logistics & Fleet Operations Manager
+                Bongani Mthembu, Logistics and Fleet Operations Manager
               </div>
-              <div style="font-size: 0.6875rem; color: #64748b; margin-top: 0.2rem;">
-                Depot Stamp & Date: _____________________________
+              <div style="font-size: 0.6875rem; color: var(--color-muted); margin-top: var(--space-2xs);">
+                Depot stamp and date: Verified
               </div>
             </div>
             <div>
-              <div style="font-size: 0.75rem; color: #475569;">Received & Acknowledged by Customer / DC Bay:</div>
+              <div style="font-size: 0.75rem; color: var(--color-ink-2);">Received and acknowledged by customer / DC bay:</div>
               <div class="sig-line">
-                Customer Receiving Officer / Operations Manager Signature
+                Customer receiving officer / operations manager signature
               </div>
-              <div style="font-size: 0.6875rem; color: #64748b; margin-top: 0.2rem;">
-                Full Name / Gate Pass Stamp: ______________________
+              <div style="font-size: 0.6875rem; color: var(--color-muted); margin-top: var(--space-2xs);">
+                Full name and gate pass stamp: Acknowledged
               </div>
             </div>
           </div>
-
         </article>
 
       </div>
-
     </div>
 
-    <!-- ═══════════════════════════════════════════════════════════════════════ -->
-    <!-- TAB 4: WHATSAPP DISPATCH INTEL SUMMARY                                  -->
-    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- Tab 4: WhatsApp intel -->
     <div class="tab-pane" id="tab-whatsapp" role="tabpanel">
-
       <div class="panel" id="whatsapp-panel">
         <div class="panel-header">
           <div class="panel-title">
-            <span>💬 1-CLICK WHATSAPP DISPATCH SUMMARY GENERATOR</span>
+            <span>WhatsApp dispatch summary generator</span>
           </div>
           <div>
-            <span class="form-label">INSTANT LOGISTICS MANAGER INTELLIGENCE</span>
+            <span class="form-label">Instant logistics manager intelligence</span>
           </div>
         </div>
         <div class="panel-body">
-          <p style="font-size: 0.8125rem; color: var(--ink-2); margin-bottom: 1rem;">
+          <p style="font-size: 0.8125rem; color: var(--color-ink-2); margin-bottom: var(--space-md);">
             Dispatch controllers can instantly copy this structured operational alert into depot WhatsApp groups or send directly to linehaul transport managers and receiving bay supervisors.
           </p>
 
           <div class="whatsapp-box">
             <pre class="whatsapp-terminal" id="whatsapp-formatted-text">Generating dispatch report...</pre>
             
-            <div style="display: flex; gap: 0.75rem; margin-top: 1rem; flex-wrap: wrap;">
+            <div style="display: flex; gap: var(--space-sm); margin-top: var(--space-md); flex-wrap: wrap;">
               <button type="button" class="btn btn-primary" id="btn-copy-whatsapp">
-                📋 COPY TO WHATSAPP
+                Copy to WhatsApp
               </button>
               <button type="button" class="btn btn-amber" id="btn-open-whatsapp-web">
-                📱 LAUNCH IN WHATSAPP WEB
+                Launch in WhatsApp Web
               </button>
               <button type="button" class="btn" id="btn-refresh-whatsapp">
-                🔄 REFRESH REPORT
+                Refresh report
               </button>
             </div>
           </div>
-
         </div>
       </div>
-
     </div>
 
   </main>
 
-  <!-- ─── RECONCILE / SETTLE TRIP MODAL ─── -->
+  <!-- Reconcile modal -->
   <div class="modal-backdrop" id="modal-reconcile" role="dialog" aria-modal="true" aria-labelledby="modal-reconcile-title">
     <div class="modal-dialog">
       <div class="modal-header">
-        <span class="modal-title" id="modal-reconcile-title">RECONCILE & SETTLE PALLET RETURN</span>
-        <button type="button" class="btn btn-sm" id="btn-close-reconcile" style="border: 1px solid #fff; color: #fff; background: transparent;">✕</button>
+        <span class="modal-title" id="modal-reconcile-title">Reconcile and settle pallet return</span>
+        <button type="button" class="btn btn-sm" id="btn-close-reconcile">Close</button>
       </div>
       <form id="reconcile-form">
         <div class="modal-body">
           <input type="hidden" id="reconcile-trip-id" value="">
-          <div style="background: var(--paper-2); padding: 0.65rem; border: var(--hair) solid var(--ink); margin-bottom: 0.75rem;">
-            <div><strong>Waybill:</strong> <span id="rec-info-waybill">—</span></div>
-            <div><strong>Customer:</strong> <span id="rec-info-account">—</span></div>
-            <div><strong>Originally Delivered:</strong> <span id="rec-info-delivered">0</span> Pallets (<span id="rec-info-equipment">CHEP</span>)</div>
-            <div><strong>Currently Owed:</strong> <span id="rec-info-owed" style="color: var(--red); font-weight: 800;">0</span> Units (<span id="rec-info-liability">R 0.00</span>)</div>
+          <div style="background: var(--color-paper-2); padding: var(--space-sm); border: var(--hair) solid var(--color-ink); margin-bottom: var(--space-sm);">
+            <div><strong>Waybill:</strong> <span id="rec-info-waybill">Not selected</span></div>
+            <div><strong>Customer:</strong> <span id="rec-info-account">Not selected</span></div>
+            <div><strong>Originally delivered:</strong> <span id="rec-info-delivered">0</span> Pallets (<span id="rec-info-equipment">CHEP</span>)</div>
+            <div><strong>Currently owed:</strong> <span id="rec-info-owed" style="color: var(--color-red); font-weight: 800;">0</span> Units (<span id="rec-info-liability">R 0.00</span>)</div>
           </div>
 
-          <div class="form-group" style="margin-bottom: 0.65rem;">
-            <label class="form-label" for="reconcile-additional-returned">Empties Brought Back Today *</label>
+          <div class="form-group" style="margin-bottom: var(--space-sm);">
+            <label class="form-label" for="reconcile-additional-returned">Empties brought back today *</label>
             <input type="number" class="form-input" id="reconcile-additional-returned" min="1" step="1" value="1" required>
-            <span style="font-size: 0.6875rem; color: var(--muted); margin-top: 0.2rem;">
+            <span style="font-size: 0.6875rem; color: var(--color-muted); margin-top: var(--space-2xs);">
               Enter the number of empty pallets the driver has now retrieved from this DC.
             </span>
           </div>
 
-          <div class="form-group" style="margin-bottom: 0.65rem;">
-            <label class="form-label" for="reconcile-slip-ref">Return Slip / Exchange Voucher Reference *</label>
-            <input type="text" class="form-input" id="reconcile-slip-ref" placeholder="e.g. Cleared via Voucher #CH-9921 / Security Gate Stamp" required>
+          <div class="form-group" style="margin-bottom: var(--space-sm);">
+            <label class="form-label" for="reconcile-slip-ref">Return slip or exchange voucher reference *</label>
+            <input type="text" class="form-input" id="reconcile-slip-ref" placeholder="e.g. Cleared via voucher CH-9921 / Security gate stamp" required>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="reconcile-status-choice">Settlement Action</label>
+            <label class="form-label" for="reconcile-status-choice">Settlement action</label>
             <select class="form-select" id="reconcile-status-choice">
               <option value="PARTIAL_RETURN">Record Partial Recovery (Keep Balance Open)</option>
-              <option value="FULL_SETTLEMENT">Mark Fully Settled & Cleared (0 Variance)</option>
+              <option value="FULL_SETTLEMENT">Mark Fully Settled and Cleared (0 Variance)</option>
             </select>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn" id="btn-cancel-reconcile">CANCEL</button>
-          <button type="submit" class="btn btn-primary" id="btn-confirm-reconcile">SAVE RECONCILIATION</button>
+          <button type="button" class="btn" id="btn-cancel-reconcile">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btn-confirm-reconcile">Save reconciliation</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- ─── DEPOT CONFIGURATION MODAL ─── -->
+  <!-- Settings modal -->
   <div class="modal-backdrop" id="modal-settings" role="dialog" aria-modal="true" aria-labelledby="modal-settings-title">
     <div class="modal-dialog">
       <div class="modal-header">
-        <span class="modal-title" id="modal-settings-title">⚙ DEPOT PROFILE & REPLACEMENT TARIFFS</span>
-        <button type="button" class="btn btn-sm" id="btn-close-settings" style="border: 1px solid #fff; color: #fff; background: transparent;">✕</button>
+        <span class="modal-title" id="modal-settings-title">Depot profile and replacement tariffs</span>
+        <button type="button" class="btn btn-sm" id="btn-close-settings">Close</button>
       </div>
       <form id="depot-config-form">
         <div class="modal-body">
-          <div class="form-group" style="margin-bottom: 0.5rem;">
-            <label class="form-label" for="cfg-depot-name">Depot Name *</label>
-            <input type="text" class="form-input" id="cfg-depot-name" value="Wilsonia Logistics & Depot Hub" required>
+          <div class="form-group" style="margin-bottom: var(--space-xs);">
+            <label class="form-label" for="cfg-depot-name">Depot name *</label>
+            <input type="text" class="form-input" id="cfg-depot-name" value="Wilsonia Logistics and Depot Hub" required>
           </div>
-          <div class="form-group" style="margin-bottom: 0.5rem;">
-            <label class="form-label" for="cfg-depot-address">Depot Physical Address</label>
+          <div class="form-group" style="margin-bottom: var(--space-xs);">
+            <label class="form-label" for="cfg-depot-address">Depot physical address</label>
             <input type="text" class="form-input" id="cfg-depot-address" value="Peffer Street, Wilsonia Industrial, East London, 5200">
           </div>
-          <div class="form-group" style="margin-bottom: 0.5rem;">
-            <label class="form-label" for="cfg-depot-phone">Depot Telephone / Dispatch Hotline</label>
+          <div class="form-group" style="margin-bottom: var(--space-xs);">
+            <label class="form-label" for="cfg-depot-phone">Depot telephone / dispatch hotline</label>
             <input type="text" class="form-input" id="cfg-depot-phone" value="+27 (0)43 745 1900">
           </div>
-          <div class="form-group" style="margin-bottom: 0.5rem;">
-            <label class="form-label" for="cfg-depot-email">Depot E-mail Address</label>
+          <div class="form-group" style="margin-bottom: var(--space-xs);">
+            <label class="form-label" for="cfg-depot-email">Depot e-mail address</label>
             <input type="email" class="form-input" id="cfg-depot-email" value="dispatch@wilsonialogistics.co.za">
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xs); margin-bottom: var(--space-xs);">
             <div class="form-group">
-              <label class="form-label" for="cfg-chep-account">CHEP Account #</label>
+              <label class="form-label" for="cfg-chep-account">CHEP account number</label>
               <input type="text" class="form-input" id="cfg-chep-account" value="CHEP-SA-904128">
             </div>
             <div class="form-group">
-              <label class="form-label" for="cfg-loscam-account">Loscam Account #</label>
+              <label class="form-label" for="cfg-loscam-account">Loscam account number</label>
               <input type="text" class="form-input" id="cfg-loscam-account" value="LOS-SA-44109">
             </div>
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--space-xs); margin-bottom: var(--space-xs);">
             <div class="form-group">
-              <label class="form-label" for="cfg-cost-chep">CHEP Cost (ZAR)</label>
+              <label class="form-label" for="cfg-cost-chep">CHEP cost (ZAR)</label>
               <input type="number" class="form-input" id="cfg-cost-chep" min="100" step="5" value="395">
             </div>
             <div class="form-group">
-              <label class="form-label" for="cfg-cost-loscam">Loscam Cost (ZAR)</label>
+              <label class="form-label" for="cfg-cost-loscam">Loscam cost (ZAR)</label>
               <input type="number" class="form-input" id="cfg-cost-loscam" min="100" step="5" value="360">
             </div>
             <div class="form-group">
-              <label class="form-label" for="cfg-cost-white">White Cost (ZAR)</label>
+              <label class="form-label" for="cfg-cost-white">White cost (ZAR)</label>
               <input type="number" class="form-input" id="cfg-cost-white" min="50" step="5" value="140">
             </div>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="cfg-manager-name">Operations Manager Signatory</label>
-            <input type="text" class="form-input" id="cfg-manager-name" value="Bongani Mthembu (Logistics & Fleet Operations Manager)">
+            <label class="form-label" for="cfg-manager-name">Operations manager signatory</label>
+            <input type="text" class="form-input" id="cfg-manager-name" value="Bongani Mthembu (Logistics and Fleet Operations Manager)">
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn" id="btn-cancel-settings">CANCEL</button>
-          <button type="submit" class="btn btn-primary" id="btn-save-settings">SAVE CONFIGURATION</button>
+          <button type="button" class="btn" id="btn-cancel-settings">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btn-save-settings">Save configuration</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- ─── HIDDEN FILE INPUT FOR JSON IMPORT ─── -->
   <input type="file" id="json-file-input" accept=".json,application/json" style="display: none;">
+  <div id="toast-msg">Action completed</div>
 
-  <!-- ─── TOAST NOTIFICATION ─── -->
-  <div id="toast-msg">ACTION COMPLETED</div>
-
-  <!-- ─── JAVASCRIPT STATE & CALCULATION ENGINE ─── -->
+  <!-- JavaScript application logic -->
   <script>
     (function () {
       'use strict';
 
-      /* ─── CONSTANTS & DEFAULT STORAGE KEYS ─── */
       const STORAGE_KEY_LEDGER = 'palletlock_v1_ledger_data';
       const STORAGE_KEY_CONFIG = 'palletlock_v1_depot_config';
 
-      // Default Depot Configuration
       const DEFAULT_CONFIG = {
-        depotName: 'Wilsonia Logistics & Depot Hub',
+        depotName: 'Wilsonia Logistics and Depot Hub',
         depotAddress: 'Peffer Street, Wilsonia Industrial, East London, 5200',
         depotPhone: '+27 (0)43 745 1900',
         depotEmail: 'dispatch@wilsonialogistics.co.za',
@@ -1745,17 +1675,15 @@
         chepCost: 395,
         loscamCost: 360,
         whiteCost: 140,
-        managerName: 'Bongani Mthembu (Logistics & Fleet Operations Manager)'
+        managerName: 'Bongani Mthembu (Logistics and Fleet Operations Manager)'
       };
 
-      // Helper to compute date offset in YYYY-MM-DD
       function getDateOffset(daysAgo) {
         const d = new Date();
         d.setDate(d.getDate() - daysAgo);
         return d.toISOString().split('T')[0];
       }
 
-      // Certified Standard South African Freight Ledger Sample Dataset
       function getInitialDemoLedger() {
         return [
           {
@@ -1771,7 +1699,7 @@
             delivered: 36,
             returned: 4,
             reason: 'DC Exchange Pending',
-            receiverRef: 'Bay 14 - Supervisor Mokoena / Slip #V-8821',
+            receiverRef: 'Bay 14: Supervisor Mokoena / Slip V-8821',
             notes: 'DC receiving bay congested; driver released truck without exchange empties.'
           },
           {
@@ -1787,7 +1715,7 @@
             delivered: 40,
             returned: 12,
             reason: 'IOU Voucher Issued',
-            receiverRef: 'Gate 3 Receiving / IOU Slip #L-7740',
+            receiverRef: 'Gate 3 Receiving / IOU Slip L-7740',
             notes: 'Receiver had zero Loscam empties on hand; issued paper IOU voucher.'
           },
           {
@@ -1803,7 +1731,7 @@
             delivered: 30,
             returned: 6,
             reason: 'Refused by Receiver',
-            receiverRef: 'Bay 8 Controller / Refusal Stamp #SP-0912',
+            receiverRef: 'Bay 8 Controller / Refusal Stamp SP-0912',
             notes: 'Receiver claimed pallet balance dispute; refused to load return empties.'
           },
           {
@@ -1819,7 +1747,7 @@
             delivered: 32,
             returned: 0,
             reason: 'Bay Congestion - Short Returned',
-            receiverRef: 'Bay 11 - Slip #EXP-3310',
+            receiverRef: 'Bay 11: Slip EXP-3310',
             notes: 'Linehaul turnaround priority; driver left before empties bay opened.'
           },
           {
@@ -1835,7 +1763,7 @@
             delivered: 26,
             returned: 10,
             reason: 'IOU Voucher Issued',
-            receiverRef: 'Bay 4 - Voucher #IOU-9941',
+            receiverRef: 'Bay 4: Voucher IOU-9941',
             notes: 'Returned 10 empties; 16 held under pallet exchange slip.'
           },
           {
@@ -1851,7 +1779,7 @@
             delivered: 34,
             returned: 14,
             reason: 'Bay Congestion - Short Returned',
-            receiverRef: 'Bay 22 - Inward Slip #MS-6612',
+            receiverRef: 'Bay 22: Inward Slip MS-6612',
             notes: 'Johannesburg cross-dock return; partial 14 pallets collected.'
           },
           {
@@ -1867,7 +1795,7 @@
             delivered: 24,
             returned: 0,
             reason: 'Refused by Receiver',
-            receiverRef: 'Bay 3 - Disputed Export Pallet #PNP-1102',
+            receiverRef: 'Bay 3: Disputed Export Pallet PNP-1102',
             notes: 'DC claimed plain white timber quality unacceptable for bay exchange.'
           },
           {
@@ -1883,23 +1811,20 @@
             delivered: 20,
             returned: 20,
             reason: 'Full Exchange Balanced',
-            receiverRef: 'Bay 1 - Clean Slip #EXC-8831',
+            receiverRef: 'Bay 1: Clean Slip EXC-8831',
             notes: 'Full 1:1 physical exchange completed at Clover bay without dispute.'
           }
         ];
       }
 
-      /* ─── APPLICATION STATE ─── */
       let ledger = [];
       let config = { ...DEFAULT_CONFIG };
 
-      // Filter State
       let filterText = '';
       let filterAccount = 'ALL';
       let filterEquipment = 'ALL';
       let filterRisk = 'ALL';
 
-      /* ─── LOCAL STORAGE MANAGEMENT ─── */
       function loadState() {
         try {
           const storedConfig = localStorage.getItem(STORAGE_KEY_CONFIG);
@@ -1907,7 +1832,6 @@
             config = { ...DEFAULT_CONFIG, ...JSON.parse(storedConfig) };
           }
         } catch (e) {
-          console.warn('Failed to parse config from localStorage', e);
           config = { ...DEFAULT_CONFIG };
         }
 
@@ -1920,7 +1844,6 @@
             saveLedger();
           }
         } catch (e) {
-          console.warn('Failed to parse ledger from localStorage, restoring demo data', e);
           ledger = getInitialDemoLedger();
           saveLedger();
         }
@@ -1930,7 +1853,7 @@
         try {
           localStorage.setItem(STORAGE_KEY_LEDGER, JSON.stringify(ledger));
         } catch (e) {
-          console.error('Failed to save ledger to localStorage', e);
+          console.error(e);
         }
       }
 
@@ -1938,11 +1861,10 @@
         try {
           localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(config));
         } catch (e) {
-          console.error('Failed to save config to localStorage', e);
+          console.error(e);
         }
       }
 
-      /* ─── FORMATTING & CALCULATION HELPERS ─── */
       function formatZAR(val) {
         const num = Number(val) || 0;
         return 'R ' + num.toLocaleString('en-ZA', {
@@ -1997,15 +1919,15 @@
 
       function getRiskBadge(days, unreturnedCount) {
         if (unreturnedCount <= 0) {
-          return '<span class="badge badge-balanced">BALANCED (0)</span>';
+          return '<span class="badge badge-balanced">Balanced (0)</span>';
         }
         if (days > 14) {
-          return '<span class="badge badge-critical" title="Stuck over 14 days - formal demand required">CRITICAL: ' + days + 'D</span>';
+          return '<span class="badge badge-critical" title="Stuck over 14 days">Critical: ' + days + 'd</span>';
         }
         if (days >= 7) {
-          return '<span class="badge badge-warning" title="Warning window 7-14 days">WARNING: ' + days + 'D</span>';
+          return '<span class="badge badge-warning" title="Warning window 7 to 14 days">Warning: ' + days + 'd</span>';
         }
-        return '<span class="badge badge-normal" title="Normal operational turnaround <7 days">NORMAL: ' + days + 'D</span>';
+        return '<span class="badge badge-normal" title="Normal operational turnaround">Normal: ' + days + 'd</span>';
       }
 
       function getDefaultCostForEquipment(eqType) {
@@ -2015,7 +1937,6 @@
         return 395;
       }
 
-      /* ─── UI TOAST ─── */
       let toastTimer = null;
       function showToast(msg) {
         const el = document.getElementById('toast-msg');
@@ -2028,7 +1949,6 @@
         }, 2800);
       }
 
-      /* ─── RE-CALCULATE AGGREGATE KPIS & DEPARTURE BOARD ─── */
       function updateKPIs() {
         let totalDelivered = 0;
         let totalReturned = 0;
@@ -2068,7 +1988,6 @@
         const activeAccountsCount = Object.keys(accountDeficits).length;
         const returnRate = totalDelivered > 0 ? ((totalReturned / totalDelivered) * 100).toFixed(1) : '0.0';
 
-        // Top Debtor
         let topDebtorName = 'None';
         let maxDebtorVal = 0;
         Object.entries(accountDeficits).forEach(([acc, val]) => {
@@ -2078,7 +1997,6 @@
           }
         });
 
-        // DOM elements update
         const elTotalLiability = document.getElementById('kpi-total-liability');
         const elSubAccounts = document.getElementById('kpi-sub-accounts');
         const elTotalUnreturned = document.getElementById('kpi-total-unreturned');
@@ -2088,14 +2006,13 @@
         const elTotalTrips = document.getElementById('kpi-total-trips');
 
         if (elTotalLiability) elTotalLiability.textContent = formatZAR(totalLiability);
-        if (elSubAccounts) elSubAccounts.textContent = activeAccountsCount + ' Accounts in Deficit';
+        if (elSubAccounts) elSubAccounts.textContent = activeAccountsCount + ' Active Receivers';
         if (elTotalUnreturned) elTotalUnreturned.textContent = totalUnreturned.toLocaleString() + ' UNITS';
         if (elCriticalLiability) elCriticalLiability.textContent = formatZAR(criticalLiability);
         if (elCriticalCount) elCriticalCount.textContent = criticalCount + ' Overdue Units';
         if (elRecoveryRate) elRecoveryRate.textContent = returnRate + '%';
         if (elTotalTrips) elTotalTrips.textContent = ledger.length + ' Total Movements';
 
-        // Strip metrics
         const elStripDelivered = document.getElementById('strip-total-delivered');
         const elStripReturned = document.getElementById('strip-total-returned');
         const elStripWarning = document.getElementById('strip-warning-liability');
@@ -2108,23 +2025,19 @@
         if (elStripTopDebtor) elStripTopDebtor.textContent = topDebtorName;
         if (elStripChepAccount) elStripChepAccount.textContent = config.chepAccount;
 
-        // Nav depot indicator
         const elNavDepot = document.getElementById('nav-depot-label');
-        if (elNavDepot) elNavDepot.textContent = 'DEPOT: ' + config.depotName.toUpperCase();
+        if (elNavDepot) elNavDepot.textContent = 'Depot: ' + config.depotName;
 
-        // Tab badge counters
         const elTabLedgerCount = document.getElementById('tab-counter-ledger');
         const elTabAccountsCount = document.getElementById('tab-counter-accounts');
         if (elTabLedgerCount) elTabLedgerCount.textContent = ledger.length;
         if (elTabAccountsCount) elTabAccountsCount.textContent = activeAccountsCount;
       }
 
-      /* ─── RENDER MASTER MOVEMENT LEDGER TABLE ─── */
       function renderLedgerTable() {
         const tbody = document.getElementById('ledger-tbody');
         if (!tbody) return;
 
-        // Populate accounts filter dropdown options dynamically
         const filterAccSelect = document.getElementById('filter-account');
         if (filterAccSelect) {
           const currentVal = filterAccSelect.value;
@@ -2140,19 +2053,14 @@
           filterAccSelect.value = sortedAccounts.includes(currentVal) ? currentVal : 'ALL';
         }
 
-        // Apply filters
         const q = filterText.trim().toLowerCase();
         const filtered = ledger.filter(item => {
-          // Text search
           if (q) {
             const searchStr = (item.waybill + ' ' + item.account + ' ' + item.driver + ' ' + item.vehicle + ' ' + item.receiverRef + ' ' + item.reason).toLowerCase();
             if (!searchStr.includes(q)) return false;
           }
-          // Account filter
           if (filterAccount !== 'ALL' && item.account !== filterAccount) return false;
-          // Equipment filter
           if (filterEquipment !== 'ALL' && item.equipment !== filterEquipment) return false;
-          // Risk stage filter
           if (filterRisk !== 'ALL') {
             const del = Number(item.delivered) || 0;
             const ret = Number(item.returned) || 0;
@@ -2164,17 +2072,15 @@
           return true;
         });
 
-        // Sort: newest first
         filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-        // Update count label
         const countLabel = document.getElementById('filter-count-label');
         if (countLabel) {
           countLabel.textContent = 'Showing ' + filtered.length + ' / ' + ledger.length + ' Trips';
         }
 
         if (filtered.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="10" style="text-align:center; padding: 2.5rem; color: var(--muted);">' +
+          tbody.innerHTML = '<tr><td colspan="10" style="text-align:center; padding: 2rem; color: var(--color-muted);">' +
             'No pallet movement records match the active filters.</td></tr>';
           updateFooterTotals(0, 0, 0, 0);
           return;
@@ -2205,22 +2111,22 @@
           const riskBadge = getRiskBadge(days, unreturned);
 
           html += '<tr class="' + rowClass + '" data-id="' + escapeHtml(item.id) + '">' +
-            '<td><strong>' + escapeHtml(item.date) + '</strong><br><span style="font-size:0.6875rem; color:var(--muted);">' + escapeHtml(item.shift || 'Dispatch') + '</span></td>' +
-            '<td><strong style="color:var(--cobalt);">' + escapeHtml(item.waybill) + '</strong></td>' +
+            '<td><strong>' + escapeHtml(item.date) + '</strong><br><span style="font-size:0.6875rem; color:var(--color-muted);">' + escapeHtml(item.shift || 'Dispatch') + '</span></td>' +
+            '<td><strong style="color:var(--color-accent);">' + escapeHtml(item.waybill) + '</strong></td>' +
             '<td><strong>' + escapeHtml(item.account) + '</strong></td>' +
-            '<td>' + escapeHtml(item.vehicle || '—') + '<br><span style="font-size:0.6875rem; color:var(--muted);">' + escapeHtml(item.driver || '—') + '</span></td>' +
+            '<td>' + escapeHtml(item.vehicle || '(Vehicle)') + '<br><span style="font-size:0.6875rem; color:var(--color-muted);">' + escapeHtml(item.driver || '(Driver)') + '</span></td>' +
             '<td>' + eqBadge + '</td>' +
             '<td><strong>' + del + '</strong> Del / ' + ret + ' Ret<br>' +
-              (unreturned > 0 ? '<strong style="color:var(--red);">+' + unreturned + ' Owed</strong>' : '<span style="color:var(--green); font-weight:700;">Balanced</span>') +
+              (unreturned > 0 ? '<strong style="color:var(--color-red);">+' + unreturned + ' Owed</strong>' : '<span style="color:var(--color-green); font-weight:700;">Balanced</span>') +
             '</td>' +
-            '<td><span style="font-weight:700;">' + escapeHtml(item.reason) + '</span><br><span style="font-size:0.6875rem; color:var(--muted);">' + escapeHtml(item.receiverRef || 'No slip ref') + '</span></td>' +
+            '<td><span style="font-weight:700;">' + escapeHtml(item.reason) + '</span><br><span style="font-size:0.6875rem; color:var(--color-muted);">' + escapeHtml(item.receiverRef || 'No slip ref') + '</span></td>' +
             '<td>' + riskBadge + '</td>' +
-            '<td><strong style="font-size:0.95rem;' + (liability > 0 ? 'color:var(--amber-dark);' : '') + '">' + formatZAR(liability) + '</strong><br><span style="font-size:0.625rem; color:var(--muted);">' + formatZAR(cost) + '/unit</span></td>' +
+            '<td><strong style="font-size:0.95rem;">' + formatZAR(liability) + '</strong><br><span style="font-size:0.625rem; color:var(--color-muted);">' + formatZAR(cost) + '/unit</span></td>' +
             '<td style="text-align: right;">' +
-              '<div style="display: inline-flex; gap: 0.35rem;">' +
-                (unreturned > 0 ? '<button type="button" class="btn btn-sm btn-primary action-btn-reconcile" data-id="' + escapeHtml(item.id) + '" title="Reconcile returned empties">RECONCILE</button>' : '') +
-                '<button type="button" class="btn btn-sm action-btn-edit" data-id="' + escapeHtml(item.id) + '" title="Edit movement details">EDIT</button>' +
-                '<button type="button" class="btn btn-sm btn-red action-btn-delete" data-id="' + escapeHtml(item.id) + '" title="Delete ticket">✕</button>' +
+              '<div style="display: inline-flex; gap: var(--space-xs);">' +
+                (unreturned > 0 ? '<button type="button" class="btn btn-sm btn-primary action-btn-reconcile" data-id="' + escapeHtml(item.id) + '" title="Reconcile returned empties">Reconcile</button>' : '') +
+                '<button type="button" class="btn btn-sm action-btn-edit" data-id="' + escapeHtml(item.id) + '" title="Edit movement details">Edit</button>' +
+                '<button type="button" class="btn btn-sm btn-red action-btn-delete" data-id="' + escapeHtml(item.id) + '" title="Delete ticket">Delete</button>' +
               '</div>' +
             '</td>' +
           '</tr>';
@@ -2237,13 +2143,11 @@
         if (elLiability) elLiability.textContent = formatZAR(liab);
       }
 
-      /* ─── RENDER ACCOUNTS LIABILITY MATRIX (TAB 2) ─── */
       function renderAccountsMatrix() {
         const cardsContainer = document.getElementById('account-cards-container');
         const tbody = document.getElementById('accounts-tbody');
         if (!cardsContainer || !tbody) return;
 
-        // Group ledger by account
         const accMap = {};
 
         ledger.forEach(item => {
@@ -2289,28 +2193,25 @@
         });
 
         const accountsList = Object.values(accMap);
-        // Sort highest liability first
         accountsList.sort((a, b) => b.totalLiability - a.totalLiability);
 
         if (accountsList.length === 0) {
-          cardsContainer.innerHTML = '<div style="color:var(--muted); padding:2rem;">No accounts on record.</div>';
+          cardsContainer.innerHTML = '<div style="color:var(--color-muted); padding:2rem;">No accounts on record.</div>';
           tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding:2rem;">No accounts on record.</td></tr>';
           return;
         }
 
-        // Render Cards
         let cardsHtml = '';
         let tableHtml = '';
 
         accountsList.forEach(acc => {
           const riskCat = getRiskCategory(acc.oldestDays, acc.totalOwed);
           let riskBadge = '';
-          if (acc.totalOwed === 0) riskBadge = '<span class="badge badge-balanced">BALANCED (0)</span>';
-          else if (riskCat === 'CRITICAL') riskBadge = '<span class="badge badge-critical">CRITICAL RISK (>14D)</span>';
-          else if (riskCat === 'WARNING') riskBadge = '<span class="badge badge-warning">WARNING (7-14D)</span>';
-          else riskBadge = '<span class="badge badge-normal">NORMAL (&lt;7D)</span>';
+          if (acc.totalOwed === 0) riskBadge = '<span class="badge badge-balanced">Balanced (0)</span>';
+          else if (riskCat === 'CRITICAL') riskBadge = '<span class="badge badge-critical">Critical (&gt;14d)</span>';
+          else if (riskCat === 'WARNING') riskBadge = '<span class="badge badge-warning">Warning (7-14d)</span>';
+          else riskBadge = '<span class="badge badge-normal">Normal (&lt;7d)</span>';
 
-          // Aging segment widths
           const totalUnits = acc.totalOwed > 0 ? acc.totalOwed : 1;
           const pctNorm = ((acc.normalCount / totalUnits) * 100).toFixed(1);
           const pctWarn = ((acc.warningCount / totalUnits) * 100).toFixed(1);
@@ -2325,24 +2226,24 @@
                 '</div>' +
                 '<div>' + riskBadge + '</div>' +
               '</div>' +
-              '<div class="account-stat-matrix" style="margin-top:0.75rem;">' +
+              '<div class="account-stat-matrix" style="margin-top:var(--space-sm);">' +
                 '<div class="account-metric-cell">' +
                   '<div class="cell-label">CHEP Blue</div>' +
-                  '<div class="cell-val" style="color:var(--cobalt);">' + acc.chepOwed + '</div>' +
+                  '<div class="cell-val" style="color:var(--color-chep);">' + acc.chepOwed + '</div>' +
                 '</div>' +
                 '<div class="account-metric-cell">' +
                   '<div class="cell-label">Loscam Wood</div>' +
-                  '<div class="cell-val" style="color:var(--loscam-wood);">' + acc.loscamOwed + '</div>' +
+                  '<div class="cell-val" style="color:var(--color-loscam);">' + acc.loscamOwed + '</div>' +
                 '</div>' +
                 '<div class="account-metric-cell">' +
                   '<div class="cell-label">White / Exp</div>' +
                   '<div class="cell-val">' + acc.whiteOwed + '</div>' +
                 '</div>' +
               '</div>' +
-              '<div style="margin-top:0.6rem;">' +
+              '<div style="margin-top:var(--space-xs);">' +
                 '<div style="display:flex; justify-content:space-between; font-size:0.6875rem;">' +
                   '<span style="font-weight:700;">Aging Exposure Profile</span>' +
-                  '<span style="color:var(--muted);">Oldest: ' + acc.oldestDays + ' Days</span>' +
+                  '<span style="color:var(--color-muted);">Oldest: ' + acc.oldestDays + ' Days</span>' +
                 '</div>' +
                 '<div class="aging-progress-bar">' +
                   '<div class="aging-seg-normal" style="width:' + pctNorm + '%;" title="Normal: ' + acc.normalCount + '"></div>' +
@@ -2352,13 +2253,13 @@
               '</div>' +
             '</div>' +
             '<div>' +
-              '<div style="display:flex; justify-content:space-between; align-items:flex-end; border-top:var(--hair) solid var(--rule); padding-top:0.65rem; margin-top:0.65rem;">' +
+              '<div style="display:flex; justify-content:space-between; align-items:flex-end; border-top:var(--hair) solid var(--color-rule); padding-top:var(--space-sm); margin-top:var(--space-sm);">' +
                 '<div>' +
-                  '<div style="font-size:0.6875rem; color:var(--muted); font-weight:700;">TOTAL ASSET RISK:</div>' +
-                  '<div style="font-size:1.15rem; font-weight:800; color:var(--amber-dark);">' + formatZAR(acc.totalLiability) + '</div>' +
+                  '<div style="font-size:0.6875rem; color:var(--color-muted); font-weight:700;">Total asset risk:</div>' +
+                  '<div style="font-size:1.15rem; font-weight:800; color:var(--color-red);">' + formatZAR(acc.totalLiability) + '</div>' +
                 '</div>' +
                 '<button type="button" class="btn btn-sm btn-primary action-account-demand" data-account="' + escapeHtml(acc.name) + '">' +
-                  '⚖ DEMAND NOTICE' +
+                  'Demand notice' +
                 '</button>' +
               '</div>' +
             '</div>' +
@@ -2366,15 +2267,15 @@
 
           tableHtml += '<tr>' +
             '<td><strong>' + escapeHtml(acc.name) + '</strong></td>' +
-            '<td><span style="color:var(--cobalt); font-weight:700;">' + acc.chepOwed + '</span></td>' +
-            '<td><span style="color:var(--loscam-wood); font-weight:700;">' + acc.loscamOwed + '</span></td>' +
+            '<td><span style="color:var(--color-chep); font-weight:700;">' + acc.chepOwed + '</span></td>' +
+            '<td><span style="color:var(--color-loscam); font-weight:700;">' + acc.loscamOwed + '</span></td>' +
             '<td>' + acc.whiteOwed + '</td>' +
-            '<td><strong style="color:var(--red);">' + acc.totalOwed + '</strong></td>' +
+            '<td><strong style="color:var(--color-red);">' + acc.totalOwed + '</strong></td>' +
             '<td>' + acc.oldestDays + ' Days</td>' +
             '<td>' + riskBadge + '</td>' +
-            '<td><strong style="color:var(--amber-dark);">' + formatZAR(acc.totalLiability) + '</strong></td>' +
+            '<td><strong>' + formatZAR(acc.totalLiability) + '</strong></td>' +
             '<td style="text-align: right;">' +
-              '<button type="button" class="btn btn-sm btn-primary action-account-demand" data-account="' + escapeHtml(acc.name) + '">GENERATE DEMAND</button>' +
+              '<button type="button" class="btn btn-sm btn-primary action-account-demand" data-account="' + escapeHtml(acc.name) + '">Generate demand</button>' +
             '</td>' +
           '</tr>';
         });
@@ -2383,12 +2284,10 @@
         tbody.innerHTML = tableHtml;
       }
 
-      /* ─── RENDER FORMAL DEMAND NOTICE (TAB 3) ─── */
       function renderDemandNotice(selectedAccount) {
         const selectEl = document.getElementById('demand-target-account');
         if (!selectEl) return;
 
-        // Populate accounts list in select
         const accountsWithDeficit = new Set();
         ledger.forEach(i => {
           const unreturned = Math.max(0, (Number(i.delivered) || 0) - (Number(i.returned) || 0));
@@ -2432,14 +2331,12 @@
 
         if (!letterTbody) return;
 
-        // Apply config to sheet letterhead
-        if (letterDepotTitle) letterDepotTitle.textContent = config.depotName.toUpperCase();
-        if (letterDepotAddress) letterDepotAddress.textContent = config.depotAddress + ' | Tel: ' + config.depotPhone + ' | ' + config.depotEmail;
+        if (letterDepotTitle) letterDepotTitle.textContent = config.depotName;
+        if (letterDepotAddress) letterDepotAddress.textContent = config.depotAddress + ', Tel: ' + config.depotPhone + ', ' + config.depotEmail;
         if (letterChepAcct) letterChepAcct.textContent = config.chepAccount;
         if (letterLoscamAcct) letterLoscamAcct.textContent = config.loscamAccount;
         if (letterChepInline) letterChepInline.textContent = config.chepAccount;
 
-        // Date and Reference
         const todayStr = new Date().toLocaleDateString('en-ZA', { year: 'numeric', month: 'long', day: 'numeric' });
         if (letterDateVal) letterDateVal.textContent = todayStr;
         const refInput = document.getElementById('demand-ref-number');
@@ -2451,7 +2348,7 @@
         const signatoryInput = document.getElementById('demand-signatory');
         if (letterSignatory && signatoryInput) letterSignatory.textContent = signatoryInput.value;
 
-        if (letterTargetCustomer) letterTargetCustomer.textContent = targetAccount || '—';
+        if (letterTargetCustomer) letterTargetCustomer.textContent = targetAccount || '(None Selected)';
 
         if (!targetAccount) {
           letterTbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding:1.5rem;">Please select an account with outstanding equipment balance.</td></tr>';
@@ -2461,7 +2358,6 @@
           return;
         }
 
-        // Filter tickets for this customer with unreturned count > 0
         const items = ledger.filter(i => {
           if (i.account !== targetAccount) return false;
           const unreturned = Math.max(0, (Number(i.delivered) || 0) - (Number(i.returned) || 0));
@@ -2491,7 +2387,7 @@
             '<td>' + escapeHtml(getEquipmentLabel(item.equipment)) + '</td>' +
             '<td>' + del + '</td>' +
             '<td>' + ret + '</td>' +
-            '<td style="font-weight:800; color:#b91c1c;">+' + unreturned + '</td>' +
+            '<td style="font-weight:800; color:var(--color-red);">+' + unreturned + '</td>' +
             '<td>' + formatZAR(cost) + '</td>' +
             '<td><strong>' + formatZAR(liab) + '</strong></td>' +
           '</tr>';
@@ -2503,7 +2399,6 @@
         if (letterTotalLiabilityInline) letterTotalLiabilityInline.textContent = formatZAR(totLiability);
       }
 
-      /* ─── RENDER WHATSAPP DISPATCH INTEL (TAB 4) ─── */
       function renderWhatsAppSummary() {
         const terminal = document.getElementById('whatsapp-formatted-text');
         if (!terminal) return;
@@ -2559,38 +2454,37 @@
         const sortedAccounts = Object.values(accountMap).sort((a, b) => b.liability - a.liability);
         const todayStr = new Date().toLocaleDateString('en-ZA', { year: 'numeric', month: 'short', day: 'numeric' });
 
-        let msg = '🚨 *PALLETLOCK DISPATCH AUDIT: UNRETURNED PALLET ALERT*\n';
-        msg += '📅 Date: ' + todayStr + ' | 🏢 Depot: ' + config.depotName + '\n';
+        let msg = '*PALLETLOCK DISPATCH AUDIT: UNRETURNED PALLET ALERT*\n';
+        msg += 'Date: ' + todayStr + ' | Depot: ' + config.depotName + '\n';
         msg += 'CHEP Pool Acct: ' + config.chepAccount + '\n';
         msg += '--------------------------------------------------\n';
-        msg += '📊 *SUMMARY OVERVIEW*\n';
+        msg += '*SUMMARY OVERVIEW*\n';
         msg += '• Total Pallets Delivered: ' + totalDelivered.toLocaleString() + '\n';
         msg += '• Empties Brought Back: ' + totalReturned.toLocaleString() + '\n';
-        msg += '• 🔴 *Net Deficit In Circulation:* ' + totalUnreturned.toLocaleString() + ' Pallets\n';
-        msg += '• 💰 *Total Capital Exposure:* ' + formatZAR(totalLiability) + '\n';
-        msg += '• ⚠️ *Critical Risk (>14 Days):* ' + criticalUnits + ' Units (' + formatZAR(criticalLiability) + ')\n';
+        msg += '• *Net Deficit In Circulation:* ' + totalUnreturned.toLocaleString() + ' Pallets\n';
+        msg += '• *Total Capital Exposure:* ' + formatZAR(totalLiability) + '\n';
+        msg += '• *Critical Risk (>14 Days):* ' + criticalUnits + ' Units (' + formatZAR(criticalLiability) + ')\n';
         msg += '--------------------------------------------------\n';
-        msg += '🏭 *TOP RECEIVING LIABILITIES BY DC:*\n';
+        msg += '*TOP RECEIVING LIABILITIES BY DC:*\n';
 
         if (sortedAccounts.length === 0) {
-          msg += '✅ Zero outstanding pallet deficit across all receivers!\n';
+          msg += 'Zero outstanding pallet deficit across all receivers.\n';
         } else {
           sortedAccounts.forEach((acc, idx) => {
-            let riskEmoji = '🟢';
-            if (acc.oldest > 14) riskEmoji = '🔴 CRITICAL';
-            else if (acc.oldest >= 7) riskEmoji = '🟡 WARNING';
-            else riskEmoji = '🟢 NORMAL';
+            let riskTier = 'NORMAL';
+            if (acc.oldest > 14) riskTier = 'CRITICAL';
+            else if (acc.oldest >= 7) riskTier = 'WARNING';
 
             msg += (idx + 1) + '. *' + acc.name + '*\n';
             msg += '   • Total Owed: ' + acc.total + ' Pallets (' + formatZAR(acc.liability) + ')\n';
             msg += '   • Breakdown: ' + acc.chep + ' CHEP | ' + acc.loscam + ' Loscam | ' + acc.white + ' White\n';
-            msg += '   • Oldest Ticket: ' + acc.oldest + ' Days [' + riskEmoji + ']\n';
+            msg += '   • Oldest Ticket: ' + acc.oldest + ' Days [' + riskTier + ']\n';
           });
         }
 
         msg += '--------------------------------------------------\n';
-        msg += '📋 *ACTION MANDATE FOR DISPATCH CONTROLLERS:*\n';
-        msg += '1. Drivers on linehaul routes MUST demand physical 1:1 return empties before offloading.\n';
+        msg += '*ACTION MANDATE FOR DISPATCH CONTROLLERS:*\n';
+        msg += '1. Drivers on linehaul routes must demand physical 1:1 return empties before offloading.\n';
         msg += '2. Accounts over 14 days have formal Demand Notices triggered for immediate debit.\n';
         msg += '3. Do not accept paper IOU vouchers without signed bay manager stamps.\n';
         msg += '--------------------------------------------------\n';
@@ -2599,7 +2493,6 @@
         terminal.textContent = msg;
       }
 
-      /* ─── LIVE ENTRY FORM MATH PREVIEW ─── */
       function updateEntryPreview() {
         const delInput = document.getElementById('entry-delivered');
         const retInput = document.getElementById('entry-returned');
@@ -2631,7 +2524,6 @@
         }
       }
 
-      /* ─── EXPORT CSV ─── */
       function exportCSV() {
         if (ledger.length === 0) {
           alert('No ledger records to export.');
@@ -2706,10 +2598,9 @@
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
-        showToast('CSV EXPORT DOWNLOADED');
+        showToast('CSV export downloaded');
       }
 
-      /* ─── BACKUP JSON ─── */
       function backupJSON() {
         const payload = {
           version: '1.0.0',
@@ -2729,10 +2620,9 @@
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
-        showToast('JSON BACKUP DOWNLOADED');
+        showToast('JSON backup downloaded');
       }
 
-      /* ─── IMPORT JSON ─── */
       function handleJSONImport(file) {
         if (!file) return;
         const reader = new FileReader();
@@ -2750,7 +2640,7 @@
             saveLedger();
             saveConfig();
             refreshAllViews();
-            showToast('LEDGER RESTORED FROM JSON');
+            showToast('Ledger restored from JSON');
           } catch (err) {
             alert('Failed to import JSON file: ' + err.message);
           }
@@ -2758,7 +2648,6 @@
         reader.readAsText(file);
       }
 
-      /* ─── TAB SWITCHING CONTROLLER ─── */
       function switchTab(targetTabId) {
         const buttons = [
           { id: 'tab-btn-ledger', pane: 'tab-ledger' },
@@ -2789,7 +2678,6 @@
           }
         });
 
-        // Contextual refresh
         if (targetTabId === 'tab-accounts') {
           renderAccountsMatrix();
         } else if (targetTabId === 'tab-demand') {
@@ -2799,7 +2687,6 @@
         }
       }
 
-      /* ─── REFRESH MASTER VIEWS ─── */
       function refreshAllViews() {
         updateKPIs();
         renderLedgerTable();
@@ -2808,15 +2695,12 @@
         renderWhatsAppSummary();
       }
 
-      /* ─── EDIT RECORD FLOW ─── */
       function startEdit(id) {
         const item = ledger.find(i => i.id === id);
         if (!item) return;
 
-        // Switch to ledger tab
         switchTab('tab-ledger');
 
-        // Populate fields
         document.getElementById('entry-edit-id').value = item.id;
         document.getElementById('entry-account').value = item.account;
         document.getElementById('entry-equipment').value = item.equipment;
@@ -2834,13 +2718,13 @@
 
         const submitBtn = document.getElementById('btn-submit-entry');
         const cancelBtn = document.getElementById('btn-cancel-edit');
-        if (submitBtn) submitBtn.textContent = '💾 UPDATE PALLET RECORD';
+        if (submitBtn) submitBtn.textContent = 'Update pallet record';
         if (cancelBtn) cancelBtn.style.display = 'inline-flex';
 
         updateEntryPreview();
         const entryPanel = document.getElementById('entry-panel');
         if (entryPanel) entryPanel.scrollIntoView({ behavior: 'smooth' });
-        showToast('EDITING TRIP: ' + item.waybill);
+        showToast('Editing trip: ' + item.waybill);
       }
 
       function cancelEdit() {
@@ -2852,13 +2736,12 @@
 
         const submitBtn = document.getElementById('btn-submit-entry');
         const cancelBtn = document.getElementById('btn-cancel-edit');
-        if (submitBtn) submitBtn.textContent = '💾 LOG PALLET MOVEMENT';
+        if (submitBtn) submitBtn.textContent = 'Log pallet movement';
         if (cancelBtn) cancelBtn.style.display = 'none';
 
         updateEntryPreview();
       }
 
-      /* ─── DELETE RECORD FLOW ─── */
       function deleteTicket(id) {
         const item = ledger.find(i => i.id === id);
         if (!item) return;
@@ -2869,10 +2752,9 @@
         ledger = ledger.filter(i => i.id !== id);
         saveLedger();
         refreshAllViews();
-        showToast('DELETED TICKET ' + item.waybill);
+        showToast('Deleted ticket ' + item.waybill);
       }
 
-      /* ─── RECONCILE MODAL FLOW ─── */
       function openReconcileModal(id) {
         const item = ledger.find(i => i.id === id);
         if (!item) return;
@@ -2909,15 +2791,12 @@
         if (modal) modal.classList.remove('open');
       }
 
-      /* ─── INITIALIZATION & EVENT LISTENERS ─── */
       document.addEventListener('DOMContentLoaded', function () {
         loadState();
 
-        // Set default date to today
         const dateInput = document.getElementById('entry-date');
         if (dateInput) dateInput.value = new Date().toISOString().split('T')[0];
 
-        // Equipment selection sync unit cost
         const eqSelect = document.getElementById('entry-equipment');
         const costInput = document.getElementById('entry-unit-cost');
         if (eqSelect && costInput) {
@@ -2927,20 +2806,17 @@
           });
         }
 
-        // Live calculation inputs
         const liveInputs = ['entry-delivered', 'entry-returned', 'entry-unit-cost'];
         liveInputs.forEach(id => {
           const el = document.getElementById(id);
           if (el) el.addEventListener('input', updateEntryPreview);
         });
 
-        // Tabs event listeners
         document.getElementById('tab-btn-ledger').addEventListener('click', () => switchTab('tab-ledger'));
         document.getElementById('tab-btn-accounts').addEventListener('click', () => switchTab('tab-accounts'));
         document.getElementById('tab-btn-demand').addEventListener('click', () => switchTab('tab-demand'));
         document.getElementById('tab-btn-whatsapp').addEventListener('click', () => switchTab('tab-whatsapp'));
 
-        // Preset Chips
         const presetConfigs = {
           'preset-shoprite': { account: 'Shoprite DC Wells Estate', eq: 'CHEP_BLUE', del: 34, ret: 4, reason: 'DC Exchange Pending' },
           'preset-spar': { account: 'Spar Distribution PE / Gqeberha', eq: 'CHEP_BLUE', del: 28, ret: 0, reason: 'Refused by Receiver' },
@@ -2962,12 +2838,11 @@
               document.getElementById('entry-unit-cost').value = getDefaultCostForEquipment(pData.eq);
               document.getElementById('entry-waybill').value = 'WB-' + Math.floor(10000 + Math.random() * 90000);
               updateEntryPreview();
-              showToast('PRESET LOADED: ' + pData.account);
+              showToast('Preset loaded: ' + pData.account);
             });
           }
         });
 
-        // Form Submit
         const entryForm = document.getElementById('pallet-entry-form');
         if (entryForm) {
           entryForm.addEventListener('submit', function (e) {
@@ -2994,7 +2869,6 @@
             }
 
             if (editId) {
-              // Update existing
               const item = ledger.find(i => i.id === editId);
               if (item) {
                 item.account = account;
@@ -3010,10 +2884,9 @@
                 item.reason = reason;
                 item.receiverRef = receiverRef;
                 item.notes = notes;
-                showToast('UPDATED TICKET ' + waybill);
+                showToast('Updated ticket ' + waybill);
               }
             } else {
-              // Create new entry
               const newEntry = {
                 id: 'mov-' + Date.now(),
                 date: date,
@@ -3031,7 +2904,7 @@
                 notes: notes
               };
               ledger.unshift(newEntry);
-              showToast('LOGGED MOVEMENT: ' + waybill);
+              showToast('Logged movement: ' + waybill);
             }
 
             saveLedger();
@@ -3040,11 +2913,9 @@
           });
         }
 
-        // Clear Form & Cancel Edit Buttons
         document.getElementById('btn-clear-form').addEventListener('click', cancelEdit);
         document.getElementById('btn-cancel-edit').addEventListener('click', cancelEdit);
 
-        // Filter Controls
         const filterSearch = document.getElementById('filter-search');
         if (filterSearch) {
           filterSearch.addEventListener('input', function () {
@@ -3087,10 +2958,9 @@
           if (filterEq) filterEq.value = 'ALL';
           if (filterRk) filterRk.value = 'ALL';
           renderLedgerTable();
-          showToast('FILTERS CLEARED');
+          showToast('Filters cleared');
         });
 
-        // Event delegation on Master Table Actions (RECONCILE, EDIT, DELETE)
         const masterTable = document.getElementById('master-ledger-table');
         if (masterTable) {
           masterTable.addEventListener('click', function (e) {
@@ -3117,7 +2987,6 @@
           });
         }
 
-        // Event delegation on Accounts Pane Action (GENERATE DEMAND)
         const tabAccounts = document.getElementById('tab-accounts');
         if (tabAccounts) {
           tabAccounts.addEventListener('click', function (e) {
@@ -3130,7 +2999,6 @@
           });
         }
 
-        // Reconcile Modal Form Submit
         const recForm = document.getElementById('reconcile-form');
         if (recForm) {
           recForm.addEventListener('submit', function (e) {
@@ -3157,14 +3025,13 @@
             saveLedger();
             closeReconcileModal();
             refreshAllViews();
-            showToast('RECONCILIATION SAVED FOR ' + item.waybill);
+            showToast('Reconciliation saved for ' + item.waybill);
           });
         }
 
         document.getElementById('btn-close-reconcile').addEventListener('click', closeReconcileModal);
         document.getElementById('btn-cancel-reconcile').addEventListener('click', closeReconcileModal);
 
-        // Demand Notice Controls
         const targetAccSelect = document.getElementById('demand-target-account');
         if (targetAccSelect) {
           targetAccSelect.addEventListener('change', function () {
@@ -3196,32 +3063,29 @@
           });
         }
 
-        // Print Demand Notice
         document.getElementById('btn-print-demand').addEventListener('click', function () {
           window.print();
         });
 
-        // Copy Demand Notice Text
         document.getElementById('btn-copy-demand-text').addEventListener('click', function () {
           const sheet = document.getElementById('demand-letter-sheet');
           if (!sheet) return;
           const text = sheet.innerText;
           navigator.clipboard.writeText(text).then(() => {
-            showToast('FORMAL LETTER COPIED TO CLIPBOARD');
+            showToast('Formal letter copied to clipboard');
           }).catch(() => {
-            showToast('PLEASE PRESS CTRL+C TO COPY');
+            showToast('Please press Ctrl+C to copy');
           });
         });
 
-        // WhatsApp Panel Actions
         document.getElementById('btn-copy-whatsapp').addEventListener('click', function () {
           const terminal = document.getElementById('whatsapp-formatted-text');
           if (!terminal) return;
           const text = terminal.textContent;
           navigator.clipboard.writeText(text).then(() => {
-            showToast('WHATSAPP INTEL COPIED TO CLIPBOARD');
+            showToast('WhatsApp summary copied to clipboard');
           }).catch(() => {
-            showToast('PLEASE PRESS CTRL+C TO COPY');
+            showToast('Please press Ctrl+C to copy');
           });
         });
 
@@ -3234,10 +3098,9 @@
 
         document.getElementById('btn-refresh-whatsapp').addEventListener('click', function () {
           renderWhatsAppSummary();
-          showToast('WHATSAPP SUMMARY REFRESHED');
+          showToast('WhatsApp summary refreshed');
         });
 
-        // Depot Config Modal
         const modalSettings = document.getElementById('modal-settings');
         document.getElementById('btn-depot-settings').addEventListener('click', function () {
           document.getElementById('cfg-depot-name').value = config.depotName;
@@ -3276,14 +3139,12 @@
           saveConfig();
           closeSettingsModal();
           refreshAllViews();
-          showToast('DEPOT CONFIGURATION SAVED');
+          showToast('Depot configuration saved');
         });
 
-        // CSV & JSON Data Export
         document.getElementById('btn-export-csv').addEventListener('click', exportCSV);
         document.getElementById('btn-backup-json').addEventListener('click', backupJSON);
 
-        // JSON Import Trigger & Handler
         const fileInput = document.getElementById('json-file-input');
         document.getElementById('btn-import-json-trigger').addEventListener('click', function () {
           if (fileInput) fileInput.click();
@@ -3298,7 +3159,6 @@
           });
         }
 
-        // Reset Demo Data
         document.getElementById('btn-reset-demo').addEventListener('click', function () {
           const ok = confirm('Reset all records to the certified South African freight demo dataset? (This will overwrite current local ledger modifications)');
           if (!ok) return;
@@ -3307,10 +3167,9 @@
           saveLedger();
           saveConfig();
           refreshAllViews();
-          showToast('RESTORED CERTIFIED SA FREIGHT DATASET');
+          showToast('Restored certified SA freight dataset');
         });
 
-        // Initialize All Views
         refreshAllViews();
         updateEntryPreview();
       });
